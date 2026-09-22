@@ -48,5 +48,9 @@ public class Usuario {
     public void setCorreo(String correo){
         this.correo = correo;    
     }
+
+    public void setClaveAcceso(String claveAcceso){
+        this.claveAcceso = claveAcceso;    
+    }
     
 }
