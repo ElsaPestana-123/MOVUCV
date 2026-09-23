@@ -1,0 +1,47 @@
+[
+    {"cedula" : "777777",
+        "rol" : "E",
+        "nombre": "Humberto",
+        "apellido": "Garcia",
+        "correo": "humbertico@gmail.com",
+        "claveAcceso": "12345",
+        "saldo" : "1000.99"
+
+    },
+
+    {"cedula" : "123456789",
+        "rol" : "T",
+        "nombre": "Nazareth",
+        "apellido": "Mendez",
+        "correo" : "nsdv02@hotmail.com",
+        "claveAcceso": "mendez02",
+        "saldo" :"120000"
+    },
+
+    {"cedula" : "24680",
+        "rol" : "P",
+        "nombre": "Veronica",
+        "apellido": "Quintero",
+        "correo" : "quintero@miempresa.com",
+        "claveAcceso": "54321",
+        "saldo" :"5555.55"
+    },
+
+    {"cedula" : "13579",
+        "rol" : "C",
+        "nombre": "Roberto",
+        "apellido": "Espino",
+        "correo" : "espino@ejemplo.com",
+        "claveAcceso": "conductor5",
+        "saldo" : "0.0"
+    }, 
+
+    {"cedula" : "9876543210",
+        "rol" : "A",
+        "nombre": "Elsa",
+        "apellido": "Pestana",
+        "correo" : "pestana@ucv.com",
+        "claveAcceso": "admin123",
+        "saldo" : "0.0"
+    }
+]
