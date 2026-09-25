@@ -6,6 +6,7 @@ import java.awt.*;
 
 public class MOVUCVRegistroApp extends JFrame {
 
+    //colores
     private static final Color COLOR_FONDO = new Color(11, 11, 35);       // Azul muy oscuro (Fondo general y Cabecera)
     private static final Color COLOR_PANEL = new Color(19, 29, 61);       // Azul oscuro (Para ambas tarjetas)
     private static final Color COLOR_BOTONES = new Color(125, 182, 245);   // Azul claro (Botones y enlaces)
@@ -13,7 +14,7 @@ public class MOVUCVRegistroApp extends JFrame {
     private static final Color COLOR_SECUNDARIO = new Color(150, 150, 150); // Gris (Textos secundarios, separadores)
     private static final Color COLOR_INPUT = new Color(250, 250, 250);    // Blanco (Fondo de casillas de texto)
 
-    // --- SISTEMA DE FUENTES REDUCIDO ---
+    //  fuentes
     private static final Font FUENTE_TITULO = new Font("SansSerif", Font.BOLD, 26);
     private static final Font FUENTE_SUBTITULO = new Font("SansSerif", Font.BOLD, 14);
     private static final Font FUENTE_TEXTO = new Font("SansSerif", Font.PLAIN, 13);
@@ -318,7 +319,7 @@ private JPanel PieDePagina() {
 
 JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER));
 p.setBackground(COLOR_FONDO);
-p.setBorder(new EmptyBorder(10, 0, 10, 0));
+p.setBorder(new EmptyBorder(1, 0, 10, 0));
 JLabel label = new JLabel("MOVUCV | Registro Seguro | Datos Protegidos");
 label.setFont(FUENTE_TEXTO);
 label.setForeground(COLOR_SECUNDARIO);
