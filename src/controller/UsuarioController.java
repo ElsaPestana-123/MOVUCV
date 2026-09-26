@@ -15,21 +15,25 @@ public class UsuarioController{
         return EsVacia(nombre) || EsVacia(cedula) || EsVacia(correo) || EsVacia(clave) || EsVacia(apellido);
     }
 
+    //validación de que el correo tenga el formato nombre@dominio.extension usando regex
     public boolean validarFormatoCorreo(String correo){
         final String FORMATO_CORREO= "^([A-Za-z0-9.])+@([A-Za-z])+(\\.)[a-zA-Z]{2,}$"; 
         return correo != null && correo.matches(FORMATO_CORREO);
     }
 
+    //validación de que la cédula no comience en 0 y solo contenga números usando regex
     public boolean validarFormatoCedula(String cedula){
         final String FORMATO_CEDULA = "^[1-9]\\d{2,}$";
         return cedula != null && cedula.matches(FORMATO_CEDULA);
     }
 
+    //validación de que la cédula vontenga números unicamente
     public boolean validarFormatoClave(String clave){
         final String FORMATO_CLAVE = "^(\\S){8,}$";
         return clave != null && clave.matches(FORMATO_CLAVE);
     }
 
+    //validación de nombre que solo contenga letras
     public boolean validarFormatoNombre(String nombre){
         final String FORMATO_NOMBRE = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ]{2,}$";
         return nombre != null && nombre.matches(FORMATO_NOMBRE);
@@ -55,7 +59,8 @@ public class UsuarioController{
             return false; 
         }
     }
- 
+
+    //llama a todos los métodos de validación de formato antes de registrar al usuario y devuelve un string
     public String registrarUsuario(String nombre, String apellido, String correo, String cedula, String clave, String confirmacionClave){
 
         if(validarCamposVacios(nombre, apellido, cedula, correo, clave, confirmacionClave)){

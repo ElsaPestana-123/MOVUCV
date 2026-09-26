@@ -136,6 +136,7 @@ public class UsuarioDAO {
         return false;
     }
 
+    //inclusión de usuario al final del archivo usuarios.txt
     public static boolean guardarUsuario(String cedula, char rolUsuario, String nombre, String apellido, String correo, String clave, double saldo){
         if(!Files.exists(RUTA_REGISTRADOS))
             return false;
@@ -145,6 +146,7 @@ public class UsuarioDAO {
 
         String inicioLinea = "";
 
+        //se asegura de que se agregue el usuario al inicio de la siguiente linea y no al lado del último usuario
         if ((!contenidoArchivo.isEmpty()) && (!contenidoArchivo.endsWith("\n")) && (!contenidoArchivo.endsWith("\r\n"))) {
             inicioLinea = System.lineSeparator();
         }
