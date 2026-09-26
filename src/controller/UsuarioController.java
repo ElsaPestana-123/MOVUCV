@@ -48,9 +48,7 @@ public class UsuarioController{
             return false; 
         }
     }
-
-
-    
+ 
     //validar autorizados
 
     //validar duplicados
