@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+//throws IOException en los métodos delega el manejo de cualquier error al controlador que lo llamó
 
 public class UsuarioDAO {
 
@@ -17,7 +18,7 @@ public class UsuarioDAO {
     
 
     //buscar por correo en registrados
-    public static Usuario busquedaPorCorreo(String correo){
+    public static Usuario busquedaPorCorreo(String correo) throws IOException { 
         if(!Files.exists(RUTA_REGISTRADOS))
             return null;
         
@@ -46,21 +47,15 @@ public class UsuarioDAO {
                     Usuario usuario = new Usuario(cedula, rol ,nombre, correo, clave, saldo);
 
                     return usuario;
-
                 }
-
-
             }
-
-        } catch (IOException e){
-            // aca igualmente deberia haber un mensaje de error o retornar algo
         }
 
         return null;
     }
 
     //búsqueda por cedula en usuarios-autorizados que devuelve el rol
-    public static char busquedaPorCedula(String cedula){
+    public static char busquedaPorCedula(String cedula) throws IOException{
 
         if(!Files.exists(RUTA_AUTORIZADOS))
             return '\0';
@@ -83,20 +78,18 @@ public class UsuarioDAO {
 
             }
 
-        } catch (IOException e){
-            // aca deberiamos retornar algo de error de lectura de archivo para el controlador
-        }
-
+        } 
+        
         return '\0';
     }
 
-    public static boolean actualizarSaldo(double saldo, String correo){
+    public static boolean actualizarSaldo(double saldo, String correo) throws IOException{
 
         if(!Files.exists(RUTA_REGISTRADOS))
             return false;
 
         List<String> archivoActualizado = new ArrayList<>();
-        boolean encontrado = false;
+        boolean existe = false;
         
         try(BufferedReader lectorArchivo = Files.newBufferedReader(RUTA_REGISTRADOS, StandardCharsets.UTF_8)){
 
@@ -118,18 +111,16 @@ public class UsuarioDAO {
 
                     informacionUsuario[6] = String.valueOf(saldo);
                     linea = String.join("|", informacionUsuario);
-                    encontrado = true;
+                    existe = true;
                 }
 
                 archivoActualizado.add(linea);
                 
             }
         
-        } catch(IOException e){
-                return false;
-        }
+        } 
 
-        if(encontrado){ // solo si encontramos reescribimos
+        if(existe){ // solo si encontramos al usuario, reescribimos
             try{
                 Files.write(RUTA_REGISTRADOS, archivoActualizado, StandardCharsets.UTF_8);
                 return true;

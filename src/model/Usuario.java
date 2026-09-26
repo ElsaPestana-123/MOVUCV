@@ -49,4 +49,8 @@ public class Usuario {
         this.correo = correo;    
     }
 
+    public void setClaveAcceso(String claveAcceso){
+        this.claveAcceso = claveAcceso;    
+    }
+    
 }
