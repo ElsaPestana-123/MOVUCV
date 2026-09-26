@@ -141,9 +141,17 @@ public class UsuarioDAO {
             return false;
 
         try {
-        String lineaAgregada = cedula + "|" + rolUsuario + "|" + nombre + "|" + apellido + "|" + correo + "|" + clave + "|" + saldo + System.lineSeparator();
-        
-        Files.writeString(RUTA_AUTORIZADOS,lineaAgregada, StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+        String contenidoArchivo = Files.readString(RUTA_REGISTRADOS, StandardCharsets.UTF_8);
+
+        String inicioLinea = "";
+
+        if ((!contenidoArchivo.isEmpty()) && (!contenidoArchivo.endsWith("\n")) && (!contenidoArchivo.endsWith("\r\n"))) {
+            inicioLinea = System.lineSeparator();
+        }
+    
+        String lineaAgregada = inicioLinea + cedula + "|" + rolUsuario + "|" + nombre + "|" + apellido + "|" + correo + "|" + clave + "|" + saldo + System.lineSeparator();
+       
+        Files.writeString(RUTA_REGISTRADOS,lineaAgregada, StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
         return true; 
 
         } catch(IOException e){
@@ -151,5 +159,4 @@ public class UsuarioDAO {
             return false; 
         }
     }
-   
 }
