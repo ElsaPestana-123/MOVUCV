@@ -16,11 +16,9 @@ public class UsuarioDAO {
     private static final Path RUTA_REGISTRADOS = Paths.get("data","usuarios.txt").toAbsolutePath();
     private static final Path RUTA_AUTORIZADOS = Paths.get("data","cedulas-autorizadas.txt").toAbsolutePath();
 
-    public UsuarioDAO(){
-           
+    public UsuarioDAO(){      
     }
     
-
     //búsqueda por correo en registrados
     public static Usuario busquedaPorCorreo(String correo) throws IOException { 
         if(!Files.exists(RUTA_REGISTRADOS))
@@ -49,7 +47,6 @@ public class UsuarioDAO {
                     double saldo = Double.parseDouble(informacionUsuario[6].trim());
                     
                     Usuario usuario = new Usuario(cedula, rol ,nombre, correo, clave, saldo);
-
                     return usuario;
                 }
             }

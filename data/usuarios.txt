@@ -1,6 +1,6 @@
 cedula|rol|nombre|apellido|correo|claveAcceso|saldo
 777777|E|Humberto|Garcia|humbertico@gmail.com|12345678|1000.99
 123456789|T|Nazareth|Mendez|nsdv02@hotmail.com|mendez02|120000
-24680|P|Veronica|Quintero|quintero@miempresa.com|87654321|9.99999999999E9
+24680|P|Veronica|Quintero|quintero@miempresa.com|87654321|9.999999999999
 13579|C|Roberto|Espino|espino@ejemplo.com|conductor5|0.0
 9876543210|A|Elsa|Pestana|pestana@ucv.com|admin123|0.0
