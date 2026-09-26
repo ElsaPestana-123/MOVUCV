@@ -99,6 +99,10 @@ public class UsuarioController{
                 return "*La Cédula no está autorizada en el sistema.";
             }
 
+            if(UsuarioDAO.existeCedula(cedula)){
+                return "*La Cédula ya se encuentra registrada en el sistema.";
+            }
+
             if(UsuarioDAO.busquedaPorCorreo(correo) !=  null){
                 return "*El Correo ya se encuentra registrado en el sistema.";
             }

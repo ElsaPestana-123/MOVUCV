@@ -56,6 +56,33 @@ public class UsuarioDAO {
         return null;
     }
 
+    public static boolean existeCedula(String cedula) throws IOException{
+
+        if(!Files.exists(RUTA_REGISTRADOS))
+            return false;
+
+        try(BufferedReader lectorArchivo = Files.newBufferedReader(RUTA_REGISTRADOS, StandardCharsets.UTF_8)){
+            
+            String linea;
+            cedula = cedula.trim();
+
+           while((linea = lectorArchivo.readLine()) != null){
+            
+                linea = linea.trim();
+                if(linea.isEmpty() || linea.startsWith("cedula")) 
+                    continue;
+
+                String[] informacionUsuario = linea.split("\\|");
+
+                if(informacionUsuario[0].trim().equalsIgnoreCase(cedula))
+                    return true;
+
+            }
+
+        } 
+         return false;
+    }
+
     //búsqueda por cedula en usuarios-autorizados que devuelve el rol
     public static char busquedaPorCedula(String cedula) throws IOException{
 
