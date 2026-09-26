@@ -83,7 +83,7 @@ public class UsuarioDAO {
         return '\0';
     }
 
-    //búsqueda en usuarios y modifica el archivo rescribindolo
+    //búsqueda en usuarios y modifica el archivo reescribiendolo
     public static boolean actualizarSaldo(double saldo, String correo) throws IOException{
 
         if(!Files.exists(RUTA_REGISTRADOS))
@@ -134,20 +134,4 @@ public class UsuarioDAO {
         return false;
     }
    
-
-
-
-    /*public static void main (String args[]){
-    //String cedulaPrueba = "24680";
-    //char rolEncontrado = busquedaPorCedula(cedulaPrueba);
-    //boolean x = actualizarSaldo(9999999999.99, "quintero@miempresa.com");
-
-    /*if (rolEncontrado != '\0') 
-        System.out.println(rolEncontrado);
-
-    else 
-        System.out.println(-31);
-        
-    }*/
-    
 }
