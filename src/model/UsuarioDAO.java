@@ -17,7 +17,7 @@ public class UsuarioDAO {
     private static final Path RUTA_AUTORIZADOS = Paths.get("data","cedulas-autorizadas.txt").toAbsolutePath();
     
 
-    //buscar por correo en registrados
+    //búsqueda por correo en registrados
     public static Usuario busquedaPorCorreo(String correo) throws IOException { 
         if(!Files.exists(RUTA_REGISTRADOS))
             return null;
@@ -83,6 +83,7 @@ public class UsuarioDAO {
         return '\0';
     }
 
+    //búsqueda en usuarios y modifica el archivo rescribindolo
     public static boolean actualizarSaldo(double saldo, String correo) throws IOException{
 
         if(!Files.exists(RUTA_REGISTRADOS))
