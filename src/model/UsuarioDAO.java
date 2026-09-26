@@ -42,7 +42,7 @@ public class UsuarioDAO {
 
                     String cedula = informacionUsuario[0].trim();
                     char rol = informacionUsuario[1].trim().charAt(0);
-                    String nombre = informacionUsuario[2].trim() + " " + informacionUsuario[3].trim();
+                    String nombre = (informacionUsuario[2].trim() + " " + informacionUsuario[3].trim()).toUpperCase();
                     String clave = informacionUsuario[5].trim();
                     double saldo = Double.parseDouble(informacionUsuario[6].trim());
                     

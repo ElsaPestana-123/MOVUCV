@@ -49,6 +49,14 @@ public class UsuarioController{
         }
     }
  
+    public String registrarUsuario(String nombre, String apellido, String correo, String cedula, String clave, String confirmacionClave){
+
+        if(validarCamposVacios(nombre, apellido, cedula, correo, clave, confirmacionClave)){
+            return "*Faltan campos por completar.";
+        }
+        
+        return "j";
+    }
     //validar autorizados
 
     //validar duplicados
