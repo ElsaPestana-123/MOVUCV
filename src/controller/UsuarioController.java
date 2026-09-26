@@ -1,8 +1,7 @@
 package src.controller;
 
-/*import java.util.regex.Matcher;
-import java.util.regex.Pattern;*/
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import src.model.UsuarioDAO;
 import java.io.IOException;
 import src.model.Usuario;
@@ -26,6 +25,16 @@ public class UsuarioController{
     public boolean validarFormatoCedula(String cedula){
         final String FORMATO_CEDULA = "^[1-9]\\d{2,}$";
         return cedula != null && cedula.matches(FORMATO_CEDULA);
+    }
+
+    public boolean validarFormatoClave(String clave){
+        final String FORMATO_CLAVE = "^(\\S){8,}$";
+        return clave != null && clave.matches(FORMATO_CLAVE);
+    }
+
+    public boolean validarFormatoNombre(String nombre){
+        final String FORMATO_NOMBRE = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ]{2,}$";
+        return nombre != null && nombre.matches(FORMATO_NOMBRE);
     }
 
     public char existeEnAutorizado(String cedula){
@@ -54,13 +63,56 @@ public class UsuarioController{
         if(validarCamposVacios(nombre, apellido, cedula, correo, clave, confirmacionClave)){
             return "*Faltan campos por completar.";
         }
-        
-        return "j";
+
+        cedula = cedula.trim();
+        correo = correo.trim();
+        nombre = nombre.trim();
+        apellido = apellido.trim();
+
+        if(!validarFormatoNombre(nombre) || !validarFormatoNombre(apellido)){
+            return "*Nombre y Apellido deben contener solo letras y al menos 2 caracteres.";
+        }
+
+        if(!validarFormatoCedula(cedula)){
+            return "*La Cédula solo debe contener digitos y no debe empezar con 0.";
+        }
+
+        if(!validarFormatoCorreo(correo)){
+            return "*El Correo debe tener el formato \"nombre@dominio.extension\"."; 
+        }
+
+        if(!validarFormatoClave(clave)){
+            return "La Contraseña debe contener al menos 8 caracteres y sin espacios en blanco.";
+        }
+
+        if(!clave.equals(confirmacionClave)){
+            return "*Las Contraseñas no coinciden.";
+        }
+
+        try{
+            char rolUsuario = UsuarioDAO.busquedaPorCedula(cedula);
+            
+            if(rolUsuario == '\0'){
+                return "*La Cédula no está autorizada en el sistema.";
+            }
+
+            if(UsuarioDAO.busquedaPorCorreo(correo) !=  null){
+                return "*El Correo ya se encuentra registrado en el sistema.";
+            }
+
+            boolean registroExitoso = UsuarioDAO.guardarUsuario(cedula, rolUsuario, nombre.toUpperCase(), apellido.toUpperCase(), correo, clave, 0.0);
+
+            if(registroExitoso)
+                return "USUARIO REGISTRADO EXITOSAMENTE.";
+
+            else 
+                return "Error al registrar usuario. Intenta nuevamente.";
+
+
+        }catch(IOException e){
+            e.printStackTrace();
+            return "Error al acceder al registro del sistema.";
+        }
     }
-    //validar autorizados
-
-    //validar duplicados
-
-    //registro exitoso 
     
 }
