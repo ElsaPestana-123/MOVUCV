@@ -27,13 +27,13 @@ public class UsuarioController{
         return cedula != null && cedula.matches(FORMATO_CEDULA);
     }
 
-    //validación de que la cédula vontenga números unicamente
+    //validación de que la cédula vontenga números unicamente usando regex
     public boolean validarFormatoClave(String clave){
         final String FORMATO_CLAVE = "^(\\S){8,}$";
         return clave != null && clave.matches(FORMATO_CLAVE);
     }
 
-    //validación de nombre que solo contenga letras
+    //validación de nombre que solo contenga letras usando regex
     public boolean validarFormatoNombre(String nombre){
         final String FORMATO_NOMBRE = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ]{2,}$";
         return nombre != null && nombre.matches(FORMATO_NOMBRE);
