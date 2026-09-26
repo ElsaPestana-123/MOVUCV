@@ -9,7 +9,7 @@ public class Usuario {
     private double saldo;
 
     public Usuario(String cedula, char rol, String nombre, String correo, String claveAcceso, double saldo){
-        this.nombre = nombre;
+        this.nombre = nombre.toUpperCase();
         this.cedula = cedula;
         this.correo = correo;
         this.claveAcceso = claveAcceso;
@@ -47,10 +47,5 @@ public class Usuario {
 
     public void setSaldo(double saldo){
         this.saldo = saldo;
-    }
-
-    public void setCorreo(String correo){
-        this.correo = correo;    
-    }
-    
+    }  
 }
