@@ -1,14 +1,14 @@
 package src.model;
 
 public class Usuario {
-    private String nombre;
     private String cedula;
+    private char rol; // E -> Estudiante, T -> Trabajador, P -> Público general, C -> Conductor y A -> Administrador
+    private String nombre;
     private String correo;
     private String claveAcceso;
-    private char rol; // E -> Estudiante, T -> Trabajador, P -> Público general, C -> Conductor y A -> Administrador
     private double saldo;
 
-    public Usuario(String nombre, String cedula, String correo, String claveAcceso, char rol, double saldo){
+    public Usuario(String cedula, char rol, String nombre, String correo, String claveAcceso, double saldo){
         this.nombre = nombre;
         this.cedula = cedula;
         this.correo = correo;
@@ -49,8 +49,4 @@ public class Usuario {
         this.correo = correo;    
     }
 
-    public void setClaveAcceso(String claveAcceso){
-        this.claveAcceso = claveAcceso;    
-    }
-    
 }
