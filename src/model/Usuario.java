@@ -17,6 +17,10 @@ public class Usuario {
         this.saldo = saldo;
     }
 
+    public Usuario(){
+        this.saldo = 0.0;
+    }
+
     // getters y setters
     public String getNombre(){ 
         return nombre;
