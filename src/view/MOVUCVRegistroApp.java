@@ -28,7 +28,7 @@ private JPasswordField Contrasena;
 private JPasswordField ConfirmarContra;
 private JButton btnRegistrar;
 private JCheckBox chkTerminos;
-private JLabel lblError;
+private JLabel TextoError;
 
 
 //configuración de la ventana
@@ -283,13 +283,27 @@ btnRegistrar.setEnabled(false);
 btnRegistrar.setBorder(new EmptyBorder(5, 5, 5, 5));
 p.add(btnRegistrar);
 
-// Etiqueta de error en dessarolloooooooooooooooooooooooooooooo
-lblError = new JLabel(" "); // Empieza vacía
-lblError.setFont(FUENTE_TEXTO);
-lblError.setForeground(Color.RED);
-lblError.setAlignmentX(Component.CENTER_ALIGNMENT);
+btnRegistrar.addActionListener(e -> {
 
-p.add(lblError);
+    src.controller.UsuarioController controlador = new src.controller.UsuarioController();
+    String resultadoString = controlador.registrarUsuario(
+        getNombre(),
+        getApellido(),
+        getCorreo(),
+        getCedula(),
+        getContra(),
+        getConfirmarContra()
+    );
+    mostrarError(resultadoString);
+});
+
+// Etiqueta de error 
+TextoError = new JLabel(" "); // Empieza vacía
+TextoError.setFont(FUENTE_TEXTO);
+TextoError.setForeground(Color.RED);
+TextoError.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+p.add(TextoError);
 
         return p;
     }
@@ -297,19 +311,27 @@ p.add(lblError);
 private void crearCasillas(JPanel casillas, GridBagConstraints c, int fila, String Texto, JTextField entrada) {
 
 c.gridy = fila;
-c.gridx = 0; // Columna 1: Label
+c.gridx = 0; // Identificador 
 c.gridwidth = 1;
-JLabel lbl = new JLabel(Texto);
-lbl.setFont(FUENTE_SUBTITULO);
-lbl.setForeground(COLOR_TEXTO);
-casillas.add(lbl, c);
+JLabel Identificador = new JLabel(Texto);
+Identificador.setFont(FUENTE_SUBTITULO);
+Identificador.setForeground(COLOR_TEXTO);
+casillas.add(Identificador, c);
 
-c.gridx = 1; // Columna 2: Input
+c.gridx = 1; // Entrada
 c.gridwidth = 1;
 entrada.setFont(FUENTE_SUBTITULO);
 entrada.setBackground(COLOR_INPUT);
 entrada.setBorder(new EmptyBorder(10, 15, 10, 15));
-        
+// Agregar un FocusListener para limpiar el mensaje de error al enfocar el campo
+entrada.addFocusListener(new java.awt.event.FocusAdapter() {
+@Override
+public void focusGained( java.awt.event.FocusEvent e) {
+
+    limpiarError(); // Limpiar el mensaje de error al enfocar el campo
+}
+
+});
 
 casillas.add(entrada, c);
 
@@ -320,10 +342,10 @@ private JPanel PieDePagina() {
 JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER));
 p.setBackground(COLOR_FONDO);
 p.setBorder(new EmptyBorder(1, 0, 10, 0));
-JLabel label = new JLabel("MOVUCV | Registro Seguro | Datos Protegidos");
-label.setFont(FUENTE_TEXTO);
-label.setForeground(COLOR_SECUNDARIO);
-p.add(label);
+JLabel texto = new JLabel("MOVUCV | Registro Seguro | Datos Protegidos");
+texto.setFont(FUENTE_TEXTO);
+texto.setForeground(COLOR_SECUNDARIO);
+p.add(texto);
 return p;
     }
 
@@ -334,11 +356,26 @@ public String getApellido() { return Apellido.getText(); }
 public String getCorreo() { return Correo.getText(); }
 public String getTelefono() { return Telefono.getText(); }
 public String getCedula() { return Cedula.getText(); }
-public String getPassword() { return new String(Contrasena.getPassword()); }
-public String getConfirmarPassword() { return new String(ConfirmarContra.getPassword()); }
+public String getContra() { return new String(Contrasena.getPassword()); }
+public String getConfirmarContra() { return new String(ConfirmarContra.getPassword()); }
 public JButton getBtnRegistrar() { return btnRegistrar; }
 
+//metodo para mostrar mensaje de error
+public void mostrarError(String mensaje) {
     
+    if (mensaje.equals("USUARIO REGISTRADO EXITOSAMENTE.")) {
+        TextoError.setForeground(new Color(0, 128, 0)); // Verde
+    } else {
+        TextoError.setForeground(Color.RED); // Rojo
+    }
+    TextoError.setText(mensaje);
+}
+
+public void limpiarError() {
+    TextoError.setText(" ");
+}
+
+
 //MAIN
     public static void main(String[] args) {
 
