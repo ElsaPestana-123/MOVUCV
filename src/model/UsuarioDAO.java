@@ -57,7 +57,6 @@ public class UsuarioDAO {
     }
 
     public static boolean existeCedula(String cedula) throws IOException{
-
         if(!Files.exists(RUTA_REGISTRADOS))
             return false;
 

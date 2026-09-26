@@ -21,15 +21,15 @@ public class UsuarioController{
         return correo != null && correo.matches(FORMATO_CORREO);
     }
 
-    //validación de que la cédula no comience en 0 y solo contenga números usando regex
+    //validación de que la cédula no comience en 0 y solo contenga números de 2 a 8 digitos, usando regex
     public boolean validarFormatoCedula(String cedula){
-        final String FORMATO_CEDULA = "^[1-9]\\d{2,}$";
+        final String FORMATO_CEDULA = "^[1-9]\\d{2,8}$";
         return cedula != null && cedula.matches(FORMATO_CEDULA);
     }
 
-    //validación de que la cédula vontenga números unicamente usando regex
+    //validación de que la clave contenga de 8 a 16 caracteres, usando regex
     public boolean validarFormatoClave(String clave){
-        final String FORMATO_CLAVE = "^(\\S){8,}$";
+        final String FORMATO_CLAVE = "^(\\S){8,16}$";
         return clave != null && clave.matches(FORMATO_CLAVE);
     }
 
@@ -77,7 +77,7 @@ public class UsuarioController{
         }
 
         if(!validarFormatoCedula(cedula)){
-            return "*La Cédula solo debe contener digitos y no debe empezar con 0.";
+            return "*La Cédula debe contener de 2 a 8 digitos y no debe empezar con 0.";
         }
 
         if(!validarFormatoCorreo(correo)){
@@ -85,7 +85,7 @@ public class UsuarioController{
         }
 
         if(!validarFormatoClave(clave)){
-            return "La Contraseña debe contener al menos 8 caracteres y sin espacios en blanco.";
+            return "La Contraseña debe contener de 8 a 16 caracteres y sin espacios en blanco.";
         }
 
         if(!clave.equals(confirmacionClave)){
