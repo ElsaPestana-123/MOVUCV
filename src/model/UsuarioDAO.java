@@ -2,6 +2,7 @@ package src.model;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.io.BufferedReader;
@@ -133,6 +134,22 @@ public class UsuarioDAO {
         }
 
         return false;
+    }
+
+    public static boolean guardarUsuario(String cedula, char rolUsuario, String nombre, String apellido, String correo, String clave, double saldo){
+        if(!Files.exists(RUTA_REGISTRADOS))
+            return false;
+
+        try {
+        String lineaAgregada = cedula + "|" + rolUsuario + "|" + nombre + "|" + apellido + "|" + correo + "|" + clave + "|" + saldo + System.lineSeparator();
+        
+        Files.writeString(RUTA_AUTORIZADOS,lineaAgregada, StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+        return true; 
+
+        } catch(IOException e){
+            e.printStackTrace();
+            return false; 
+        }
     }
    
 }

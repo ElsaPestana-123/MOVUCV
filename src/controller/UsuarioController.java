@@ -1,7 +1,5 @@
 package src.controller;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import src.model.UsuarioDAO;
 import java.io.IOException;
 import src.model.Usuario;
