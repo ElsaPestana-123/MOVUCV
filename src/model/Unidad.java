@@ -1,5 +1,7 @@
 package src.model;
 
+import src._helpers.Validaciones;
+
 public class Unidad {
 
     private String placa;
@@ -15,27 +17,8 @@ public class Unidad {
 
     }
 
-    //Validacion de datos de la unidad
     public boolean validarDatos(){
-        boolean resultplaca = true;
-        boolean resultmodelo = true;
-        boolean resultcapacidad = true;
-
-        if (this.placa == null || this.placa.length() >= 7) {
-            resultplaca = false;
-        } else if (this.placa.charAt(0) != '0' || this.placa.charAt(1) != '1' || this.placa.charAt(4) != '2' || this.placa.charAt(6) != 'A') {
-            resultplaca = false;
-        }
-        
-        if (this.modelo == null || this.modelo.trim().isEmpty()) {
-            resultmodelo = false;
-        }
-
-        if (this.capacidad <= 0) {
-            resultcapacidad = false;
-        }
-
-        return resultplaca && resultmodelo && resultcapacidad;
+        return Validaciones.validarFormatoDatosUnidad(this.placa,this.modelo,this.capacidad);
     }
 
     // Getters and Setters
