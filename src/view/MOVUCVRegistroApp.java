@@ -307,7 +307,7 @@ p.add(TextoError);
 
         return p;
     }
-
+//metodo para crear las casillas de texto y sus identificadores
 private void crearCasillas(JPanel casillas, GridBagConstraints c, int fila, String Texto, JTextField entrada) {
 
 c.gridy = fila;
@@ -336,7 +336,7 @@ public void focusGained( java.awt.event.FocusEvent e) {
 casillas.add(entrada, c);
 
     }
-
+// pie de pagina de la ventana
 private JPanel PieDePagina() {
 
 JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -371,6 +371,8 @@ public void mostrarError(String mensaje) {
     TextoError.setText(mensaje);
 }
 
+
+//limpiar el mensaje de error
 public void limpiarError() {
     TextoError.setText(" ");
 }
