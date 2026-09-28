@@ -54,7 +54,7 @@ public class UsuarioController{
         }
 
         if(!Validaciones.validarFormatoClave(clave)){
-            return "La Contraseña debe contener de 8 a 16 caracteres y sin espacios en blanco.";
+            return "*La Contraseña debe contener de 8 a 16 caracteres y sin espacios en blanco.";
         }
 
         if(!clave.equals(confirmacionClave)){
@@ -89,6 +89,38 @@ public class UsuarioController{
             e.printStackTrace();
             return "Error al acceder al registro del sistema.";
         }
+    }
+
+    public String iniciarSesion(String correo, String clave){
+
+        if(Validaciones.EsVacia(clave)|| Validaciones.EsVacia(correo)){
+            return "*Faltan campos por completar.";
+        }
+
+        correo = correo.trim();
+
+        if(!Validaciones.validarFormatoCorreo(correo)){
+            return "*El Correo debe tener el formato \"nombre@dominio.extension\"."; 
+        }
+
+       try{
+
+        Usuario usuarioBuscado = UsuarioDAO.busquedaPorCorreo(correo);
+
+        if(usuarioBuscado == null){
+            return "*Usuario no registrado, por favor registrarse.";
+        }
+
+        if(!usuarioBuscado.getClaveAcceso().equals(clave)){
+            return "*Contraseña incorrecta.";
+        }
+
+        return String.valueOf(usuarioBuscado.getRol());
+
+       } catch(IOException e){
+        e.printStackTrace();
+        return "*Error al acceder al registro del sistema.";
+       }
     }
     
 }
