@@ -1,8 +1,8 @@
 package src.view;
 
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
 
 public class MOVUCVRegistroApp extends JFrame {
 

@@ -3,43 +3,12 @@ package src.controller;
 import src.model.UsuarioDAO;
 import java.io.IOException;
 import src.model.Usuario;
+import src._helpers.Validaciones;
 
 
 public class UsuarioController{
 
-    public boolean EsVacia(String cadena){
-        return cadena == null || cadena.trim().isEmpty();
-    }
-
-    public boolean validarCamposVacios(String nombre, String apellido, String cedula, String correo, String clave, String confirmacionClave){
-        return EsVacia(nombre) || EsVacia(cedula) || EsVacia(correo) || EsVacia(clave) || EsVacia(apellido);
-    }
-
-    //validación de que el correo tenga el formato nombre@dominio.extension usando regex
-    public boolean validarFormatoCorreo(String correo){
-        final String FORMATO_CORREO= "^([A-Za-z0-9.])+@([A-Za-z])+(\\.)[a-zA-Z]{2,}$"; 
-        return correo != null && correo.matches(FORMATO_CORREO);
-    }
-
-    //validación de que la cédula no comience en 0 y solo contenga números de 2 a 8 digitos, usando regex
-    public boolean validarFormatoCedula(String cedula){
-        final String FORMATO_CEDULA = "^[1-9]\\d{2,8}$";
-        return cedula != null && cedula.matches(FORMATO_CEDULA);
-    }
-
-    //validación de que la clave contenga de 8 a 16 caracteres, usando regex
-    public boolean validarFormatoClave(String clave){
-        final String FORMATO_CLAVE = "^(\\S){8,16}$";
-        return clave != null && clave.matches(FORMATO_CLAVE);
-    }
-
-    //validación de nombre que solo contenga letras usando regex
-    public boolean validarFormatoNombre(String nombre){
-        final String FORMATO_NOMBRE = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ]{2,}$";
-        return nombre != null && nombre.matches(FORMATO_NOMBRE);
-    }
-
-    public char existeEnAutorizado(String cedula){
+    public static char existeEnAutorizado(String cedula){
         try{
            return UsuarioDAO.busquedaPorCedula(cedula);
 
@@ -49,7 +18,7 @@ public class UsuarioController{
         }
     }
 
-    public boolean existeEnRegistrados(String correo){
+    public static boolean existeEnRegistrados(String correo){
         try{
             Usuario usuario = UsuarioDAO.busquedaPorCorreo(correo); 
             return usuario != null;
@@ -63,7 +32,7 @@ public class UsuarioController{
     //llama a todos los métodos de validación de formato antes de registrar al usuario y devuelve un string
     public String registrarUsuario(String nombre, String apellido, String correo, String cedula, String clave, String confirmacionClave){
 
-        if(validarCamposVacios(nombre, apellido, cedula, correo, clave, confirmacionClave)){
+        if(Validaciones.validarCamposVacios(nombre, apellido, cedula, correo, clave, confirmacionClave)){
             return "*Faltan campos por completar.";
         }
 
@@ -72,20 +41,20 @@ public class UsuarioController{
         nombre = nombre.trim();
         apellido = apellido.trim();
 
-        if(!validarFormatoNombre(nombre) || !validarFormatoNombre(apellido)){
+        if(!Validaciones.validarFormatoNombre(nombre) || !Validaciones.validarFormatoNombre(apellido)){
             return "*Nombre y Apellido deben contener solo letras y al menos 2 caracteres.";
         }
 
-        if(!validarFormatoCedula(cedula)){
+        if(!Validaciones.validarFormatoCedula(cedula)){
             return "*La Cédula debe contener de 2 a 8 digitos y no debe empezar con 0.";
         }
 
-        if(!validarFormatoCorreo(correo)){
+        if(!Validaciones.validarFormatoCorreo(correo)){
             return "*El Correo debe tener el formato \"nombre@dominio.extension\"."; 
         }
 
-        if(!validarFormatoClave(clave)){
-            return "La Contraseña debe contener de 8 a 16 caracteres y sin espacios en blanco.";
+        if(!Validaciones.validarFormatoClave(clave)){
+            return "*La Contraseña debe contener de 8 a 16 caracteres y sin espacios en blanco.";
         }
 
         if(!clave.equals(confirmacionClave)){
@@ -120,6 +89,39 @@ public class UsuarioController{
             e.printStackTrace();
             return "Error al acceder al registro del sistema.";
         }
+    }
+
+    //valida el formato de los campos y la existencia del usuario en usuarios.txt, en caso exitoso devuelve en string el rol del usuario
+    public String iniciarSesion(String correo, String clave){
+
+        if(Validaciones.EsVacia(clave)|| Validaciones.EsVacia(correo)){
+            return "*Faltan campos por completar.";
+        }
+
+        correo = correo.trim();
+
+        if(!Validaciones.validarFormatoCorreo(correo)){
+            return "*El Correo debe tener el formato \"nombre@dominio.extension\"."; 
+        }
+
+       try{
+
+        Usuario usuarioBuscado = UsuarioDAO.busquedaPorCorreo(correo);
+
+        if(usuarioBuscado == null){
+            return "*Usuario no registrado, por favor registrarse.";
+        }
+
+        if(!usuarioBuscado.getClaveAcceso().equals(clave)){
+            return "*Contraseña incorrecta.";
+        }
+
+        return String.valueOf(usuarioBuscado.getRol());
+
+       } catch(IOException e){
+        e.printStackTrace();
+        return "*Error al acceder al registro del sistema.";
+       }
     }
     
 }
