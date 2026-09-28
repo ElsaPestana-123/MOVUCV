@@ -91,6 +91,7 @@ public class UsuarioController{
         }
     }
 
+    //valida el formato de los campos y la existencia del usuario en usuarios.txt, en caso exitoso devuelve en string el rol del usuario
     public String iniciarSesion(String correo, String clave){
 
         if(Validaciones.EsVacia(clave)|| Validaciones.EsVacia(correo)){
