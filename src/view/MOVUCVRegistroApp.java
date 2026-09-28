@@ -17,7 +17,7 @@ public class MOVUCVRegistroApp extends JFrame {
     //  fuentes
     private static final Font FUENTE_TITULO = new Font("SansSerif", Font.BOLD, 26);
     private static final Font FUENTE_SUBTITULO = new Font("SansSerif", Font.BOLD, 14);
-    private static final Font FUENTE_TEXTO = new Font("SansSerif", Font.PLAIN, 13);
+    private static final Font FUENTE_TEXTO = new Font("SansSerif", Font.PLAIN, 15);
 //variables
 private JTextField Nombre;
 private JTextField Apellido;
@@ -151,7 +151,7 @@ JLabel texto1 = new JLabel("<html><body style='text-align:center;'>Bienvenido al
 texto1.setFont(FUENTE_TITULO);
 texto1.setForeground(COLOR_TEXTO);
 texto1.setAlignmentX(Component.CENTER_ALIGNMENT);
-texto1.setBorder(new EmptyBorder(0, 50, 0, 0)); 
+texto1.setBorder(new EmptyBorder(0, 70, 0, 0)); 
 p.add(texto1);
 p.add(Box.createRigidArea(new Dimension(0, 30))); // Espacio
 
