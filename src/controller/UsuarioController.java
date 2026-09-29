@@ -41,6 +41,8 @@ public class UsuarioController{
         nombre = nombre.trim();
         apellido = apellido.trim();
 
+    //validaciones respecto a formato de campos antes de hacer llamar a búsquedaPorCedula()
+
         if(!Validaciones.validarFormatoNombre(nombre) || !Validaciones.validarFormatoNombre(apellido)){
             return "*Nombre y Apellido deben contener solo letras y al menos 2 caracteres.";
         }
@@ -62,7 +64,7 @@ public class UsuarioController{
         }
 
         try{
-            char rolUsuario = UsuarioDAO.busquedaPorCedula(cedula);
+            char rolUsuario = UsuarioDAO.busquedaPorCedula(cedula); 
             
             if(rolUsuario == '\0'){
                 return "*La Cédula no está autorizada en el sistema.";
@@ -116,7 +118,7 @@ public class UsuarioController{
             return "*Contraseña incorrecta.";
         }
 
-        return String.valueOf(usuarioBuscado.getRol());
+        return String.valueOf(usuarioBuscado.getRol()); // en caso de exito retorna en string el rol del usuario
 
        } catch(IOException e){
         e.printStackTrace();

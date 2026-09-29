@@ -34,7 +34,7 @@ public class Validaciones {
         return nombre != null && nombre.matches(FORMATO_NOMBRE);
     }
 
-     //Validacion de datos de la unidad
+     //validación de datos de la unidad
    public static boolean validarFormatoDatosUnidad(String placa, String modelo, int capacidad){
         boolean resultplaca = true;
         boolean resultmodelo = true;
