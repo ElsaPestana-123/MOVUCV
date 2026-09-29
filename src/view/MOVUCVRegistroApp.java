@@ -17,7 +17,7 @@ public class MOVUCVRegistroApp extends JFrame {
     //  fuentes
     private static final Font FUENTE_TITULO = new Font("SansSerif", Font.BOLD, 26);
     private static final Font FUENTE_SUBTITULO = new Font("SansSerif", Font.BOLD, 14);
-    private static final Font FUENTE_TEXTO = new Font("SansSerif", Font.PLAIN, 13);
+    private static final Font FUENTE_TEXTO = new Font("SansSerif", Font.PLAIN, 15);
 //variables
 private JTextField Nombre;
 private JTextField Apellido;
@@ -67,7 +67,7 @@ titulo.setForeground(COLOR_TEXTO);
 
  // CARFGA DEL LOGO
 
-String ruta = "src/images/logo.png"; 
+String ruta = "src/images/logo sin fondo.png"; 
 java.io.File Logo = new java.io.File(ruta);
 
 if (Logo.exists()) {
@@ -151,7 +151,7 @@ JLabel texto1 = new JLabel("<html><body style='text-align:center;'>Bienvenido al
 texto1.setFont(FUENTE_TITULO);
 texto1.setForeground(COLOR_TEXTO);
 texto1.setAlignmentX(Component.CENTER_ALIGNMENT);
-texto1.setBorder(new EmptyBorder(0, 50, 0, 0)); 
+texto1.setBorder(new EmptyBorder(0, 70, 0, 0)); 
 p.add(texto1);
 p.add(Box.createRigidArea(new Dimension(0, 30))); // Espacio
 
@@ -307,7 +307,7 @@ p.add(TextoError);
 
         return p;
     }
-
+//metodo para crear las casillas de texto y sus identificadores
 private void crearCasillas(JPanel casillas, GridBagConstraints c, int fila, String Texto, JTextField entrada) {
 
 c.gridy = fila;
@@ -336,7 +336,7 @@ public void focusGained( java.awt.event.FocusEvent e) {
 casillas.add(entrada, c);
 
     }
-
+// pie de pagina de la ventana
 private JPanel PieDePagina() {
 
 JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -371,6 +371,8 @@ public void mostrarError(String mensaje) {
     TextoError.setText(mensaje);
 }
 
+
+//limpiar el mensaje de error
 public void limpiarError() {
     TextoError.setText(" ");
 }
