@@ -64,7 +64,7 @@ titulo.setForeground(COLOR_TEXTO);
 
  // CARFGA DEL LOGO
 
-String ruta = "src/images/logo sin fondo.png"; 
+String ruta = "res/images/logo sin fondo.png"; 
 java.io.File Logo = new java.io.File(ruta);
 
 if (Logo.exists()) {
