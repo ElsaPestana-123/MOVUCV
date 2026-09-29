@@ -3,7 +3,7 @@ package src.view;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
+import src._helpers.Validaciones;
 public class AdminGestionarFlota extends JFrame {
     
 
@@ -324,9 +324,9 @@ public void setEstadoOperativo(String estado) { comboEstado.setSelectedItem(esta
 
 public void limpiarFormulario() {
 
-Placa.setText("");
-Modelo.setText("");
-Capacidad.setText("");
+Validaciones.limpiarCampos(Placa);
+Validaciones.limpiarCampos(Modelo);
+Validaciones.limpiarCampos(Capacidad);
 comboEstado.setSelectedIndex(0);
     limpiarError();
 }
@@ -349,8 +349,9 @@ for (Object[] fila : datos) {
 
 //MAIN
     public static void main(String[] args) {
-
-            new AdminGestionarFlota().setVisible(true);
+AdminGestionarFlota Vista = new AdminGestionarFlota();
+src.controller.AdminController Controlador = new src.controller.AdminController(Vista);
+            Vista.setVisible(true);
 
     }
 }
