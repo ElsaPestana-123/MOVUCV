@@ -40,7 +40,7 @@ public class Validaciones {
         boolean resultmodelo = true;
         boolean resultcapacidad = true;
 
-        if (placa == null || placa.length() >= 7) {
+        if (placa == null || placa.length() != 7) {
             resultplaca = false;
         } else if (placa.charAt(0) != '0' || placa.charAt(1) != '1' || placa.charAt(4) != '2' || placa.charAt(6) != 'A') {
             resultplaca = false;
