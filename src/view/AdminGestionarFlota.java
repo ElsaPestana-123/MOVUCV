@@ -182,7 +182,7 @@ p.setPreferredSize(new Dimension(500, 500)); // Tamaño fijo
 p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
 p.setBorder(new EmptyBorder(30, 50, 30, 50));
 
-
+//titulo del form
 JLabel texto1 = new JLabel("Datos de la Unidad");
 texto1.setFont(FUENTE_TITULO);
 texto1.setForeground(COLOR_TEXTO);
@@ -197,9 +197,10 @@ c.fill = GridBagConstraints.HORIZONTAL;
 c.weightx = 1.0;
 c.insets = new Insets(0, 0, 15, 0);
 
+
+// creamos las casillas del form
 Placa = new JTextField();
 crearCasillas(casillas, c, 0, "Placa:", Placa);
-
 
 Modelo = new JTextField();
 crearCasillas(casillas, c, 1, "Modelo:", Modelo);
@@ -207,6 +208,7 @@ crearCasillas(casillas, c, 1, "Modelo:", Modelo);
 Capacidad = new JTextField();
 crearCasillas(casillas, c, 2, "Capacidad (Pasajeros):", Capacidad);
 
+//ubicamos el combobox o sea el selector de estado
 c.gridx = 0;
 c.gridy = 3;
 JLabel estado = new JLabel("Estado Operativo:");
@@ -220,12 +222,12 @@ String[] opcionesEstado = {"Operativo", "En Mantenimiento", "Inactivo"};
 comboEstado = new JComboBox<>(opcionesEstado);
 comboEstado.setFont(FUENTE_TEXTO);
 comboEstado.setBackground(COLOR_INPUT);
-casillas.add(comboEstado, c);
 
 p.add(casillas);
 p.add(Box.createRigidArea(new Dimension(0, 30)));
+casillas.add(comboEstado, c);
 
-
+//boton para registrar una unidad
 btnRegistrar = new JButton("Registrar Unidad");
 btnRegistrar.setFont(FUENTE_SUBTITULO);
 btnRegistrar.setBackground(COLOR_BOTONES);
@@ -237,6 +239,7 @@ btnRegistrar.setMaximumSize(new Dimension(200, 45));
 p.add(btnRegistrar);
 p.add(Box.createRigidArea(new Dimension(0, 15)));
 
+//boton para limpiar el form 
 Limpiar = new JButton("Limpiar");
 Limpiar.setFont(FUENTE_SUBTITULO);
 Limpiar.setBackground(Color.GRAY);
@@ -320,10 +323,10 @@ public void setPlaca(String texto) { Placa.setText(texto); }
 public void setModelo(String texto) { Modelo.setText(texto); }
 public void setCapacidad(String texto) { Capacidad.setText(texto); }
 public void setEstadoOperativo(String estado) { comboEstado.setSelectedItem(estado); }
-// Un método útil para vaciar el formulario después de registrar
 
+
+//metodo para limpiar el form despues de que se edite algo correctamente o se registre una unidad correctamente
 public void limpiarFormulario() {
-
 Validaciones.limpiarCampos(Placa);
 Validaciones.limpiarCampos(Modelo);
 Validaciones.limpiarCampos(Capacidad);
@@ -331,15 +334,15 @@ comboEstado.setSelectedIndex(0);
     limpiarError();
 }
 
+//cambio de boton dependiendo si se selecciona una unidad en lkla tabla para editar
 public void cambiarModoBoton(boolean esActualizacion) {
-
 if (esActualizacion) {
 btnRegistrar.setText("Guardar Cambios");
 } else {
     btnRegistrar.setText("Registrar Unidad");
 }
 }
-
+//metodo para cargar la tabla desde el controlador
 public void cargarDatosEnTabla(Object[][] datos) {
 modeloTabla.setRowCount(0); // Limpia datos viejos
 for (Object[] fila : datos) {
