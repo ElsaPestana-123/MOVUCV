@@ -313,7 +313,7 @@ public JButton getBtnRegistrar() { return btnRegistrar; }
 public String getPlaca() { return Placa.getText(); }
 public String getModelo() { return Modelo.getText(); }
 public String getCapacidad() { return Capacidad.getText(); }
-public String getEstadoOperativo() { return (String) comboEstado.getSelectedItem(); }
+public String getEstado() { return (String) comboEstado.getSelectedItem(); }
 public javax.swing.table.DefaultTableModel getModeloTabla() { return modeloTabla; }
 public JTable getTablaUnidades() { return tablaUnidades; }
 public JButton getBtnLimpiar(){return Limpiar;}
@@ -322,7 +322,7 @@ public JButton getBtnLimpiar(){return Limpiar;}
 public void setPlaca(String texto) { Placa.setText(texto); }
 public void setModelo(String texto) { Modelo.setText(texto); }
 public void setCapacidad(String texto) { Capacidad.setText(texto); }
-public void setEstadoOperativo(String estado) { comboEstado.setSelectedItem(estado); }
+public void setEstado(String estado) { comboEstado.setSelectedItem(estado); }
 
 
 //metodo para limpiar el form despues de que se edite algo correctamente o se registre una unidad correctamente
@@ -335,8 +335,8 @@ comboEstado.setSelectedIndex(0);
 }
 
 //cambio de boton dependiendo si se selecciona una unidad en lkla tabla para editar
-public void cambiarModoBoton(boolean esActualizacion) {
-if (esActualizacion) {
+public void cambiarModoBoton(boolean actualizar) {
+if (actualizar) {
 btnRegistrar.setText("Guardar Cambios");
 } else {
     btnRegistrar.setText("Registrar Unidad");
