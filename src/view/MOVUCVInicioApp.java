@@ -19,17 +19,12 @@ public class MOVUCVInicioApp extends JFrame{
     //  fuentes
     private static final Font FUENTE_TITULO = new Font("SansSerif", Font.BOLD, 26);
     private static final Font FUENTE_SUBTITULO = new Font("SansSerif", Font.BOLD, 14);
-    private static final Font FUENTE_TEXTO = new Font("SansSerif", Font.PLAIN, 13);
+    private static final Font FUENTE_TEXTO = new Font("SansSerif", Font.PLAIN, 18);
 //variables
-private JTextField Nombre;
-private JTextField Apellido;
+
 private JTextField Correo;
-private JTextField Telefono;
-private JTextField Cedula;
 private JPasswordField Contrasena;
-private JPasswordField ConfirmarContra;
 private JButton btnRegistrar;
-private JCheckBox chkTerminos;
 private JLabel TextoError;
 
 
@@ -69,7 +64,7 @@ titulo.setForeground(COLOR_TEXTO);
 
  // CARFGA DEL LOGO
 
-String ruta = "src/images/logo.png"; 
+String ruta = "src/images/logo sin fondo.png"; 
 java.io.File Logo = new java.io.File(ruta);
 
 if (Logo.exists()) {
@@ -89,7 +84,7 @@ JLabel sep = new JLabel("|");
 sep.setFont(FUENTE_TITULO);
 sep.setForeground(COLOR_SECUNDARIO);
 
-JLabel texto1 = new JLabel("Registro de Usuario");
+JLabel texto1 = new JLabel("Inicio de Sesión");
 texto1.setFont(FUENTE_TEXTO);
 texto1.setForeground(COLOR_TEXTO);
 
@@ -126,10 +121,7 @@ private JPanel Cuerpo() {
         
 JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER, 40, 30));
 p.setOpaque(false);
-p.setBorder(new EmptyBorder(20, 0, 20, 0));
-
-JPanel cIzq = cuadroIzq(); // agregamos el cuadro izquierdo
-p.add(cIzq);
+p.setBorder(new EmptyBorder(70, 0, 20, 0));
 
 JPanel cDere = cuadroDere(); // agregamos el cuadro derecho
 p.add(cDere);
@@ -138,85 +130,23 @@ p.add(cDere);
     }
 
 
-
-private JPanel cuadroIzq() { // CUADRO IZQ
-
-JPanel p = new JPanel();
-p.setBackground(COLOR_PANEL);
-p.setPreferredSize(new Dimension(420, 580)); // Tamaño fijo
-p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-p.setBorder(new EmptyBorder(50, 40, 50, 40));
-
-
-JLabel texto1 = new JLabel("<html><body style='text-align:center;'>Bienvenido al<br>Sistema de<br>Transporte UCV</body></html>");
-
-texto1.setFont(FUENTE_TITULO);
-texto1.setForeground(COLOR_TEXTO);
-texto1.setAlignmentX(Component.CENTER_ALIGNMENT);
-texto1.setBorder(new EmptyBorder(0, 50, 0, 0)); 
-p.add(texto1);
-p.add(Box.createRigidArea(new Dimension(0, 30))); // Espacio
-
-JLabel texto2 = new JLabel("<html><body style='text-align:center;'>Regístrate para acceder al monitoreo<br>en tiempo real de todas las rutas.</body></html>");
-
-texto2.setFont(FUENTE_TEXTO);
-texto2.setForeground(COLOR_TEXTO);
-texto2.setAlignmentX(Component.CENTER_ALIGNMENT);
-texto2.setBorder(new EmptyBorder(0, 50, 0, 0));
-p.add(texto2);
-p.add(Box.createRigidArea(new Dimension(0, 40)));
-
-        // Pastillas de Información (Pills)
-p.add(textosCuadroIzq("18", "Rutas Disponibles"));
-p.add(Box.createRigidArea(new Dimension(0, 10)));
-p.add(textosCuadroIzq("31", "Unidades Activas"));
-p.add(Box.createRigidArea(new Dimension(0, 10)));
-p.add(textosCuadroIzq( "24/7", "Monitoreo en Vivo"));
-
-        return p;
-    }
-
-
-private JPanel textosCuadroIzq(String texto1, String texto2) { // cuadritos de informacion del cuadro izquierdo
-
-JPanel cuadritos = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 10));
-cuadritos.setBackground(COLOR_TEXTO); // Fondo azul oscuro
-cuadritos.setMaximumSize(new Dimension(300, 70)); // Ancho fijo
-cuadritos.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-JPanel texto = new JPanel(new GridLayout(2, 1));
-texto.setOpaque(false);
-JLabel value = new JLabel(texto1);
-value.setFont(FUENTE_TITULO);
-value.setForeground(COLOR_FONDO);
-JLabel label = new JLabel(texto2);
-label.setFont(FUENTE_TEXTO);
-label.setForeground(COLOR_SECUNDARIO);
-texto.add(value);
-texto.add(label);
-cuadritos.add(texto);
-
-        return cuadritos;
-    }
-
-
 private JPanel cuadroDere() {
 
 JPanel p = new JPanel();
 p.setBackground(COLOR_PANEL);
-p.setPreferredSize(new Dimension(720, 580)); // Tamaño fijo
+p.setPreferredSize(new Dimension(720, 480)); // Tamaño fijo
 p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-p.setBorder(new EmptyBorder(15, 60, 50, 60));
+p.setBorder(new EmptyBorder(50, 60, 50, 60));
 
 
-JLabel texto1 = new JLabel("Crear Cuenta");
+JLabel texto1 = new JLabel("Iniciar Sesión");
 texto1.setFont(FUENTE_TITULO);
 texto1.setForeground(COLOR_TEXTO);
 texto1.setAlignmentX(Component.CENTER_ALIGNMENT);
 p.add(texto1);
 p.add(Box.createRigidArea(new Dimension(0, 10)));
 
-JLabel texto2 = new JLabel("Completa el formulario para registrarte en el sistema");
+JLabel texto2 = new JLabel("Ingresa tus datos para iniciar sesión");
 texto2.setFont(FUENTE_TEXTO);
 texto2.setForeground(COLOR_INPUT
 );
@@ -230,50 +160,31 @@ casillas.setOpaque(false);
 GridBagConstraints c = new GridBagConstraints();
 c.fill = GridBagConstraints.HORIZONTAL;
 c.weightx = 1.0;
-c.insets = new Insets(0, 10, 15, 10); // Espacio entre campos
-
-
-Nombre = new JTextField();
-
-crearCasillas(casillas, c, 0, "Nombre:", Nombre);
-
-Apellido = new JTextField();
-
-crearCasillas(casillas, c, 1, "Apellido:", Apellido);
+c.insets = new Insets(0, 50, 15, 5); // Espacio entre campos
 
 Correo = new JTextField();
 
-crearCasillas(casillas, c, 2, "Correo Electrónico:", Correo);
-
-Cedula = new JTextField();
-crearCasillas(casillas, c, 3, "Cédula:", Cedula);
+crearCasillas(casillas, c, 2, " Correo:", Correo);
 
 Contrasena = new JPasswordField();
 
 crearCasillas(casillas, c, 4, "Contraseña:", Contrasena);
-ConfirmarContra = new JPasswordField();
-
-crearCasillas(casillas, c, 5, "Confirmar Contraseña:", ConfirmarContra);
 
 p.add(casillas);
 
 
 JPanel terminos = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
 terminos.setOpaque(false);
-terminos.setBorder(new EmptyBorder(0, 0, 5, 0)); // Espacio antes del checkbox
-chkTerminos = new JCheckBox();
-chkTerminos.setOpaque(false);
-JLabel texto3 = new JLabel("<html><body>Acepto los <span style='color:#7DB6F5;'>Terminos y Condiciones</span> y la <span style='color:#7DB6F5;'>Politica de Privacidad</span></body></html>");
+terminos.setBorder(new EmptyBorder(0, 0, 30, 0)); // Espacio antes del checkbox
+JLabel texto3 = new JLabel("<html><body>Aceptas los <span style='color:#7DB6F5;'>Terminos y Condiciones</span> y la <span style='color:#7DB6F5;'>Politica de Privacidad</span></body></html>");
 texto3.setFont(FUENTE_TEXTO);
 texto3.setForeground(COLOR_TEXTO);
-terminos.add(chkTerminos);
 terminos.add(texto3);
 p.add(Box.createRigidArea(new Dimension(0, 20))); // espacio
 p.add(terminos);
 
-chkTerminos.addActionListener(e -> btnRegistrar.setEnabled(chkTerminos.isSelected()));
 
-btnRegistrar = new JButton("Crear Cuenta");
+btnRegistrar = new JButton("Iniciar Sesión");
 btnRegistrar.setFont(FUENTE_SUBTITULO);
 btnRegistrar.setBackground(COLOR_BOTONES);
 btnRegistrar.setForeground(COLOR_TEXTO);
@@ -281,23 +192,29 @@ btnRegistrar.setFocusPainted(false);
 btnRegistrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 btnRegistrar.setAlignmentX(Component.CENTER_ALIGNMENT);
 btnRegistrar.setMaximumSize(new Dimension(200, 45)); // Tamaño fijo
-btnRegistrar.setEnabled(false);
 btnRegistrar.setBorder(new EmptyBorder(5, 5, 5, 5));
 p.add(btnRegistrar);
+
+
 
 btnRegistrar.addActionListener(e -> {
 
     src.controller.UsuarioController controlador = new src.controller.UsuarioController();
-    String resultadoString = controlador.registrarUsuario(
-        getNombre(),
-        getApellido(),
+    String resultadoString = controlador.iniciarSesion(
         getCorreo(),
-        getCedula(),
-        getContra(),
-        getConfirmarContra()
+        getContra()
     );
-    mostrarError(resultadoString);
+    if (resultadoString.length() == 1) {
+        inicioExitoso(resultadoString.charAt(0));
+    }
+    else{
+        mostrarError(resultadoString);
+        TextoError.setForeground(Color.RED); // volvemos a ponerlo en rojo
+    }
+    
 });
+
+
 
 // Etiqueta de error 
 TextoError = new JLabel(" "); // Empieza vacía
@@ -344,7 +261,7 @@ private JPanel PieDePagina() {
 JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER));
 p.setBackground(COLOR_FONDO);
 p.setBorder(new EmptyBorder(1, 0, 10, 0));
-JLabel texto = new JLabel("MOVUCV | Registro Seguro | Datos Protegidos");
+JLabel texto = new JLabel("MOVUCV | Inicio Seguro | Datos Protegidos");
 texto.setFont(FUENTE_TEXTO);
 texto.setForeground(COLOR_SECUNDARIO);
 p.add(texto);
@@ -353,23 +270,13 @@ return p;
 
 
 // getters para obtener los valores de los campos de texto y botones
-public String getNombre() { return Nombre.getText(); }
-public String getApellido() { return Apellido.getText(); }
 public String getCorreo() { return Correo.getText(); }
-public String getTelefono() { return Telefono.getText(); }
-public String getCedula() { return Cedula.getText(); }
 public String getContra() { return new String(Contrasena.getPassword()); }
-public String getConfirmarContra() { return new String(ConfirmarContra.getPassword()); }
 public JButton getBtnRegistrar() { return btnRegistrar; }
 
 //metodo para mostrar mensaje de error
 public void mostrarError(String mensaje) {
     
-    if (mensaje.equals("USUARIO REGISTRADO EXITOSAMENTE.")) {
-        TextoError.setForeground(new Color(0, 128, 0)); // Verde
-    } else {
-        TextoError.setForeground(Color.RED); // Rojo
-    }
     TextoError.setText(mensaje);
 }
 
@@ -379,11 +286,17 @@ public void limpiarError() {
     TextoError.setText(" ");
 }
 
+public void  inicioExitoso(char c){
+TextoError.setForeground(new Color(0, 128, 0)); // Verde
+TextoError.setText("Inicio de Sesión exitoso!");
+
+}
+
 
 //MAIN
     public static void main(String[] args) {
 
-            new MOVUCVRegistroApp().setVisible(true);
+            new MOVUCVInicioApp().setVisible(true);
 
     }
 }
