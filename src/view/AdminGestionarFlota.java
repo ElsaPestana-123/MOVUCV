@@ -9,28 +9,29 @@ public class AdminGestionarFlota extends JFrame {
 
 
     //colores
-    private static final Color COLOR_FONDO = new Color(11, 11, 35);       // Azul muy oscuro (Fondo general y Cabecera)
-    private static final Color COLOR_PANEL = new Color(19, 29, 61);       // Azul oscuro (Para ambas tarjetas)
-    private static final Color COLOR_BOTONES = new Color(125, 182, 245);   // Azul claro (Botones y enlaces)
-    private static final Color COLOR_TEXTO = new Color(245, 245, 245);    // Blanco humo (Textos principales)
-    private static final Color COLOR_SECUNDARIO = new Color(150, 150, 150); // Gris (Textos secundarios, separadores)
-    private static final Color COLOR_INPUT = new Color(250, 250, 250);    // Blanco (Fondo de casillas de texto)
+private static final Color COLOR_FONDO = new Color(11, 11, 35);       // Azul muy oscuro (Fondo general y Cabecera)
+private static final Color COLOR_PANEL = new Color(19, 29, 61);       // Azul oscuro (Para ambas tarjetas)
+private static final Color COLOR_BOTONES = new Color(125, 182, 245);   // Azul claro (Botones y enlaces)
+private static final Color COLOR_TEXTO = new Color(245, 245, 245);    // Blanco humo (Textos principales)
+private static final Color COLOR_SECUNDARIO = new Color(150, 150, 150); // Gris (Textos secundarios, separadores)
+private static final Color COLOR_INPUT = new Color(250, 250, 250);    // Blanco (Fondo de casillas de texto)
 
     //  fuentes
-    private static final Font FUENTE_TITULO = new Font("SansSerif", Font.BOLD, 26);
-    private static final Font FUENTE_SUBTITULO = new Font("SansSerif", Font.BOLD, 14);
-    private static final Font FUENTE_TEXTO = new Font("SansSerif", Font.PLAIN, 18);
+private static final Font FUENTE_TITULO = new Font("SansSerif", Font.BOLD, 26);
+private static final Font FUENTE_SUBTITULO = new Font("SansSerif", Font.BOLD, 14);
+private static final Font FUENTE_TEXTO = new Font("SansSerif", Font.PLAIN, 18);
+
+
 //variables
-
-
 private JTextField Placa;
 private JTextField Modelo;
 private JTextField Capacidad;
 private JButton btnRegistrar;
-
-private JComboBox<String> comboEstado;
+private JButton Limpiar;
+private JComboBox<String> comboEstado; // selector de estado inactivo,e tc
 private JTable tablaUnidades;
-private javax.swing.table.DefaultTableModel modeloTabla;
+
+private javax.swing.table.DefaultTableModel modeloTabla; //tabla
 private JLabel TextoError;
 
 
@@ -133,6 +134,8 @@ p.add(cuadroDere());
     }
 
 
+
+
 private JPanel cuadroIzq(){
 
 JPanel p =  new JPanel();
@@ -149,21 +152,23 @@ titulo.setHorizontalAlignment(SwingConstants.CENTER);
 titulo.setBorder(new EmptyBorder(0, 0, 20, 0));
 p.add(titulo, BorderLayout.NORTH);
 
+//creamos el modelo de la tabla
 String[] columnas = {"Placa", "Modelo", "Capacidad", "Estado"};
 modeloTabla = new javax.swing.table.DefaultTableModel(null, columnas) {
-    @Override
+//hacemos override para que no se puede editar la tgabla si le hacemos click
+@Override
     public boolean isCellEditable(int row, int column) {
-    return false; // Evita que se edite directamente en la tabla
+    return false; 
     }
 };
-    
+// ponemos nuestro modelo de tabla en la tabla ocmo tal
 tablaUnidades = new JTable(modeloTabla);
 tablaUnidades.setFont(FUENTE_TEXTO);
 tablaUnidades.setRowHeight(30);
 tablaUnidades.getTableHeader().setFont(FUENTE_SUBTITULO);
-
-JScrollPane scrollPane = new JScrollPane(tablaUnidades);
-p.add(scrollPane, BorderLayout.CENTER);
+// ponemos la tabla dentro de un scroll para poder bajar por si hay muchas unidades registradas
+JScrollPane scroll = new JScrollPane(tablaUnidades);
+p.add(scroll, BorderLayout.CENTER);
 
 return p;
 
@@ -222,7 +227,6 @@ p.add(Box.createRigidArea(new Dimension(0, 30)));
 
 
 btnRegistrar = new JButton("Registrar Unidad");
-
 btnRegistrar.setFont(FUENTE_SUBTITULO);
 btnRegistrar.setBackground(COLOR_BOTONES);
 btnRegistrar.setForeground(Color.WHITE);
@@ -231,10 +235,18 @@ btnRegistrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 btnRegistrar.setAlignmentX(Component.CENTER_ALIGNMENT);
 btnRegistrar.setMaximumSize(new Dimension(200, 45)); 
 p.add(btnRegistrar);
-
 p.add(Box.createRigidArea(new Dimension(0, 15)));
 
-       
+Limpiar = new JButton("Limpiar");
+Limpiar.setFont(FUENTE_SUBTITULO);
+Limpiar.setBackground(Color.GRAY);
+Limpiar.setForeground(Color.WHITE);
+Limpiar.setFocusPainted(false);
+Limpiar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+Limpiar.setAlignmentX(Component.CENTER_ALIGNMENT);
+Limpiar.setMaximumSize(new Dimension(100, 10)); 
+p.add(Limpiar);
+p.add(Box.createRigidArea(new Dimension(0,15)));
 
 // Etiqueta de error 
 TextoError = new JLabel(" "); // Empieza vacía
@@ -301,26 +313,37 @@ public String getCapacidad() { return Capacidad.getText(); }
 public String getEstadoOperativo() { return (String) comboEstado.getSelectedItem(); }
 public javax.swing.table.DefaultTableModel getModeloTabla() { return modeloTabla; }
 public JTable getTablaUnidades() { return tablaUnidades; }
+public JButton getBtnLimpiar(){return Limpiar;}
 
+//setters
 public void setPlaca(String texto) { Placa.setText(texto); }
 public void setModelo(String texto) { Modelo.setText(texto); }
 public void setCapacidad(String texto) { Capacidad.setText(texto); }
 public void setEstadoOperativo(String estado) { comboEstado.setSelectedItem(estado); }
-
 // Un método útil para vaciar el formulario después de registrar
+
 public void limpiarFormulario() {
-    Placa.setText("");
-    Modelo.setText("");
-    Capacidad.setText("");
-    comboEstado.setSelectedIndex(0);
+
+Placa.setText("");
+Modelo.setText("");
+Capacidad.setText("");
+comboEstado.setSelectedIndex(0);
     limpiarError();
 }
 
 public void cambiarModoBoton(boolean esActualizacion) {
-    if (esActualizacion) {
-        btnRegistrar.setText("Guardar Cambios");
-    } else {
-        btnRegistrar.setText("Registrar Unidad");
+
+if (esActualizacion) {
+btnRegistrar.setText("Guardar Cambios");
+} else {
+    btnRegistrar.setText("Registrar Unidad");
+}
+}
+
+public void cargarDatosEnTabla(Object[][] datos) {
+modeloTabla.setRowCount(0); // Limpia datos viejos
+for (Object[] fila : datos) {
+        modeloTabla.addRow(fila);
     }
 }
 
