@@ -34,9 +34,9 @@ public class UnidadDAO{
 
             int capacidad = Integer.parseInt(datos[2].trim());
 
-            boolean disponible = Boolean.parseBoolean(datos[3].trim());
+            String disponible = datos[3].trim();
 
-            if (Validaciones.validarFormatoDatosUnidad(placa, modelo, capacidad)) {
+            if (Validaciones.validarFormatoDatosUnidad(placa, modelo, capacidad, disponible)) {
                return new Unidad(placa, modelo, capacidad, disponible);
             } else {
               return null;
@@ -125,7 +125,7 @@ public class UnidadDAO{
 
     //Función para actualizar la disponibilidad de una unidad en el archivo de unidades
 
-    public boolean actualizarUnidad(String placa, boolean disponible){
+    public boolean actualizarUnidad(String placa, String disponible){
 
         if (!Files.exists(RUTA_UNIDADES) || placa == null) {
             return false;
@@ -153,7 +153,7 @@ public class UnidadDAO{
 
                 if(datos.length == 4 && datos[0].trim().equalsIgnoreCase(placa)){
 
-                    datos[3] = String.valueOf(disponible);
+                    datos[3] = disponible.trim();
                     linea = String.join("|", datos);
                     existe = true;
 
@@ -239,9 +239,9 @@ public class UnidadDAO{
 
     // Función para guardar una unidad en el archivo de unidades
 
-    public boolean guardarUnidad(String placa, String modelo, int capacidad, boolean disponible){
+    public boolean guardarUnidad(String placa, String modelo, int capacidad, String disponible){
 
-        if (!Validaciones.validarFormatoDatosUnidad(placa, modelo, capacidad)) {
+        if (!Validaciones.validarFormatoDatosUnidad(placa, modelo, capacidad, disponible)) {
             return false;
         }
 

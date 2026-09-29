@@ -1,9 +1,6 @@
 package src._helpers; 
 
-
-import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 
 public class Validaciones {
 
@@ -39,11 +36,12 @@ public class Validaciones {
         return nombre != null && nombre.matches(FORMATO_NOMBRE);
     }
 
-     //validación de datos de la unidad
-   public static boolean validarFormatoDatosUnidad(String placa, String modelo, int capacidad){
+    //validación de datos de la unidad
+   public static boolean validarFormatoDatosUnidad(String placa, String modelo, int capacidad, String disponible){
         boolean resultplaca = true;
         boolean resultmodelo = true;
         boolean resultcapacidad = true;
+        boolean resultdisponible = true;
 
         if (placa == null || placa.length() != 7) {
             resultplaca = false;
@@ -59,7 +57,13 @@ public class Validaciones {
             resultcapacidad = false;
         }
 
-        return resultplaca && resultmodelo && resultcapacidad;
+        if (disponible == null || (!disponible.equalsIgnoreCase("Operativo") 
+            && !disponible.equalsIgnoreCase("En Mantenimiento") 
+            && !disponible.equalsIgnoreCase("Inactivo"))) {
+            resultdisponible = false;
+        }
+
+        return resultplaca && resultmodelo && resultcapacidad && resultdisponible;
     }
 
     public static void limpiarCampos( JTextField texto){
