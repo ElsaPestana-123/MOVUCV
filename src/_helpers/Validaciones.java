@@ -1,5 +1,10 @@
 package src._helpers; 
 
+
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
 public class Validaciones {
 
     public static boolean EsVacia(String cadena){
@@ -55,5 +60,10 @@ public class Validaciones {
         }
 
         return resultplaca && resultmodelo && resultcapacidad;
+    }
+
+    public static void limpiarCampos( JTextField texto){
+
+        texto.setText("");
     }
 }
