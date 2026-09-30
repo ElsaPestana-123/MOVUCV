@@ -1,5 +1,7 @@
 package src._helpers; 
 
+import javax.swing.*;
+
 public class Validaciones {
 
     public static boolean EsVacia(String cadena){
@@ -34,13 +36,17 @@ public class Validaciones {
         return nombre != null && nombre.matches(FORMATO_NOMBRE);
     }
 
-     //validación de datos de la unidad
-   public static boolean validarFormatoDatosUnidad(String placa, String modelo, int capacidad){
+    //validación de datos de la unidad
+   public static boolean validarFormatoDatosUnidad(String placa, String modelo, int capacidad, String disponible){
         boolean resultplaca = true;
         boolean resultmodelo = true;
         boolean resultcapacidad = true;
+        boolean resultdisponible = true;
 
-        if (placa == null || placa.length() > 7) {
+
+        if (placa == null || placa.length() > 7) return false;
+
+        if (placa == null || placa.length() != 7) {
             resultplaca = false;
         } else if (placa.charAt(0) != '0' || placa.charAt(1) != '1' || placa.charAt(4) != '2' || placa.charAt(6) != 'A') {
             resultplaca = false;
@@ -54,6 +60,17 @@ public class Validaciones {
             resultcapacidad = false;
         }
 
-        return resultplaca && resultmodelo && resultcapacidad;
+        if (disponible == null || (!disponible.equalsIgnoreCase("Operativo") 
+            && !disponible.equalsIgnoreCase("En Mantenimiento") 
+            && !disponible.equalsIgnoreCase("Inactivo"))) {
+            resultdisponible = false;
+        }
+
+        return resultplaca && resultmodelo && resultcapacidad && resultdisponible;
+    }
+
+    public static void limpiarCampos( JTextField texto){
+
+        texto.setText("");
     }
 }

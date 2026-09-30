@@ -7,9 +7,9 @@ public class Unidad {
     private String placa;
     private String modelo;
     private int capacidad;
-    private boolean disponible;
+    private String disponible;
 
-    public Unidad(String placa, String modelo, int capacidad, boolean disponible) {
+    public Unidad(String placa, String modelo, int capacidad, String disponible) {
         this.placa = placa;
         this.modelo = modelo;
         this.capacidad = capacidad;
@@ -18,7 +18,7 @@ public class Unidad {
     }
 
     public boolean validarDatos(){
-        return Validaciones.validarFormatoDatosUnidad(this.placa,this.modelo,this.capacidad);
+        return Validaciones.validarFormatoDatosUnidad(this.placa,this.modelo,this.capacidad,this.disponible);
     }
 
     // Getters and Setters
@@ -34,7 +34,7 @@ public class Unidad {
         return this.capacidad;
     }
 
-    public boolean isDisponible() {
+    public String getDisponible() {
         return this.disponible;
     }
 
@@ -50,7 +50,7 @@ public class Unidad {
         this.capacidad = capacidad;
     }
 
-    public void setDisponible(boolean disponible) {
+    public void setDisponible(String disponible) {
         this.disponible = disponible;
     }
 }
