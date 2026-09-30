@@ -4,9 +4,8 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import src._helpers.Validaciones;
-public class AdminGestionarFlota extends JFrame {
-    
 
+public class AdminGestionarFlota extends JFrame {
 
     //colores
 private static final Color COLOR_FONDO = new Color(11, 11, 35);       // Azul muy oscuro (Fondo general y Cabecera)
@@ -350,11 +349,12 @@ for (Object[] fila : datos) {
     }
 }
 
-//MAIN
+    // MAIN
     public static void main(String[] args) {
-AdminGestionarFlota Vista = new AdminGestionarFlota();
-src.controller.AdminController Controlador = new src.controller.AdminController(Vista);
-            Vista.setVisible(true);
+        AdminGestionarFlota vista = new AdminGestionarFlota();
+        @SuppressWarnings("unused")
+        src.controller.AdminController controlador = new src.controller.AdminController(vista);
+        vista.setVisible(true);
 
     }
 }

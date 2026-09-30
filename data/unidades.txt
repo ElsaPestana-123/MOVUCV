@@ -1,6 +1,4 @@
 ﻿placa|modelo|capacidad|disponibilidad
-01AB2CA|Encava ENT-610|32|true
-01XY2ZA|Yutong ZK6118HGA|45|true
-01MN2PA|Mercedes-Benz LO-915|28|false
-01AB2CA|Encava ENT-610|32|false
-01CD2EA|Yutong ZK6118HQ|45|true
+
+01AB2CA|Encava ENT-610|32|Operativo
+01XY2ZA|Yutong ZK6118HGA|45|En Mantenimiento
