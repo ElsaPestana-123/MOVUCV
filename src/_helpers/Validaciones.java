@@ -56,4 +56,42 @@ public class Validaciones {
 
         texto.setText("");
     }
+
+    // Validar las horas que pueden ser asignadas en el itinerario
+
+    public static boolean validarHora (String hora){
+        if (hora == null || hora.trim().isEmpty()){
+            return false;
+        }
+
+        return hora.matches("^(0[5-9]|1[0-9]|20):[0-5][0-9]$");
+
+    }
+
+    //Validar los estados del itinerario
+
+    public static boolean validarEstado (String estado){
+
+        if(estado == null || estado.trim().isEmpty()){
+            return false;
+        }
+        
+        estado = estado.trim();
+
+        return estado.equalsIgnoreCase("Progrmado") || estado.equalsIgnoreCase("En Curso") || estado.equalsIgnoreCase("Finalizado") || estado.equalsIgnoreCase("Cancelado");
+    }
+
+    // Validar la ruta
+
+    public static boolean validarRuta(String ruta){
+        if(ruta == null || ruta.trim().isEmpty()){
+            return false;
+        }
+
+        return true;
+    }
+
+    public static boolean validarFormatoItinerario(String ruta, String hora, String estado){
+        return validarHora(hora) && validarEstado(estado) && validarRuta(ruta);
+    }
 }
