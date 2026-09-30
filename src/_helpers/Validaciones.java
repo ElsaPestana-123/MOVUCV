@@ -38,35 +38,18 @@ public class Validaciones {
 
     //validación de datos de la unidad
    public static boolean validarFormatoDatosUnidad(String placa, String modelo, int capacidad, String disponible){
-        boolean resultplaca = true;
-        boolean resultmodelo = true;
-        boolean resultcapacidad = true;
-        boolean resultdisponible = true;
 
+        if (placa == null || modelo == null || disponible == null || capacidad <=0) 
+            return false;
 
-        if (placa == null || placa.length() > 7) return false;
+        final String FORMATO_PLACA = "^01[A-Z]{2}2[A-Z]A$";
+        final String FORMATO_MODELO = "^[A-ZÁÉÍÓÚÑ][a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\\s\\-]+$";
+        final String FORMATO_ESTADO = "^(Operativo|En Mantenimiento|Inactivo)$";
 
-        if (placa == null || placa.length() != 7) {
-            resultplaca = false;
-        } else if (placa.charAt(0) != '0' || placa.charAt(1) != '1' || placa.charAt(4) != '2' || placa.charAt(6) != 'A') {
-            resultplaca = false;
-        }
+        if (placa.matches(FORMATO_PLACA) && modelo.matches(FORMATO_MODELO) && disponible.matches(FORMATO_ESTADO)) 
+            return true;
         
-        if (modelo == null || modelo.trim().isEmpty()) {
-            resultmodelo = false;
-        }
-
-        if (capacidad <= 0) {
-            resultcapacidad = false;
-        }
-
-        if (disponible == null || (!disponible.equalsIgnoreCase("Operativo") 
-            && !disponible.equalsIgnoreCase("En Mantenimiento") 
-            && !disponible.equalsIgnoreCase("Inactivo"))) {
-            resultdisponible = false;
-        }
-
-        return resultplaca && resultmodelo && resultcapacidad && resultdisponible;
+        return false;
     }
 
     public static void limpiarCampos( JTextField texto){

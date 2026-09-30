@@ -1,4 +1,3 @@
 ﻿placa|modelo|capacidad|disponibilidad
-
 01AB2CA|Encava ENT-610|32|Operativo
 01XY2ZA|Yutong ZK6118HGA|45|En Mantenimiento
