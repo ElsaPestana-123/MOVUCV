@@ -78,7 +78,7 @@ public class AdminController {
         String disponible = vista.getEstado();
 
         if(placa.isEmpty() || modelo.isEmpty() || capacidad.isEmpty()){
-            vista.mostrarError("Todos los campos son obligatorios.");
+            vista.mostrarError("<html><body>Todos los campos son obligatorios.<html><body>");
             return;
         }
 
@@ -86,14 +86,14 @@ public class AdminController {
             boolean actualizado = unidadDAO.actualizarUnidad(placa,disponible);
 
             if(actualizado){
-                JOptionPane.showMessageDialog(vista, "Datos de la Unidad actualizados correctamente.");
+                JOptionPane.showMessageDialog(vista, "<html><body>Datos de la Unidad actualizados correctamente.<html><body>");
                 cargarTabla();
                 vista.limpiarFormulario();
                 vista.cambiarModoBoton(false);
                 vista.getTablaUnidades().clearSelection();
                 Editar = false;
             } else {
-                vista.mostrarError("No se logro encontrar la unidad para actualizar o hubo un error en la actualización.");
+                vista.mostrarError("<html><body>No se logro encontrar la unidad para actualizar o hubo un error en la actualización.<html><body>");
             }
         } else {
 
@@ -101,18 +101,18 @@ public class AdminController {
             try{
                 capacidadInt = Integer.parseInt(capacidad);
             } catch (NumberFormatException ex){
-                vista.mostrarError("La capacidad debe ser un número entero.");
+                vista.mostrarError("<html><body>La capacidad debe ser un número entero.<html><body>");
                 return;
             }
 
             boolean registrado = unidadDAO.guardarUnidad(placa, modelo, capacidadInt, disponible);
 
             if(registrado){
-                JOptionPane.showMessageDialog(vista, "Unidad registrada exitosamente.");
+                JOptionPane.showMessageDialog(vista, "<html><body>Unidad registrada exitosamente.<html><body>");
                 cargarTabla();
                 vista.limpiarFormulario();
             } else {
-                vista.mostrarError("No se pudo registrar la unidad. Verifique que la placa no esté duplicada.");
+                vista.mostrarError("<html><body>No se pudo registrar la unidad. Verifique que la placa no esté duplicada.<html><body>");
             }
         }
 
