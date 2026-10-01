@@ -215,6 +215,7 @@ btnRegistrar.addActionListener(e -> {
             
         if (resultadoString.equals("E") || resultadoString.equals("T") || resultadoString.equals("P")) 
             new HomeUsuario(getCorreo()).setVisible(true);
+           
             
          /*else if (resultadoString.equals("A")) 
             new HomeAdmin(getCorreo()).setVisible(true);
@@ -222,7 +223,9 @@ btnRegistrar.addActionListener(e -> {
          else {
             mostrarError("*Rol no reconocido en el sistema.");
             TextoError.setForeground(Color.RED);
-        }*/
+        }*/ 
+
+        dispose();
     }
     else{
         mostrarError(resultadoString);
