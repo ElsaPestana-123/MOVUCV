@@ -220,12 +220,12 @@ btnRegistrar.addActionListener(e -> {
            
             
         else if (resultadoString.equals("A")){
-            HomeAdminController homecontrol = new HomeAdminController();
-            homecontrol.iniciarHome(getCorreo());
+            HomeAdminController homeadmincontrol = new HomeAdminController();
+            homeadmincontrol.iniciarHome(getCorreo());
         } 
             
             
-         else {
+        else {
             mostrarError("*Rol no reconocido en el sistema.");
             TextoError.setForeground(Color.RED);
         }

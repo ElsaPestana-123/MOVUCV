@@ -41,7 +41,7 @@ public class HomeAdmin extends JFrame {
 
     public HomeAdmin(Usuario usuarioadminLogeado, HomeAdminController controlador){
 
-        this.adminLogeado = adminLogeado;
+        this.adminLogeado = usuarioadminLogeado;
         this.controlador = controlador;
 
         setTitle("MOVUCV - Panel de Administrador");
@@ -53,8 +53,8 @@ public class HomeAdmin extends JFrame {
         setLayout(new BorderLayout()); 
  
         add(Cabezal(), BorderLayout.NORTH);
-       /*  add(Cuerpo(), BorderLayout.CENTER);
-        add(PieDePagina(), BorderLayout.SOUTH);*/
+       add(Cuerpo(), BorderLayout.CENTER);
+        add(PieDePagina(), BorderLayout.SOUTH);
 
     }
 
@@ -101,13 +101,35 @@ public class HomeAdmin extends JFrame {
         // parte derecha 
         JPanel dere = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 10));
         dere.setOpaque(false);
-        dere.add(ComponentUtils.textoPresionable(adminLogeado.getNombre(), COLOR_TEXTO, FUENTE_TEXTO, null)); dere.add(ComponentUtils.textoPresionable("|", COLOR_TEXTO, FUENTE_TEXTO, null)); 
+        dere.add(ComponentUtils.textoPresionable(adminLogeado.getNombre(), COLOR_TEXTO, FUENTE_TEXTO, null));
         dere.add(ComponentUtils.textoPresionable("|", COLOR_TEXTO, FUENTE_TEXTO, null)); 
         dere.add(ComponentUtils.textoPresionable("Cerrar Sesion", COLOR_TEXTO, FUENTE_TEXTO, () -> {controlador.cerrarSesion(this);})); 
  
         p.add(izq, BorderLayout.WEST);
         p.add(dere, BorderLayout.EAST);
  
+        return p;
+    }
+
+    private JPanel Cuerpo() {
+        JPanel p = new JPanel(new BorderLayout());
+        p.setOpaque(false);
+ 
+       /*p.add(menuLateral(), BorderLayout.WEST);
+        p.add(dashboard(), BorderLayout.CENTER);*/ 
+        return p;
+    }
+
+    private JPanel PieDePagina() {
+        JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER)); 
+        p.setBackground(COLOR_PANEL);
+        p.setBorder(new EmptyBorder(6, 0, 6, 0));
+        JLabel texto = new JLabel("MOVUCV | Inicio | Datos Protegidos"); 
+
+        texto.setFont(FUENTE_TEXTO);
+        texto.setForeground(COLOR_TEXTO);
+        p.add(texto);
+
         return p;
     }
 }
