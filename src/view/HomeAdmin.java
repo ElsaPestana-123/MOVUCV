@@ -8,6 +8,9 @@ import javax.swing.border.EmptyBorder;
 import src.model.Usuario;
 import src.model.UsuarioDAO;
 import src._helpers.ComponentUtils;
+import src.controller.HomeUsuarioController;
+import src.controller.HomeAdminController;
+
 import java.awt.geom.RoundRectangle2D;
 
 public class HomeAdmin extends JFrame {
@@ -32,23 +35,20 @@ public class HomeAdmin extends JFrame {
     private static final Font FUENTE_PEQUENA = new Font("SansSerif", Font.PLAIN, 14);
     private static final Font FUENTE_PEQUENA_NEGRITA = new Font("SansSerif", Font.BOLD, 13);
 
-    public HomeAdmin(String correo){
-        try{
+    public HomeAdmin(Usuario usuarioadminLogeado, HomeAdminController controlador){
 
-        this.adminLogeado = UsuarioDAO.busquedaPorCorreo(correo);
+        this.adminLogeado = adminLogeado;
+        this.controlador = controlador;
 
-        } catch (IOException e){
-            e.printStackTrace(); 
-            System.err.println("*Error al cargar los datos del usuario.");
-        }
+        
 
         setTitle("MOVUCV - Panel de Administrador");
         setSize(1366, 768);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        
+
         getContentPane().setBackground(COLOR_FONDO);
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout()); 
  
         /*add(Cabezal(), BorderLayout.NORTH);
         add(Cuerpo(), BorderLayout.CENTER);
