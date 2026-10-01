@@ -27,5 +27,6 @@ public class HomeUsuarioController {
     public void cerrarSesion(JFrame ventanaActual) {
         ventanaActual.dispose();
     }
+
     
 }

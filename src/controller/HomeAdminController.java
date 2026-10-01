@@ -32,7 +32,7 @@ public class HomeAdminController {
         ventanaActual.dispose();
     }
 
-    public void llamarGestionarF(JFrame ventanaActual){
+    public void llamarGestionarF(JFrame ventanaActual){ //llamada de redirección a Gestionar Flota
         ventanaActual.dispose();
 
         AdminGestionarFlota vistaFlota = new AdminGestionarFlota();

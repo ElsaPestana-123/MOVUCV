@@ -1,7 +1,6 @@
 package src._helpers;
 
 import java.awt.*;
-
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -9,14 +8,12 @@ import java.awt.geom.RoundRectangle2D;
 
 public class ComponentUtils {
 
-
    public static JLabel textoPresionable(String texto,Color COLOR_TEXTO,Font FUENTE_TEXTO,  Runnable accion) { 
         JLabel text = new JLabel(texto);
         text.setFont(FUENTE_TEXTO);
         text.setForeground(COLOR_TEXTO);
  
         if (accion != null){
-
             text.setCursor(new Cursor(Cursor.HAND_CURSOR));
             text.addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
@@ -26,10 +23,10 @@ public class ComponentUtils {
             }
             });
         }
-        return text; //
+        return text; //en caso de acción null no hace nada
     }
 
-    public static class Tarjeta extends JPanel {// clase tarjeta 
+    public static class Tarjeta extends JPanel {// clase tarjeta para dashboard de admin y home de usuario
 
         private static final Color COLOR_AZUL_TARJETA = new Color(58, 99, 168);
         private Color linea;

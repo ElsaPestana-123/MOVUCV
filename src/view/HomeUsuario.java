@@ -291,7 +291,7 @@ public class HomeUsuario extends JFrame {
         JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER));
         p.setBackground(COLOR_PANEL);
         p.setBorder(new EmptyBorder(6, 0, 6, 0));
-        JLabel texto = new JLabel("MOVUCV | Inicio | Datos Protegidos"); 
+        JLabel texto = new JLabel("MOVUCV | Inicio | Datos Protegidos");  //pie de pagina por default de cada vetana
 
         texto.setFont(FUENTE_TEXTO);
         texto.setForeground(COLOR_TEXTO);

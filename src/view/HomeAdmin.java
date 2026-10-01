@@ -2,19 +2,13 @@ package src.view;
 
 import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 import src.model.Usuario;
-import src.model.UsuarioDAO;
 import src._helpers.ComponentUtils;
 import src._helpers.ComponentUtils.Tarjeta;
-import src.controller.HomeUsuarioController;
+import src.controller.ItinerarioController; 
 import src.controller.HomeAdminController;
-
-import java.awt.geom.RoundRectangle2D;
 
 public class HomeAdmin extends JFrame {
     private Usuario adminLogeado;
@@ -211,7 +205,7 @@ public class HomeAdmin extends JFrame {
         filaArriba.add(miniTarjeta("Unidades Activas", "\n", COLOR_VERDE, COLOR_FONDO));
         filaArriba.add(miniTarjeta("Rutas Operativas", "\n", COLOR_BOTONES, COLOR_FONDO));
         filaArriba.add(miniTarjeta("Pasajeros Hoy", "\n", COLOR_NARANJA, COLOR_FONDO));
-        filaArriba.add(miniTarjeta("Conductores", "\n" ,COLOR_NARANJA, COLOR_NARANJA));
+        filaArriba.add(miniTarjeta("Conductores", "\n" ,COLOR_ROJO, COLOR_NARANJA));
         arriba.add(filaArriba);
 
          arriba.add(Box.createRigidArea(new Dimension(0, 30)));
