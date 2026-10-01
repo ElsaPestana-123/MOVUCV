@@ -115,12 +115,12 @@ public class HomeAdmin extends JFrame {
         JPanel p = new JPanel(new BorderLayout());
         p.setOpaque(false);
  
-       /*p.add(menuLateral(), BorderLayout.WEST);
-        p.add(dashboard(), BorderLayout.CENTER);*/ 
+       p.add(menuIzqu(), BorderLayout.WEST);
+       p.add(dashboard(), BorderLayout.CENTER);
         return p;
     }
 
-    private JPanel PieDePagina() {
+    private JPanel PieDePagina() { // pie de pagina por defecto en todas las ventanas
         JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER)); 
         p.setBackground(COLOR_PANEL);
         p.setBorder(new EmptyBorder(6, 0, 6, 0));
@@ -132,4 +132,121 @@ public class HomeAdmin extends JFrame {
 
         return p;
     }
+
+    private JPanel menuIzqu(){
+        JPanel p = new JPanel();
+        p.setBackground(COLOR_AZUL_TARJETA);
+        p.setPreferredSize(new Dimension(200, 0));
+        p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+        p.setBorder(new EmptyBorder(20, 15, 20, 15));
+
+        JLabel titulo = new JLabel("Menu"); //
+        titulo.setFont(FUENTE_TITULO);
+        titulo.setForeground(COLOR_TEXTO);
+        titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        p.add(titulo);
+        p.add(Box.createRigidArea(new Dimension(0, 20)));
+
+        p.add(botonMenu("Dashboard", true, () -> {})); 
+        p.add(Box.createRigidArea(new Dimension(0, 10))); // separa botones
+
+        p.add(botonMenu("Gestionar Flota", false, ()-> controlador.llamarGestionarF(this))); //llamada que te lleva a gestionar flota
+        p.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        p.add(botonMenu("Gestionar Itinerarios", false, () -> /*controlador.irAItinerarios(this)*/ {}));
+        p.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        p.add(botonMenu("Generar Reportes", false, () -> {}));
+
+        p.add(Box.createVerticalGlue()); // empuja los botones pa arriba
+        return p;
+    }
+
+     private JButton botonMenu(String texto, boolean activo, Runnable accion){ //para
+
+        JButton b = new JButton(texto);
+        b.setFont(FUENTE_PEQUENA_NEGRITA);
+        b.setFocusPainted(false);
+        b.setBorderPainted(false);
+        b.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        b.setAlignmentX(Component.CENTER_ALIGNMENT);
+        b.setPreferredSize(new Dimension(170, 36));
+        b.setMaximumSize(new Dimension(Integer.MAX_VALUE, 36)); 
+
+        if (activo) {
+            b.setBackground(COLOR_FONDO); // para que al tocarlo se aclare en blanco
+            b.setForeground(COLOR_TEXTO);
+
+        } else {
+            b.setBackground(COLOR_FONDO);
+            b.setForeground(COLOR_TEXTO);
+        }
+
+        b.addActionListener(e -> accion.run()); // ejecute la accion que le pasan
+
+        return b;
+    }  
+    //para las tarjetas que aparecen tipo mosaico
+     private JPanel dashboard() {
+        JPanel p = new JPanel(new BorderLayout(0, 10));
+        p.setOpaque(false);
+        p.setBorder(new EmptyBorder(10, 20, 10, 20));
+
+         JPanel arriba = new JPanel();
+        arriba.setLayout(new BoxLayout(arriba, BoxLayout.Y_AXIS));
+        arriba.setOpaque(false);
+ 
+        JLabel titulo = new JLabel("Dashboard General \n"); // para lo de arribita el titulo
+        titulo.setFont(FUENTE_TARJETA_TITULO);
+        titulo.setForeground(COLOR_TEXTO);
+        titulo.setAlignmentX(Component.LEFT_ALIGNMENT);
+        arriba.add(titulo);
+
+       arriba.add(Box.createRigidArea(new Dimension(0, 15))); // ESPACIO    
+
+        JPanel filaArriba = new JPanel(new GridLayout(1, 4, 20, 0));
+        filaArriba.setOpaque(false);
+        filaArriba.setAlignmentX(Component.LEFT_ALIGNMENT);
+        filaArriba.add(miniTarjeta("Unidades Activas", "\n", COLOR_VERDE, COLOR_FONDO));
+        filaArriba.add(miniTarjeta("Rutas Operativas", "\n", COLOR_BOTONES, COLOR_FONDO));
+        filaArriba.add(miniTarjeta("Pasajeros Hoy", "\n", COLOR_NARANJA, COLOR_FONDO));
+        filaArriba.add(miniTarjeta("Conductores", "\n" ,COLOR_NARANJA, COLOR_NARANJA));
+        arriba.add(filaArriba);
+
+         arriba.add(Box.createRigidArea(new Dimension(0, 30)));
+
+        JPanel filaAbajo = new JPanel(new GridLayout(1, 4, 20, 0));
+        filaAbajo.setOpaque(false);
+        filaAbajo.add(miniTarjeta("Viajes Completados", "\n", COLOR_VERDE, COLOR_FONDO));
+        filaAbajo.add(miniTarjeta("Tiempo Promedio de Ruta", "\n", COLOR_BOTONES, COLOR_FONDO));
+        filaAbajo.add(miniTarjeta("Incidencias Reportadas","\n", COLOR_NARANJA, COLOR_FONDO));
+
+        p.add(arriba, BorderLayout.NORTH); // tarjetas de arribita en norte
+        p.add(filaAbajo, BorderLayout.SOUTH); //tarjetas de abajo en sur
+
+        return p;
+     }
+
+    // clase para las mini tarjetas del mosaico
+     private JPanel miniTarjeta(String titulo, String detalles, Color colorLinea, Color colorDetalle) {
+        Tarjeta t = new Tarjeta(Color.WHITE, colorLinea);
+        t.setLayout(new BoxLayout(t, BoxLayout.Y_AXIS));
+        t.setBorder(new EmptyBorder(14, 15, 10, 15));
+ 
+        JLabel lblTitulo = new JLabel(titulo);
+        lblTitulo.setFont(FUENTE_PEQUENA_NEGRITA);
+        lblTitulo.setForeground(COLOR_FONDO);
+
+        
+        JLabel lblDetalle = new JLabel(detalles); //para el texto en la minitarjeta
+        lblDetalle.setFont(FUENTE_TEXTO);
+        lblDetalle.setForeground(colorDetalle);
+ 
+        t.add(lblTitulo);
+        t.add(lblDetalle);
+        return t;
+    }
+
+
 }

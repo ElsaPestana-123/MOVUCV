@@ -5,6 +5,10 @@ import javax.swing.JFrame;
 import src.model.Usuario;
 import src.model.UsuarioDAO;
 import src.view.HomeAdmin;
+import src.controller.AdminController;  
+import src.view.AdminGestionarFlota;
+import src.view.AdminGestionarItinerario;
+
 
 public class HomeAdminController {
     private Usuario usuarioLogeado;
@@ -26,5 +30,14 @@ public class HomeAdminController {
     
     public void cerrarSesion(JFrame ventanaActual) {
         ventanaActual.dispose();
+    }
+
+    public void llamarGestionarF(JFrame ventanaActual){
+        ventanaActual.dispose();
+
+        AdminGestionarFlota vistaFlota = new AdminGestionarFlota();
+        AdminController flotaController = new AdminController(vistaFlota);
+        vistaFlota.setVisible(true);
+
     }
 }
