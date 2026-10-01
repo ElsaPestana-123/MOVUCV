@@ -15,7 +15,7 @@ import java.util.List;
 public class UsuarioDAO {
 
     private static final Path RUTA_REGISTRADOS = Paths.get("data","usuarios.txt").toAbsolutePath();
-    private static final Path RUTA_AUTORIZADOS = Paths.get("data","cedulas-autorizadas.txt").toAbsolutePath();
+    private static final Path RUTA_AUTORIZADOS = Paths.get("data","comunidad-universitaria-ucv.txt").toAbsolutePath();
 
     public UsuarioDAO(){      
     }
