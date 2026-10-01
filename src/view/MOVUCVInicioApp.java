@@ -1,6 +1,7 @@
 package src.view;
 
 import src.controller.HomeUsuarioController;
+import src.controller.HomeAdminController;
 import src.view.HomeUsuario;
 import java.awt.*;
 import javax.swing.*;
@@ -218,8 +219,11 @@ btnRegistrar.addActionListener(e -> {
         }
            
             
-        else if (resultadoString.equals("A")) 
-            new HomeAdmin(getCorreo()).setVisible(true);
+        else if (resultadoString.equals("A")){
+            HomeAdminController homecontrol = new HomeAdminController();
+            homecontrol.iniciarHome(getCorreo());
+        } 
+            
             
          else {
             mostrarError("*Rol no reconocido en el sistema.");

@@ -5,9 +5,12 @@ import java.io.File;
 import java.io.IOException;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import src.model.Usuario;
 import src.model.UsuarioDAO;
 import src._helpers.ComponentUtils;
+import src._helpers.ComponentUtils.Tarjeta;
 import src.controller.HomeUsuarioController;
 import src.controller.HomeAdminController;
 
@@ -15,6 +18,7 @@ import java.awt.geom.RoundRectangle2D;
 
 public class HomeAdmin extends JFrame {
     private Usuario adminLogeado;
+    private HomeAdminController controlador;
  
     //colores
     private static final Color COLOR_FONDO = new Color(11, 11, 35);       // Azul muy oscuro (Fondo general y Cabecera)
@@ -40,8 +44,6 @@ public class HomeAdmin extends JFrame {
         this.adminLogeado = adminLogeado;
         this.controlador = controlador;
 
-        
-
         setTitle("MOVUCV - Panel de Administrador");
         setSize(1366, 768);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,5 +57,4 @@ public class HomeAdmin extends JFrame {
         add(PieDePagina(), BorderLayout.SOUTH);*/
 
     }
-    
 }
