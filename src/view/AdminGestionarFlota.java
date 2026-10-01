@@ -349,6 +349,11 @@ for (Object[] fila : datos) {
     }
 }
 
+public void deshabilitarCampos() {
+Modelo.setEnabled(false);
+Capacidad.setEnabled(false);
+}
+
     // MAIN
     public static void main(String[] args) {
         AdminGestionarFlota vista = new AdminGestionarFlota();
