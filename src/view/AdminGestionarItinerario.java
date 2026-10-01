@@ -3,7 +3,7 @@ package src.view;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import src._helpers.Validaciones;
+
 
 public class AdminGestionarItinerario extends JFrame {
 
