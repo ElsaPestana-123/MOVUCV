@@ -1,9 +1,7 @@
 package src.controller;
 
 import java.io.IOException;
-
 import javax.swing.JFrame;
-
 import src.model.Usuario;
 import src.model.UsuarioDAO;
 import src.view.HomeUsuario;
