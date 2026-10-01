@@ -1,0 +1,1 @@
+ruta|horaSalida|placa|conductor|estado|reservas
