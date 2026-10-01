@@ -16,7 +16,7 @@ import java.time.temporal.ChronoUnit;
 
 public class ItinerarioDAO {
 
-    private static final Path RUTA_ITINERARIOS = Paths.get("data","itinerarios.txt").toAbsolutePath();
+    private static final Path RUTA_ITINERARIOS = Paths.get("data","itinerario.txt").toAbsolutePath();
 
     public ItinerarioDAO() {
     }
@@ -118,13 +118,17 @@ public class ItinerarioDAO {
 
     public boolean guardarItinerario(String ruta, String horaSalida, String placa, String conductor, String estado, int reservas){
 
+        // Rastreador 1
         if(!Validaciones.validarFormatoItinerario(ruta, horaSalida, estado)){
+            System.out.println("ERROR: Validaciones rechazó el formato. Revisa la regex de la ruta o la hora.");
             return false;
         }
 
         Itinerario itinerario = new Itinerario(ruta, horaSalida, placa, conductor, estado, reservas);
 
+        // Rastreador 2
         if(evitarConflictos(itinerario)){
+            System.out.println("ERROR: Conflicto detectado. Ese autobús o conductor ya tiene un viaje a las " + horaSalida);
             return false;
         }
 
@@ -139,9 +143,12 @@ public class ItinerarioDAO {
             String lineaAgregada = inicioLinea + ruta + "|" + horaSalida + "|" + placa + "|" + conductor + "|" + estado + "|" + reservas + System.lineSeparator();
 
             Files.write(RUTA_ITINERARIOS, lineaAgregada.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            
+            System.out.println("ÉXITO: Se guardó correctamente en el archivo.");
             return true;
 
         } catch (IOException e) {
+            System.out.println("ERROR DE ARCHIVO: " + e.getMessage());
             e.printStackTrace();
             return false;
         }

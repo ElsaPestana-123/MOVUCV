@@ -1,2 +1,3 @@
 ruta|horaSalida|placa|conductor|estado|reservas
 Catia|07:00|01AB2CA|PABLO BERNAL|ACTIVO|7
+Plaza Venezuela - UCV|08:30|01AB2CA|13579|Programado|0

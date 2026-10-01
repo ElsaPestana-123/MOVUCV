@@ -4,6 +4,8 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import src.controller.ItinerarioController;
+
 
 public class AdminGestionarItinerario extends JFrame {
 
@@ -385,6 +387,10 @@ for (Object[] fila : datos) {
     // MAIN
     public static void main(String[] args) {
 
-        new AdminGestionarItinerario().setVisible(true);
+        AdminGestionarItinerario vista = new AdminGestionarItinerario();
+
+        new ItinerarioController(vista);
+
+        vista.setVisible(true);
     }
 }

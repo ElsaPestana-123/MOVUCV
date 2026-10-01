@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 //throws IOException en los métodos delega el manejo de cualquier error al controlador que lo llamó
@@ -187,4 +188,38 @@ public class UsuarioDAO {
             return false; 
         }
     }
-}
+
+    public static List<String> obtenerConductores() throws IOException {
+
+        List<String> conductores = new LinkedList<>();
+
+        if(!Files.exists(RUTA_REGISTRADOS))
+            return conductores;
+
+        try(BufferedReader lectorArchivo = Files.newBufferedReader(RUTA_REGISTRADOS, StandardCharsets.UTF_8)){
+            String linea;
+
+            while((linea = lectorArchivo.readLine()) != null){
+                linea = linea.trim();
+                if(linea.isEmpty() || linea.startsWith("cedula")) 
+                    continue;
+
+                String[] informacionUsuario = linea.split("\\|");
+
+                if (informacionUsuario.length >= 2){
+                    char rol = informacionUsuario[1].trim().charAt(0);
+                    if(rol == 'C'){
+                        conductores.add(informacionUsuario[0].trim());
+                    }
+                }
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
+        return conductores;
+    } 
+}    
+
+    
+

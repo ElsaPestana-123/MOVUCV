@@ -78,7 +78,7 @@ public class Validaciones {
         
         estado = estado.trim();
 
-        return estado.equalsIgnoreCase("Progrmado") || estado.equalsIgnoreCase("En Curso") || estado.equalsIgnoreCase("Finalizado") || estado.equalsIgnoreCase("Cancelado");
+        return estado.equalsIgnoreCase("Programado") || estado.equalsIgnoreCase("En Curso") || estado.equalsIgnoreCase("Finalizado") || estado.equalsIgnoreCase("Cancelado");
     }
 
     // Validar la ruta
