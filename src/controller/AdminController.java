@@ -59,6 +59,7 @@ public class AdminController {
                     vista.setCapacidad(capacidad);
                     vista.setEstado(estado);
                     vista.cambiarModoBoton(true);
+                    vista.deshabilitarCampos();
                     Editar = true;
                 }
             }
