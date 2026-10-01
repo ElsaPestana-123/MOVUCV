@@ -66,8 +66,8 @@ public class UsuarioController{
         try{
             char rolUsuario = UsuarioDAO.busquedaPorCedula(cedula); 
             
-            if(rolUsuario == '\0'){
-                return "*La Cédula no está autorizada en el sistema.";
+            if(rolUsuario == '\0'){ //si no está en comunidad-universitaria entomces se registra por defecto como público general 
+                rolUsuario = 'P'; 
             }
 
             if(UsuarioDAO.existeCedula(cedula)){
