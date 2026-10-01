@@ -11,14 +11,14 @@ public class ComponentUtils {
 
 
    public static JLabel textoPresionable(String texto,Color COLOR_TEXTO,Font FUENTE_TEXTO,  Runnable accion) { 
-        JLabel texto1 = new JLabel(texto);
-        texto1.setFont(FUENTE_TEXTO);
-        texto1.setForeground(COLOR_TEXTO);
+        JLabel text = new JLabel(texto);
+        text.setFont(FUENTE_TEXTO);
+        text.setForeground(COLOR_TEXTO);
  
         if (accion != null){
 
-            texto1.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            texto1.addMouseListener(new java.awt.event.MouseAdapter() {
+            text.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            text.addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
 
             public void mouseClicked(java.awt.event.MouseEvent e) {
@@ -26,7 +26,7 @@ public class ComponentUtils {
             }
             });
         }
-        return texto1; //
+        return text; //
     }
 
     public static class Tarjeta extends JPanel {// clase tarjeta 
