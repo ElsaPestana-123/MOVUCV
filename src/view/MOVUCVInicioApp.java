@@ -7,8 +7,6 @@ import javax.swing.border.EmptyBorder;
 
 
 public class MOVUCVInicioApp extends JFrame{
-
-
     //colores
     private static final Color COLOR_FONDO = new Color(11, 11, 35);       // Azul muy oscuro (Fondo general y Cabecera)
     private static final Color COLOR_PANEL = new Color(19, 29, 61);       // Azul oscuro (Para ambas tarjetas)
@@ -217,13 +215,13 @@ btnRegistrar.addActionListener(e -> {
             new HomeUsuario(getCorreo()).setVisible(true);
            
             
-         /*else if (resultadoString.equals("A")) 
+        else if (resultadoString.equals("A")) 
             new HomeAdmin(getCorreo()).setVisible(true);
             
          else {
             mostrarError("*Rol no reconocido en el sistema.");
             TextoError.setForeground(Color.RED);
-        }*/ 
+        }
 
         dispose();
     }
