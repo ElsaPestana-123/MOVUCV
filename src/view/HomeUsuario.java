@@ -6,12 +6,13 @@ import java.io.IOException;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import src.model.Usuario;
-import src.model.UsuarioDAO;
-import src._helpers.ComponentUtils;
-import java.awt.geom.RoundRectangle2D;
+import src.controller.HomeUsuarioController;
+import  src._helpers.ComponentUtils;
+import src._helpers.ComponentUtils.Tarjeta;
 
 public class HomeUsuario extends JFrame {
     private Usuario usuarioLogeado;
+    private HomeUsuarioController controlador;
 
     //colores
     private static final Color COLOR_FONDO = new Color(11, 11, 35);       // Azul muy oscuro (Fondo general y Cabecera)
@@ -19,7 +20,6 @@ public class HomeUsuario extends JFrame {
     private static final Color COLOR_BOTONES = new Color(125, 182, 245);   // Azul claro (Botones y enlaces)
     private static final Color COLOR_TEXTO = new Color(245, 245, 245);    // Blanco humo (Textos principales)
     private static final Color COLOR_SECUNDARIO = new Color(150, 150, 150); // Gris (Textos secundarios, separadores)
-    private static final Color COLOR_AZUL_TARJETA = new Color(58, 99, 168);  // Azul de cabezal, barra y tarjetas
     private static final Color COLOR_VERDE = new Color(30, 150, 60);
     private static final Color COLOR_NARANJA = new Color(235, 140, 0);
     private static final Color COLOR_ROJO = new Color(220, 30, 30);
@@ -32,16 +32,11 @@ public class HomeUsuario extends JFrame {
     private static final Font FUENTE_PEQUENA = new Font("SansSerif", Font.PLAIN, 14);
     private static final Font FUENTE_PEQUENA_NEGRITA = new Font("SansSerif", Font.BOLD, 13);
 
-    public HomeUsuario(String correo){
-        try{
+    public HomeUsuario(Usuario usuarioLogeado, HomeUsuarioController controlador){
+        this.usuarioLogeado = usuarioLogeado;
+        this.controlador = controlador;
 
-        this.usuarioLogeado = UsuarioDAO.busquedaPorCorreo(correo);
-
-        } catch (IOException e){
-            e.printStackTrace(); 
-            System.err.println("*Error al cargar los datos del usuario.");
-        }
-
+        
         setTitle("MOVUCV - Inicio");
         setSize(1366, 768);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,33 +48,6 @@ public class HomeUsuario extends JFrame {
         add(Cuerpo(), BorderLayout.CENTER);
         add(PieDePagina(), BorderLayout.SOUTH);
 
-    }
-
-    private static class Tarjeta extends JPanel { // clase tarjeta 
-        private final Color colorBorde;
- 
-        Tarjeta(Color colorBorde) {
-            this.colorBorde = colorBorde;
-            setOpaque(false);
-        }
- 
-       protected void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g.create();
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        RoundRectangle2D forma = new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 30, 30);
-
-        // fondo azul
-        g2.setColor(COLOR_AZUL_TARJETA);
-        g2.fill(forma);
-
-        // para que la linecita siga la curva
-        g2.setClip(forma);
-        g2.setColor(colorBorde);
-        g2.fillRect(0, 0, getWidth(), 4);
-
-        g2.dispose();
-       }
     }
 
     private static class Icono extends JComponent {
@@ -201,7 +169,7 @@ public class HomeUsuario extends JFrame {
         dere.add(ComponentUtils.textoPresionable(darNombre(), COLOR_TEXTO, FUENTE_TEXTO, null)); dere.add(ComponentUtils.textoPresionable("|", COLOR_TEXTO, FUENTE_TEXTO, null)); 
         dere.add(ComponentUtils.textoPresionable("Mi Cuenta", COLOR_TEXTO, FUENTE_TEXTO, () -> {})); // le pasamos una función lamda a fin de que sea presionable pero no rediriga
         dere.add(ComponentUtils.textoPresionable("|", COLOR_TEXTO, FUENTE_TEXTO, null)); 
-        dere.add(ComponentUtils.textoPresionable("Cerrar Sesion", COLOR_TEXTO, FUENTE_TEXTO, () -> {dispose();})); 
+        dere.add(ComponentUtils.textoPresionable("Cerrar Sesion", COLOR_TEXTO, FUENTE_TEXTO, () -> {controlador.cerrarSesion(this);})); 
  
         p.add(izq, BorderLayout.WEST);
         p.add(dere, BorderLayout.EAST);
@@ -333,9 +301,7 @@ public class HomeUsuario extends JFrame {
         return p;
     }
 
-    public static void main(String[] args) {
-    SwingUtilities.invokeLater(() -> new HomeUsuario("quintero@miempresa.com").setVisible(true)); // main para debuguear
-}
+    
 }
     
 

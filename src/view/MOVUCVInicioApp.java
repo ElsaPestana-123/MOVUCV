@@ -1,5 +1,6 @@
 package src.view;
 
+import src.controller.HomeUsuarioController;
 import src.view.HomeUsuario;
 import java.awt.*;
 import javax.swing.*;
@@ -211,8 +212,10 @@ btnRegistrar.addActionListener(e -> {
         /*if (resultadoString.equals("C")) 
             new HomeConductor(getCorreo()).setVisible(true);*/ // mouseherramienta para más tarde
             
-        if (resultadoString.equals("E") || resultadoString.equals("T") || resultadoString.equals("P")) 
-            new HomeUsuario(getCorreo()).setVisible(true);
+        if (resultadoString.equals("E") || resultadoString.equals("T") || resultadoString.equals("P")){
+            HomeUsuarioController homecontrol = new HomeUsuarioController();
+            homecontrol.iniciarHome(getCorreo());
+        }
            
             
         else if (resultadoString.equals("A")) 

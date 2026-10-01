@@ -42,10 +42,11 @@ public class HomeAdmin extends JFrame {
             System.err.println("*Error al cargar los datos del usuario.");
         }
 
-        setTitle("MOVUCV - Inicio");
+        setTitle("MOVUCV - Panel de Administrador");
         setSize(1366, 768);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        
         getContentPane().setBackground(COLOR_FONDO);
         setLayout(new BorderLayout());
  
