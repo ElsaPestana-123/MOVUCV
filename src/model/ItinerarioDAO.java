@@ -1,6 +1,8 @@
 package src.model;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -60,6 +62,8 @@ public class ItinerarioDAO {
     //Función para leer todos los itinerarios
 
     public List<Itinerario> listaItinerarios(){
+
+        cancelarItinerario(LocalTime.now()); //llamada para canecaler itinerarios antes de cargar lista
 
         List<Itinerario> itinerarios = new LinkedList<>();
 
@@ -278,4 +282,55 @@ public class ItinerarioDAO {
 
         return null;
     }
+
+    public boolean eliminarItinerario(String ruta, String horaSalida, String placa){
+        if(!Files.exists(RUTA_ITINERARIOS)){
+            return false;
+        }
+
+        
+        boolean eliminado = false;
+        List<String> archivoActualizado = new LinkedList<>();
+
+
+        try (BufferedReader lectorArchivo = Files.newBufferedReader(RUTA_ITINERARIOS, StandardCharsets.UTF_8)) {
+            String linea;
+
+            ruta = ruta.trim();
+            horaSalida = horaSalida.trim();
+
+            while((linea = lectorArchivo.readLine()) != null){
+                if (linea.trim().isEmpty()) continue;
+
+                String[] datos = linea.split("\\|");
+                if (datos.length >= 6) {
+
+                    if (datos[0].equalsIgnoreCase(ruta) && datos[1].equalsIgnoreCase(horaSalida) && datos[2].equalsIgnoreCase(placa)) 
+                        eliminado = true;
+
+                     else 
+                        archivoActualizado.add(linea);
+                    
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        if (eliminado) {
+            try{
+                Files.write(RUTA_ITINERARIOS, archivoActualizado, StandardCharsets.UTF_8);
+                return true;
+
+            } catch (IOException e){
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return false;
+    }
+
+
 }
+

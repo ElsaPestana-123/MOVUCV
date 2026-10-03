@@ -97,7 +97,7 @@ public class ComponentUtils {
         p.add(botonMenu("Gestionar Itinerarios", false, () -> controlador.llamarGestionarI(ventana)));
         p.add(Box.createRigidArea(new Dimension(0, 10)));
 
-        p.add(botonMenu("Generar Reportes", false, () -> {}));
+        //p.add(botonMenu("Generar Reportes", false, () -> {}));
 
         p.add(Box.createVerticalGlue()); // empuja los botones pa arriba
         return p;
