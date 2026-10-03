@@ -199,7 +199,7 @@ public class AdminGestionarItinerario extends JFrame {
         casillas.add(texto2, c);
 
         c.gridx = 1;
-        String[] rutas = { "Plaza Venezuela - UCV", "La Bandera - UCV", "Silencio - UCV" };
+        String[] rutas = {"La Vega - Ruiz Pineda", "Bandera - Rinconada", "Catia", "Petare", "San Martin - Antimano"}; 
         desplegableRuta = new JComboBox<>(rutas);
         desplegableRuta.setFont(FUENTE_TEXTO);
         desplegableRuta.setBackground(COLOR_INPUT);

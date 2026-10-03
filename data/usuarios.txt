@@ -4,5 +4,5 @@ cedula|rol|nombre|apellido|correo|claveAcceso|saldo
 24680|P|VERONICA|QUINTERO|quintero@miempresa.com|87654321|9.999999999999
 13579|C|ROBERTO|ESPINO|espino@ejemplo.com|conductor5|0.0
 9876543210|A|ELSA|PESTANA|pestana@ucv.com|admin123|0.0
-6027522|C|TAYLOR|SWIFT|swift@gmail.com|condutor1234|0.0
-6526291|C|LEO|MONDA|monda@mail.com|conductor12345|0.0
+6027522|C|MATEO|MORALES|morales@gmail.com|condutor1234|0.0
+6526291|C|ISRAEL|HURTADO|hurtado@mail.com|conductor12345|0.0
