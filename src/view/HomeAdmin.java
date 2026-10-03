@@ -109,7 +109,7 @@ public class HomeAdmin extends JFrame {
         JPanel p = new JPanel(new BorderLayout());
         p.setOpaque(false);
  
-       p.add(menuIzqu(), BorderLayout.WEST);
+       p.add(ComponentUtils.menuIzqu(this,controlador), BorderLayout.WEST);
        p.add(dashboard(), BorderLayout.CENTER);
         return p;
     }
@@ -127,7 +127,7 @@ public class HomeAdmin extends JFrame {
         return p;
     }
 
-    private JPanel menuIzqu(){
+    /*private JPanel menuIzqu(){
         JPanel p = new JPanel();
         p.setBackground(COLOR_AZUL_TARJETA);
         p.setPreferredSize(new Dimension(200, 0));
@@ -147,7 +147,7 @@ public class HomeAdmin extends JFrame {
         p.add(botonMenu("Gestionar Flota", false, ()-> controlador.llamarGestionarF(this))); //llamada que te lleva a gestionar flota
         p.add(Box.createRigidArea(new Dimension(0, 10)));
 
-        p.add(botonMenu("Gestionar Itinerarios", false, () -> /*controlador.irAItinerarios(this)*/ {}));
+        p.add(botonMenu("Gestionar Itinerarios", false, () -> /*controlador.irAItinerarios(this) {}));
         p.add(Box.createRigidArea(new Dimension(0, 10)));
 
         p.add(botonMenu("Generar Reportes", false, () -> {}));
@@ -180,7 +180,7 @@ public class HomeAdmin extends JFrame {
         b.addActionListener(e -> accion.run()); // ejecute la accion que le pasan
 
         return b;
-    }  
+    }*/ 
     //para las tarjetas que aparecen tipo mosaico
      private JPanel dashboard() {
         JPanel p = new JPanel(new BorderLayout(0, 10));

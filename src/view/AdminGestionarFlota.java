@@ -4,6 +4,8 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import src._helpers.Validaciones;
+import src.controller.HomeAdminController;
+import src._helpers.ComponentUtils;
 
 public class AdminGestionarFlota extends JFrame {
 
@@ -31,11 +33,13 @@ private JComboBox<String> comboEstado; // selector de estado inactivo,e tc
 private JTable tablaUnidades;
 
 private javax.swing.table.DefaultTableModel modeloTabla; //tabla
+private HomeAdminController controlador;
 private JLabel TextoError;
 
 
 //configuración de la ventana
-public AdminGestionarFlota() {
+public AdminGestionarFlota(HomeAdminController controlador) {
+    this.controlador = controlador; // necesario para el menu
 
 setTitle("MOVUCV - Panel de Administrador - Gestionar Flota");
 setSize(1366, 768); // Tamaño de la ventn
@@ -47,6 +51,7 @@ setLayout(new BorderLayout());
 // Agregar el cabezal y el pie de pagina y el cuerpo principal
 
 add(Cabezal(), BorderLayout.NORTH);
+//add(ComponentUtils.menuIzqu(this,controlador), BorderLayout.WEST);
 add(Cuerpo(), BorderLayout.CENTER);
 add(PieDePagina(), BorderLayout.SOUTH);
     }
@@ -125,15 +130,12 @@ private JPanel Cuerpo() {
 JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER, 40, 30));
 p.setOpaque(false);
 p.setBorder(new EmptyBorder(70, 0, 20, 0));
-
+//p.add(ComponentUtils.menuIzqu(this,controlador), BorderLayout.WEST);
 p.add(cuadroIzq());
 p.add(cuadroDere());
 
         return p;
-    }
-
-
-
+}
 
 private JPanel cuadroIzq(){
 
@@ -355,11 +357,11 @@ Capacidad.setEnabled(false);
 }
 
     // MAIN
-    public static void main(String[] args) {
+   /*  public static void main(String[] args) {
         AdminGestionarFlota vista = new AdminGestionarFlota();
         @SuppressWarnings("unused")
         src.controller.AdminController controlador = new src.controller.AdminController(vista);
         vista.setVisible(true);
 
-    }
+    }*/
 }
