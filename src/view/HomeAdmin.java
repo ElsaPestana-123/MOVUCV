@@ -127,60 +127,6 @@ public class HomeAdmin extends JFrame {
         return p;
     }
 
-    /*private JPanel menuIzqu(){
-        JPanel p = new JPanel();
-        p.setBackground(COLOR_AZUL_TARJETA);
-        p.setPreferredSize(new Dimension(200, 0));
-        p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-        p.setBorder(new EmptyBorder(20, 15, 20, 15));
-
-        JLabel titulo = new JLabel("Menu"); //
-        titulo.setFont(FUENTE_TITULO);
-        titulo.setForeground(COLOR_TEXTO);
-        titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        p.add(titulo);
-        p.add(Box.createRigidArea(new Dimension(0, 20)));
-
-        p.add(botonMenu("Dashboard", true, () -> {})); 
-        p.add(Box.createRigidArea(new Dimension(0, 10))); // separa botones
-
-        p.add(botonMenu("Gestionar Flota", false, ()-> controlador.llamarGestionarF(this))); //llamada que te lleva a gestionar flota
-        p.add(Box.createRigidArea(new Dimension(0, 10)));
-
-        p.add(botonMenu("Gestionar Itinerarios", false, () -> /*controlador.irAItinerarios(this) {}));
-        p.add(Box.createRigidArea(new Dimension(0, 10)));
-
-        p.add(botonMenu("Generar Reportes", false, () -> {}));
-
-        p.add(Box.createVerticalGlue()); // empuja los botones pa arriba
-        return p;
-    }
-
-     private JButton botonMenu(String texto, boolean activo, Runnable accion){ //para
-
-        JButton b = new JButton(texto);
-        b.setFont(FUENTE_PEQUENA_NEGRITA);
-        b.setFocusPainted(false);
-        b.setBorderPainted(false);
-        b.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-        b.setAlignmentX(Component.CENTER_ALIGNMENT);
-        b.setPreferredSize(new Dimension(170, 36));
-        b.setMaximumSize(new Dimension(Integer.MAX_VALUE, 36)); 
-
-        if (activo) {
-            b.setBackground(COLOR_FONDO); // para que al tocarlo se aclare en blanco
-            b.setForeground(COLOR_TEXTO);
-
-        } else {
-            b.setBackground(COLOR_FONDO);
-            b.setForeground(COLOR_TEXTO);
-        }
-
-        b.addActionListener(e -> accion.run()); // ejecute la accion que le pasan
-
-        return b;
-    }*/ 
     //para las tarjetas que aparecen tipo mosaico
      private JPanel dashboard() {
         JPanel p = new JPanel(new BorderLayout(0, 10));

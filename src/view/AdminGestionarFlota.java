@@ -6,6 +6,7 @@ import javax.swing.border.EmptyBorder;
 import src._helpers.Validaciones;
 import src.controller.HomeAdminController;
 import src._helpers.ComponentUtils;
+import src.model.Usuario;
 
 public class AdminGestionarFlota extends JFrame {
 
@@ -34,12 +35,14 @@ private JTable tablaUnidades;
 
 private javax.swing.table.DefaultTableModel modeloTabla; //tabla
 private HomeAdminController controlador;
+private Usuario adminLogeado;
 private JLabel TextoError;
 
 
 //configuración de la ventana
-public AdminGestionarFlota(HomeAdminController controlador) {
-    this.controlador = controlador; // necesario para el menu
+public AdminGestionarFlota(HomeAdminController controlador, Usuario adminLogeado) {
+    this.controlador = controlador;
+    this.adminLogeado = adminLogeado; // necesario para el menu
 
 setTitle("MOVUCV - Panel de Administrador - Gestionar Flota");
 setSize(1366, 768); // Tamaño de la ventn
@@ -51,7 +54,7 @@ setLayout(new BorderLayout());
 // Agregar el cabezal y el pie de pagina y el cuerpo principal
 
 add(Cabezal(), BorderLayout.NORTH);
-//add(ComponentUtils.menuIzqu(this,controlador), BorderLayout.WEST);
+add(ComponentUtils.menuIzqu(this,controlador), BorderLayout.WEST);
 add(Cuerpo(), BorderLayout.CENTER);
 add(PieDePagina(), BorderLayout.SOUTH);
     }
@@ -127,9 +130,9 @@ private JLabel Textoscabezal(String texto) {
 private JPanel Cuerpo() {
 
         
-JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER, 40, 30));
+JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 30));
 p.setOpaque(false);
-p.setBorder(new EmptyBorder(70, 0, 20, 0));
+p.setBorder(new EmptyBorder(50, 0, 20, 0));
 //p.add(ComponentUtils.menuIzqu(this,controlador), BorderLayout.WEST);
 p.add(cuadroIzq());
 p.add(cuadroDere());
@@ -142,7 +145,7 @@ private JPanel cuadroIzq(){
 JPanel p =  new JPanel();
 
 p.setBackground(COLOR_PANEL);
-p.setPreferredSize(new  Dimension(600,500));
+p.setPreferredSize(new  Dimension(550,500));
 p.setLayout(new BorderLayout());
 p.setBorder(new EmptyBorder(30,30,30,30));
 
@@ -179,9 +182,9 @@ private JPanel cuadroDere() {
 
 JPanel p = new JPanel();
 p.setBackground(COLOR_PANEL);
-p.setPreferredSize(new Dimension(500, 500)); // Tamaño fijo
+p.setPreferredSize(new Dimension(450, 500)); // Tamaño fijo
 p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-p.setBorder(new EmptyBorder(30, 50, 30, 50));
+p.setBorder(new EmptyBorder(30, 30, 30, 50));
 
 //titulo del form
 JLabel texto1 = new JLabel("Datos de la Unidad");

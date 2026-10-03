@@ -88,13 +88,13 @@ public class ComponentUtils {
         p.add(titulo);
         p.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        p.add(botonMenu("Dashboard", true, () -> {})); 
+        p.add(botonMenu("Dashboard", true, () -> controlador.regresarDashboard(ventana))); 
         p.add(Box.createRigidArea(new Dimension(0, 10))); // separa botones
 
         p.add(botonMenu("Gestionar Flota", false, ()-> controlador.llamarGestionarF(ventana))); //llamada que te lleva a gestionar flota
         p.add(Box.createRigidArea(new Dimension(0, 10)));
 
-        p.add(botonMenu("Gestionar Itinerarios", false, () -> /*controlador.irAItinerarios(this)*/ {}));
+        p.add(botonMenu("Gestionar Itinerarios", false, () -> controlador.llamarGestionarI(ventana)));
         p.add(Box.createRigidArea(new Dimension(0, 10)));
 
         p.add(botonMenu("Generar Reportes", false, () -> {}));

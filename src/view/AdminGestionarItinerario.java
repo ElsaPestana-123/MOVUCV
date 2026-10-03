@@ -4,7 +4,9 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import src.controller.HomeAdminController;
 import src.controller.ItinerarioController;
+import  src.model.*;
 
 
 public class AdminGestionarItinerario extends JFrame {
@@ -34,10 +36,13 @@ private JTable tablaUnidades;
 
 private javax.swing.table.DefaultTableModel modeloTabla; //tabla
 private JLabel TextoError;
-
+private HomeAdminController controlador;
+private Usuario adminLogeado; 
 
 //configuración de la ventana
-public AdminGestionarItinerario() {
+public AdminGestionarItinerario(HomeAdminController controlador, Usuario adminLogeado) {
+this.controlador = controlador;
+this.adminLogeado = adminLogeado; // necesario para el menu
 
 setTitle("MOVUCV - Panel de Administrador - Gestionar Itinerarios");
 setSize(1366, 768); // Tamaño de la ventn
@@ -385,12 +390,12 @@ for (Object[] fila : datos) {
 }
 
     // MAIN
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
 
         AdminGestionarItinerario vista = new AdminGestionarItinerario();
 
         new ItinerarioController(vista);
 
         vista.setVisible(true);
-    }
+    }*/
 }
