@@ -139,7 +139,7 @@ public class UsuarioController{
     public static void llamarInicio(JFrame ventana){ // para en el registro llamar a inicio en texto del cabezal
         ventana.dispose();
 
-        MOVUCVRegistroApp vista = new MOVUCVRegistroApp();
+        MOVUCVInicioApp vista = new MOVUCVInicioApp();
         vista.setVisible(true);
     }
     
