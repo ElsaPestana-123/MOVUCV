@@ -37,7 +37,6 @@ public class HomeAdminController {
 
         AdminGestionarFlota vistaFlota = new AdminGestionarFlota(this, this.usuarioLogeado);
         vistaFlota.setVisible(true);
-
     }
 
     public void llamarGestionarI(JFrame ventanaActual){ //llamada de redirección a Gestionar itinerario
@@ -49,7 +48,7 @@ public class HomeAdminController {
 
     public void regresarDashboard(JFrame ventanaActual) { // para regresar a dashboaard
         ventanaActual.dispose();
-        
+
         HomeAdmin dashboard = new HomeAdmin(this.usuarioLogeado, this);
         dashboard.setVisible(true);
     }

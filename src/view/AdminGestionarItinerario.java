@@ -3,10 +3,10 @@ package src.view;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
 import src.controller.HomeAdminController;
 import src.controller.ItinerarioController;
 import src.model.*;
+import src._helpers.ComponentUtils;
 
 public class AdminGestionarItinerario extends JFrame {
 
@@ -52,6 +52,7 @@ public class AdminGestionarItinerario extends JFrame {
         // Agregar el cabezal y el pie de pagina y el cuerpo principal
 
         add(Cabezal(), BorderLayout.NORTH);
+        add(ComponentUtils.menuIzqu(this,controlador), BorderLayout.WEST);
         add(Cuerpo(), BorderLayout.CENTER);
         add(PieDePagina(), BorderLayout.SOUTH);
     }
