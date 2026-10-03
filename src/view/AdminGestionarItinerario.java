@@ -126,9 +126,9 @@ public class AdminGestionarItinerario extends JFrame {
 
     private JPanel Cuerpo() {
 
-        JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER, 40, 30));
+        JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 30));
         p.setOpaque(false);
-        p.setBorder(new EmptyBorder(70, 0, 20, 0));
+        p.setBorder(new EmptyBorder(50, 0, 20, 0));
 
         p.add(cuadroIzq());
         p.add(cuadroDere());
@@ -141,7 +141,7 @@ public class AdminGestionarItinerario extends JFrame {
         JPanel p = new JPanel();
 
         p.setBackground(COLOR_PANEL);
-        p.setPreferredSize(new Dimension(600, 500));
+        p.setPreferredSize(new Dimension(550, 500));
         p.setLayout(new BorderLayout());
         p.setBorder(new EmptyBorder(30, 30, 30, 30));
 
@@ -179,9 +179,9 @@ public class AdminGestionarItinerario extends JFrame {
 
         JPanel p = new JPanel();
         p.setBackground(COLOR_PANEL);
-        p.setPreferredSize(new Dimension(500, 500)); // Tamaño fijo
+        p.setPreferredSize(new Dimension(430, 500)); // Tamaño fijo
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-        p.setBorder(new EmptyBorder(30, 50, 30, 50));
+        p.setBorder(new EmptyBorder(30, 30, 30, 50));
 
         // titulo del form
         JLabel texto1 = new JLabel("Datos de la Ruta");
