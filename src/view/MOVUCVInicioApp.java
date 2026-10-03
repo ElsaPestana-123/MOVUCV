@@ -21,7 +21,7 @@ public class MOVUCVInicioApp extends JFrame {
     // fuentes
     private static final Font FUENTE_TITULO = new Font("SansSerif", Font.BOLD, 26);
     private static final Font FUENTE_SUBTITULO = new Font("SansSerif", Font.BOLD, 14);
-    private static final Font FUENTE_TEXTO = new Font("SansSerif", Font.PLAIN, 18);
+    private static final Font FUENTE_TEXTO = new Font("SansSerif", Font.PLAIN, 19);
     // variables
 
     private JTextField Correo;
