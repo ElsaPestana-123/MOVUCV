@@ -36,14 +36,16 @@ public class HomeAdminController {
         ventanaActual.dispose();
 
         AdminGestionarFlota vistaFlota = new AdminGestionarFlota(this, this.usuarioLogeado);
+        new AdminController(vistaFlota);
         vistaFlota.setVisible(true);
     }
 
     public void llamarGestionarI(JFrame ventanaActual){ //llamada de redirección a Gestionar itinerario
         ventanaActual.dispose();
 
-        AdminGestionarItinerario vistaFlota = new AdminGestionarItinerario(this, this.usuarioLogeado);
-        vistaFlota.setVisible(true);
+        AdminGestionarItinerario vistaItinerario = new AdminGestionarItinerario(this, this.usuarioLogeado);
+        new ItinerarioController(vistaItinerario);
+        vistaItinerario.setVisible(true);
     }
 
     public void regresarDashboard(JFrame ventanaActual) { // para regresar a dashboaard
