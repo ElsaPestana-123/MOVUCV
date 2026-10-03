@@ -4,6 +4,9 @@ import src.model.UsuarioDAO;
 import java.io.IOException;
 import src.model.Usuario;
 import src._helpers.Validaciones;
+import javax.swing.JFrame;
+import src.view.MOVUCVInicioApp; 
+import src.view.MOVUCVRegistroApp;
 
 
 public class UsuarioController{
@@ -124,6 +127,20 @@ public class UsuarioController{
         e.printStackTrace();
         return "*Error al acceder al registro del sistema.";
        }
+    }
+
+    public static void llamarRegistro(JFrame ventana){ // para en el inicio general llamar a registro en texto del cabezal
+        ventana.dispose();
+
+        MOVUCVRegistroApp vista = new MOVUCVRegistroApp();
+        vista.setVisible(true);
+    }
+
+    public static void llamarInicio(JFrame ventana){ // para en el registro llamar a inicio en texto del cabezal
+        ventana.dispose();
+
+        MOVUCVRegistroApp vista = new MOVUCVRegistroApp();
+        vista.setVisible(true);
     }
     
 }

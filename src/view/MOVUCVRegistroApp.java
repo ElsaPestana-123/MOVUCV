@@ -3,6 +3,8 @@ package src.view;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import src.controller.UsuarioController;
+import src._helpers.ComponentUtils;
 
 public class MOVUCVRegistroApp extends JFrame {
 
@@ -98,7 +100,9 @@ public class MOVUCVRegistroApp extends JFrame {
 
         JPanel dere = new JPanel(new FlowLayout(FlowLayout.RIGHT, 50, 10));
         dere.setOpaque(false);
-        dere.add(Textoscabezal("Inicio"));
+        UsuarioController controladorLogin = new UsuarioController(); //instanciamos para usar llamarInicio
+
+        dere.add(ComponentUtils.textoPresionable("Inicio", COLOR_TEXTO, FUENTE_TEXTO, () -> {controladorLogin.llamarInicio(this);}));
         dere.add(Textoscabezal("Rutas"));
         dere.add(Textoscabezal("Horarios"));
         dere.add(Textoscabezal("Contacto"));

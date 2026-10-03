@@ -6,6 +6,8 @@ import src.view.HomeUsuario;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import src._helpers.ComponentUtils;
+import src.controller.UsuarioController;
 
 public class MOVUCVInicioApp extends JFrame {
     // colores
@@ -95,7 +97,10 @@ public class MOVUCVInicioApp extends JFrame {
 
         JPanel dere = new JPanel(new FlowLayout(FlowLayout.RIGHT, 50, 10));
         dere.setOpaque(false);
-        dere.add(Textoscabezal("Inicio"));
+
+        UsuarioController controladorLogin = new UsuarioController(); // instanciarlo para acceder a llamarRegistro
+
+        dere.add(ComponentUtils.textoPresionable("Registro", COLOR_TEXTO, FUENTE_TEXTO, () -> {controladorLogin.llamarRegistro(this);}));
         dere.add(Textoscabezal("Rutas"));
         dere.add(Textoscabezal("Horarios"));
         dere.add(Textoscabezal("Contacto"));
@@ -104,7 +109,6 @@ public class MOVUCVInicioApp extends JFrame {
         p.add(dere, BorderLayout.EAST);
 
         return p;
-
     }
 
     private JLabel Textoscabezal(String texto) {
