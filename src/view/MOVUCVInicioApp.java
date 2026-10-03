@@ -2,7 +2,6 @@ package src.view;
 
 import src.controller.HomeUsuarioController;
 import src.controller.HomeAdminController;
-import src.view.HomeUsuario;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -98,9 +97,9 @@ public class MOVUCVInicioApp extends JFrame {
         JPanel dere = new JPanel(new FlowLayout(FlowLayout.RIGHT, 50, 10));
         dere.setOpaque(false);
 
-        UsuarioController controladorLogin = new UsuarioController(); // instanciarlo para acceder a llamarRegistro
-
-        dere.add(ComponentUtils.textoPresionable("Registro", COLOR_TEXTO, FUENTE_TEXTO, () -> {controladorLogin.llamarRegistro(this);}));
+        dere.add(ComponentUtils.textoPresionable("Registro", COLOR_TEXTO, FUENTE_TEXTO, () -> {
+            UsuarioController.llamarRegistro(this);
+        }));
         dere.add(Textoscabezal("Rutas"));
         dere.add(Textoscabezal("Horarios"));
         dere.add(Textoscabezal("Contacto"));

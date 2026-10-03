@@ -4,8 +4,7 @@ import java.io.IOException;
 import javax.swing.JFrame;
 import src.model.Usuario;
 import src.model.UsuarioDAO;
-import src.view.HomeAdmin;
-import src.controller.AdminController;  
+import src.view.HomeAdmin; 
 import src.view.AdminGestionarFlota;
 import src.view.AdminGestionarItinerario;
 

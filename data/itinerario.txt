@@ -1,4 +1,4 @@
 ruta|horaSalida|placa|conductor|estado|reservas
 Plaza Venezuela - UCV|08:30|01AB2CA|13579|Cancelado|0
 Silencio - UCV|09:00|01AB2CA|6027522|Cancelado|0
-La Bandera - UCV|13:00|01AB2CA|6027522|Programado|0
+La Bandera - UCV|13:00|01AB2CA|6027522|Cancelado|0

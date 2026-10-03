@@ -120,14 +120,6 @@ public class AdminGestionarFlota extends JFrame {
 
     }
 
-    private JLabel Textoscabezal(String texto) {
-        JLabel texto1 = new JLabel(texto);
-        texto1.setFont(FUENTE_TEXTO);
-        texto1.setForeground(COLOR_TEXTO);
-        texto1.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        return texto1;
-    }
-
     private JPanel Cuerpo() {
 
         JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 30));

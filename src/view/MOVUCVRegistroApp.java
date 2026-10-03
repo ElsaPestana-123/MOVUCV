@@ -36,7 +36,7 @@ public class MOVUCVRegistroApp extends JFrame {
     public MOVUCVRegistroApp() {
 
         setTitle("MOVUCV - Registro de Usuario");
-        setSize(1366, 768); // Tamaño de la ventn
+        setSize(1366, 768);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         getContentPane().setBackground(COLOR_FONDO); // Fondo
@@ -45,7 +45,13 @@ public class MOVUCVRegistroApp extends JFrame {
         // Agregar el cabezal y el pie de pagina y el cuerpo principal
 
         add(Cabezal(), BorderLayout.NORTH);
-        add(Cuerpo(), BorderLayout.CENTER);
+        JScrollPane desplazamiento = new JScrollPane(Cuerpo());
+        desplazamiento.setBorder(null);
+        desplazamiento.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        desplazamiento.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        desplazamiento.setOpaque(false);
+        desplazamiento.getViewport().setOpaque(false);
+        add(desplazamiento, BorderLayout.CENTER);
         add(PieDePagina(), BorderLayout.SOUTH);
     }
 
@@ -100,9 +106,9 @@ public class MOVUCVRegistroApp extends JFrame {
 
         JPanel dere = new JPanel(new FlowLayout(FlowLayout.RIGHT, 50, 10));
         dere.setOpaque(false);
-        UsuarioController controladorLogin = new UsuarioController(); //instanciamos para usar llamarInicio
-
-        dere.add(ComponentUtils.textoPresionable("Inicio", COLOR_TEXTO, FUENTE_TEXTO, () -> {controladorLogin.llamarInicio(this);}));
+        dere.add(ComponentUtils.textoPresionable("Inicio", COLOR_TEXTO, FUENTE_TEXTO, () -> {
+            UsuarioController.llamarInicio(this);
+        }));
         dere.add(Textoscabezal("Rutas"));
         dere.add(Textoscabezal("Horarios"));
         dere.add(Textoscabezal("Contacto"));
@@ -141,7 +147,7 @@ public class MOVUCVRegistroApp extends JFrame {
 
         JPanel p = new JPanel();
         p.setBackground(COLOR_PANEL);
-        p.setPreferredSize(new Dimension(420, 580)); // Tamaño fijo
+        p.setPreferredSize(new Dimension(420, 650)); // Espacio suficiente para las estadísticas
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         p.setBorder(new EmptyBorder(50, 40, 50, 40));
 
@@ -167,9 +173,9 @@ public class MOVUCVRegistroApp extends JFrame {
 
         // Pastillas de Información (Pills)
         p.add(textosCuadroIzq("18", "Rutas Disponibles"));
-        p.add(Box.createRigidArea(new Dimension(0, 10)));
+        p.add(Box.createRigidArea(new Dimension(0, 18)));
         p.add(textosCuadroIzq("31", "Unidades Activas"));
-        p.add(Box.createRigidArea(new Dimension(0, 10)));
+        p.add(Box.createRigidArea(new Dimension(0, 18)));
         p.add(textosCuadroIzq("24/7", "Monitoreo en Vivo"));
 
         return p;
@@ -177,9 +183,10 @@ public class MOVUCVRegistroApp extends JFrame {
 
     private JPanel textosCuadroIzq(String texto1, String texto2) { // cuadritos de informacion del cuadro izquierdo
 
-        JPanel cuadritos = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 10));
+        JPanel cuadritos = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 12));
         cuadritos.setBackground(COLOR_TEXTO); // Fondo azul oscuro
-        cuadritos.setMaximumSize(new Dimension(300, 70)); // Ancho fijo
+        cuadritos.setPreferredSize(new Dimension(300, 82));
+        cuadritos.setMaximumSize(new Dimension(300, 82)); // Ancho y alto fijos
         cuadritos.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JPanel texto = new JPanel(new GridLayout(2, 1));

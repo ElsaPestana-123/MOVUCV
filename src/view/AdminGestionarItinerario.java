@@ -4,7 +4,6 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import src.controller.HomeAdminController;
-import src.controller.ItinerarioController;
 import src.model.*;
 import src._helpers.ComponentUtils;
 
@@ -116,14 +115,6 @@ public class AdminGestionarItinerario extends JFrame {
  
     return p;
 
-    }
-
-    private JLabel Textoscabezal(String texto) {
-        JLabel texto1 = new JLabel(texto);
-        texto1.setFont(FUENTE_TEXTO);
-        texto1.setForeground(COLOR_TEXTO);
-        texto1.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        return texto1;
     }
 
     private JPanel Cuerpo() {
