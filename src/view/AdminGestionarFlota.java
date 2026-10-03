@@ -107,15 +107,16 @@ izq.add(sep); // agregar el separador del titulo a la izquiersa
 izq.add(texto1); // agregamos el texto de registro de usuario a la izquierda
 
 // parte derecha 
-
-JPanel dere = new JPanel(new FlowLayout(FlowLayout.RIGHT, 50, 10));
-dere.setOpaque(false);
-dere.add(Textoscabezal("Gestionar Flota"));
-
-p.add(izq, BorderLayout.WEST);
-p.add(dere, BorderLayout.EAST);
-
-return p;
+    JPanel dere = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 10));
+    dere.setOpaque(false);
+    dere.add(ComponentUtils.textoPresionable(adminLogeado.getNombre(), COLOR_TEXTO, FUENTE_TEXTO, null));
+    dere.add(ComponentUtils.textoPresionable("|", COLOR_TEXTO, FUENTE_TEXTO, null)); 
+    dere.add(ComponentUtils.textoPresionable("Cerrar Sesion", COLOR_TEXTO, FUENTE_TEXTO, () -> {controlador.cerrarSesion(this);})); 
+ 
+    p.add(izq, BorderLayout.WEST);
+    p.add(dere, BorderLayout.EAST);
+ 
+    return p;
         
 }
 
