@@ -362,7 +362,7 @@ public class AdminGestionarFlota extends JFrame {
 
     // cambio de boton dependiendo si se selecciona una unidad en lkla tabla para
     // editar
-    public void cambiarModoBoton(boolean actualizar) {
+    public void cambiarModoBoton(boolean actualizar){
         if (actualizar) {
             btnRegistrar.setText("Guardar Cambios");
         } else {
