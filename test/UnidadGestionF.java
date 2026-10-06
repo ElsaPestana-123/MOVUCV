@@ -58,11 +58,11 @@ public class UnidadGestionF {
 
         UnidadDAO unidad = new UnidadDAO();
 
-        boolean actualizarUnidadExistente = unidad.actualizarUnidad("01AB2CA", "En Mantenimiento");
+        boolean actualizarUnidadExistente = unidad.actualizarUnidad("01AB2CA","01BG2UA", "En Mantenimiento");
 
         assertTrue(actualizarUnidadExistente);
 
-        boolean actualizarUnidadInexistente = unidad.actualizarUnidad("88AD4HD", "Operativo");
+        boolean actualizarUnidadInexistente = unidad.actualizarUnidad("88AD4HD", "01BG2UA", "Operativo");
 
         assertFalse(actualizarUnidadInexistente);
     }
