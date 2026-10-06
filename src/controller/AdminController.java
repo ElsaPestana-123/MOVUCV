@@ -12,6 +12,7 @@ public class AdminController {
     private final AdminGestionarFlota vista;
     private final UnidadDAO unidadDAO;
     private boolean Editar = false;
+    private String placaOriginal = "";
 
     public AdminController(AdminGestionarFlota vista) {
         this.vista = vista;
@@ -49,6 +50,7 @@ public class AdminController {
                 int fila = vista.getTablaUnidades().getSelectedRow();
 
                 if (fila >= 0) {
+                    placaOriginal = vista.getModeloTabla().getValueAt(fila, 0).toString(); //para recordar placa original en caso de cambio
                     String placa = vista.getModeloTabla().getValueAt(fila, 0).toString();
                     String modelo = vista.getModeloTabla().getValueAt(fila, 1).toString();
                     String capacidad = vista.getModeloTabla().getValueAt(fila, 2).toString();
@@ -84,7 +86,7 @@ public class AdminController {
         }
 
         if(Editar){
-            boolean actualizado = unidadDAO.actualizarUnidad(placa,disponible);
+            boolean actualizado = unidadDAO.actualizarUnidad(placaOriginal,placa,disponible);
 
             if(actualizado){
                 JOptionPane.showMessageDialog(vista, "<html><body>Datos de la Unidad actualizados correctamente.<html><body>");
@@ -93,6 +95,7 @@ public class AdminController {
                 vista.cambiarModoBoton(false);
                 vista.getTablaUnidades().clearSelection();
                 Editar = false;
+                placaOriginal = "";
             } else {
                 vista.mostrarError("<html><body>No se logro encontrar la unidad para actualizar o hubo un error en la actualización.<html><body>");
             }
