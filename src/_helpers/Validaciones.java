@@ -37,19 +37,28 @@ public class Validaciones {
     }
 
     //validación de datos de la unidad
+   public static boolean validarFormatoPlaca(String placa){
+        return placa != null && placa.matches("^01[A-Z]{2}2[A-Z]A$");
+    }
+
+   public static boolean validarFormatoModelo(String modelo){
+        return modelo != null && modelo.matches(
+                "^[A-ZÁÉÍÓÚÑ][a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\\s\\-]+$");
+    }
+
+   public static boolean validarFormatoEstado(String disponible){
+        return disponible != null
+                && disponible.matches("^(Operativo|En Mantenimiento|Inactivo)$");
+    }
+
    public static boolean validarFormatoDatosUnidad(String placa, String modelo, int capacidad, String disponible){
 
         if (placa == null || modelo == null || disponible == null || capacidad <=0) 
             return false;
 
-        final String FORMATO_PLACA = "^01[A-Z]{2}2[A-Z]A$";
-        final String FORMATO_MODELO = "^[A-ZÁÉÍÓÚÑ][a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\\s\\-]+$";
-        final String FORMATO_ESTADO = "^(Operativo|En Mantenimiento|Inactivo)$";
-
-        if (placa.matches(FORMATO_PLACA) && modelo.matches(FORMATO_MODELO) && disponible.matches(FORMATO_ESTADO)) 
-            return true;
-        
-        return false;
+        return validarFormatoPlaca(placa)
+                && validarFormatoModelo(modelo)
+                && validarFormatoEstado(disponible);
     }
 
     public static void limpiarCampos( JTextField texto){

@@ -2,6 +2,7 @@ package src.controller;
 
 import java.util.List;
 import javax.swing.JOptionPane;
+import src._helpers.Validaciones;
 import src.model.Unidad;
 import src.model.UnidadDAO;
 import src.view.AdminGestionarFlota;
@@ -40,6 +41,8 @@ public class AdminController {
     private void inicioEventos() {
         vista.getBtnLimpiar().addActionListener(e -> {
             vista.limpiarFormulario();
+            vista.habilitarCampos();
+            vista.getBtnEliminar().setEnabled(false);
             vista.cambiarModoBoton(false);
             vista.getTablaUnidades().clearSelection();
             Editar = false;
@@ -62,6 +65,7 @@ public class AdminController {
                     vista.setEstado(estado);
                     vista.cambiarModoBoton(true);
                     vista.deshabilitarCampos();
+                    vista.getBtnEliminar().setEnabled(true);
                     Editar = true;
                 }
             }
@@ -70,6 +74,46 @@ public class AdminController {
         vista.getBtnRegistrar().addActionListener(e -> {
             procesarFormulario();
         });
+
+        vista.getBtnEliminar().addActionListener(e -> {
+            eliminarUnidadSeleccionada();
+        });
+    }
+
+    private void eliminarUnidadSeleccionada() {
+        if (placaOriginal.isEmpty()) {
+            vista.mostrarError("<html><body>Seleccione una unidad para eliminar.</html></body>");
+            return;
+        }
+
+        int confirmacion = JOptionPane.showConfirmDialog(
+                vista,
+                "¿Está seguro de que desea eliminar la unidad con placa "
+                        + placaOriginal + "?",
+                "Confirmar eliminación",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE);
+
+        if (confirmacion != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        if (unidadDAO.eliminarUnidad(placaOriginal)) {
+            JOptionPane.showMessageDialog(
+                    vista,
+                    "Unidad eliminada correctamente.");
+            cargarTabla();
+            vista.limpiarFormulario();
+            vista.habilitarCampos();
+            vista.getBtnEliminar().setEnabled(false);
+            vista.cambiarModoBoton(false);
+            vista.getTablaUnidades().clearSelection();
+            Editar = false;
+            placaOriginal = "";
+        } else {
+            vista.mostrarError(
+                    "<html><body>No se pudo eliminar la unidad seleccionada.</html></body>");
+        }
     }
 
     private void procesarFormulario(){
@@ -84,30 +128,53 @@ public class AdminController {
             vista.mostrarError("<html><body>Todos los campos son obligatorios.<html><body>");
             return;
         }
+        if (!Validaciones.validarFormatoPlaca(placa)) {
+            vista.mostrarError(
+                    "<html><body>La placa debe tener el formato 01XX2XA, "
+                    + "donde X es una letra del abecedario.</html></body>");
+            return;
+        }
+
+        if (!Validaciones.validarFormatoModelo(modelo)) {
+            vista.mostrarError(
+                    "<html><body>El modelo solo debe contener letras, "
+                    + "números, espacios o guiones, y comenzar con una "
+                    + "letra mayúscula.</html></body>");
+            return;
+        }
+
+        int capacidadInt;
+        try{
+            capacidadInt = Integer.parseInt(capacidad);
+        } catch (NumberFormatException ex){
+            vista.mostrarError("<html><body>La capacidad debe ser un número entero.</html></body>");
+            return;
+        }
+
+        if (capacidadInt <= 0) {
+            vista.mostrarError(
+                    "<html><body>La capacidad debe ser mayor que cero.</html></body>");
+            return;
+        }
 
         if(Editar){
-            boolean actualizado = unidadDAO.actualizarUnidad(placaOriginal,placa,disponible);
+            boolean actualizado = unidadDAO.actualizarUnidad(placaOriginal,modelo,capacidadInt,disponible);
 
             if(actualizado){
                 JOptionPane.showMessageDialog(vista, "<html><body>Datos de la Unidad actualizados correctamente.<html><body>");
                 cargarTabla();
                 vista.limpiarFormulario();
+                vista.habilitarCampos();
+                vista.getBtnEliminar().setEnabled(false);
                 vista.cambiarModoBoton(false);
                 vista.getTablaUnidades().clearSelection();
                 Editar = false;
+                placaOriginal = "";
                 placaOriginal = "";
             } else {
                 vista.mostrarError("<html><body>No se logro encontrar la unidad para actualizar o hubo un error en la actualización.<html><body>");
             }
         } else {
-
-            int capacidadInt;
-            try{
-                capacidadInt = Integer.parseInt(capacidad);
-            } catch (NumberFormatException ex){
-                vista.mostrarError("<html><body>La capacidad debe ser un número entero.<html><body>");
-                return;
-            }
 
             boolean registrado = unidadDAO.guardarUnidad(placa, modelo, capacidadInt, disponible);
 

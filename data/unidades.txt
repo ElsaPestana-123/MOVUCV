@@ -3,4 +3,3 @@ placa|modelo|capacidad|disponibilidad
 01XY2ZA|Yutong ZK6118HGA|45|En Mantenimiento
 01FD2SA|Encava ENT-617|34|Inactivo
 01WZ2XA|Yutong ZK6729D2|50|Operativo
-01MR2MA|Encava ENT-900|30|Operativo

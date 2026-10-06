@@ -28,6 +28,7 @@ public class AdminGestionarFlota extends JFrame {
     private JTextField Modelo;
     private JTextField Capacidad;
     private JButton btnRegistrar;
+    private JButton btnEliminar;
     private JButton Limpiar;
     private JComboBox<String> comboEstado; // selector de estado inactivo,e tc
     private JTable tablaUnidades;
@@ -196,7 +197,7 @@ public class AdminGestionarFlota extends JFrame {
 
         // creamos las casillas del form
         Placa = new JTextField();
-        crearCasillas(casillas, c, 0, "Placa:", Placa);
+        crearCasillas(casillas, c, 0, "Placa (01XX2XA):", Placa);
 
         Modelo = new JTextField();
         crearCasillas(casillas, c, 1, "Modelo:", Modelo);
@@ -233,6 +234,18 @@ public class AdminGestionarFlota extends JFrame {
         btnRegistrar.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnRegistrar.setMaximumSize(new Dimension(200, 45));
         p.add(btnRegistrar);
+        p.add(Box.createRigidArea(new Dimension(0, 15)));
+
+        btnEliminar = new JButton("Eliminar Unidad");
+        btnEliminar.setFont(FUENTE_SUBTITULO);
+        btnEliminar.setBackground(new Color(180, 55, 55));
+        btnEliminar.setForeground(Color.WHITE);
+        btnEliminar.setFocusPainted(false);
+        btnEliminar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnEliminar.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnEliminar.setMaximumSize(new Dimension(200, 45));
+        btnEliminar.setEnabled(false);
+        p.add(btnEliminar);
         p.add(Box.createRigidArea(new Dimension(0, 15)));
 
         // boton para limpiar el form
@@ -303,6 +316,10 @@ public class AdminGestionarFlota extends JFrame {
     // getters para obtener los valores de los campos de texto y botones
     public JButton getBtnRegistrar() {
         return btnRegistrar;
+    }
+
+    public JButton getBtnEliminar() {
+        return btnEliminar;
     }
 
     public String getPlaca() {
@@ -379,8 +396,15 @@ public class AdminGestionarFlota extends JFrame {
     }
 
     public void deshabilitarCampos() {
-        Modelo.setEnabled(false);
-        Capacidad.setEnabled(false);
+        Placa.setEnabled(false);
+        Modelo.setEnabled(true);
+        Capacidad.setEnabled(true);
+    }
+
+    public void habilitarCampos() {
+        Placa.setEnabled(true);
+        Modelo.setEnabled(true);
+        Capacidad.setEnabled(true);
     }
 
 }

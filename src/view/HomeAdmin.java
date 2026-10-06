@@ -2,9 +2,16 @@ package src.view;
 
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import src.model.Usuario;
+import src.model.Unidad;
+import src.model.UnidadDAO;
+import src.model.Itinerario;
+import src.model.ItinerarioDAO;
+import src.model.UsuarioDAO;
 import src._helpers.ComponentUtils;
 import src._helpers.ComponentUtils.Tarjeta;
 import src.controller.HomeAdminController;
@@ -144,25 +151,151 @@ public class HomeAdmin extends JFrame {
         JPanel filaArriba = new JPanel(new GridLayout(1, 4, 20, 0));
         filaArriba.setOpaque(false);
         filaArriba.setAlignmentX(Component.LEFT_ALIGNMENT);
-        filaArriba.add(miniTarjeta("Unidades Activas", "\n", COLOR_VERDE, COLOR_FONDO));
-        filaArriba.add(miniTarjeta("Rutas Operativas", "\n", COLOR_BOTONES, COLOR_FONDO));
-        filaArriba.add(miniTarjeta("Pasajeros Hoy", "\n", COLOR_NARANJA, COLOR_FONDO));
-        filaArriba.add(miniTarjeta("Conductores", "\n" ,COLOR_ROJO, COLOR_NARANJA));
+        filaArriba.add(miniTarjeta("Unidades Activas", String.valueOf(contarUnidadesActivas()), COLOR_VERDE, COLOR_FONDO));
+        filaArriba.add(miniTarjeta("Rutas Operativas", String.valueOf(contarItinerariosPorEstado("Programado")), COLOR_BOTONES, COLOR_FONDO));
+        filaArriba.add(miniTarjeta("Pasajeros Hoy", String.valueOf(contarPasajerosProgramados()), COLOR_NARANJA, COLOR_FONDO));
+        filaArriba.add(miniTarjeta("Conductores", String.valueOf(contarConductores()), COLOR_ROJO, COLOR_NARANJA));
         arriba.add(filaArriba);
 
          arriba.add(Box.createRigidArea(new Dimension(0, 30)));
 
-        JPanel filaAbajo = new JPanel(new GridLayout(1, 4, 20, 0));
+        JPanel filaAbajo = new JPanel(new GridLayout(1, 3, 20, 0));
         filaAbajo.setOpaque(false);
-        filaAbajo.add(miniTarjeta("Viajes Completados", "\n", COLOR_VERDE, COLOR_FONDO));
-        filaAbajo.add(miniTarjeta("Tiempo Promedio de Ruta", "\n", COLOR_BOTONES, COLOR_FONDO));
-        filaAbajo.add(miniTarjeta("Incidencias Reportadas","\n", COLOR_NARANJA, COLOR_FONDO));
+        filaAbajo.add(miniTarjeta("Viajes Completados", String.valueOf(contarItinerariosPorEstado("Finalizado")), COLOR_VERDE, COLOR_FONDO));
+        filaAbajo.add(miniTarjeta("Tiempo Promedio de Ruta", "", COLOR_BOTONES, COLOR_FONDO));
+        filaAbajo.add(miniTarjeta("Incidencias Reportadas", "", COLOR_NARANJA, COLOR_FONDO));
 
         p.add(arriba, BorderLayout.NORTH); // tarjetas de arribita en norte
-        p.add(filaAbajo, BorderLayout.SOUTH); //tarjetas de abajo en sur
+        p.add(listasDatos(), BorderLayout.CENTER);
+        p.add(filaAbajo, BorderLayout.SOUTH); // tarjetas de abajo en sur
 
         return p;
      }
+
+    private JPanel listasDatos() {
+        JPanel panel = new JPanel(new GridLayout(1, 3, 20, 0));
+        panel.setOpaque(false);
+        panel.setBorder(new EmptyBorder(25, 0, 25, 0));
+
+        DefaultListModel<String> unidades = new DefaultListModel<>();
+        for (Unidad unidad : new UnidadDAO().listaUnidades()) {
+            if ("Operativo".equalsIgnoreCase(unidad.getDisponible())) {
+                unidades.addElement(unidad.getPlaca() + " | " + unidad.getModelo()
+                        + " | " + unidad.getDisponible());
+            }
+        }
+
+        DefaultListModel<String> rutas = new DefaultListModel<>();
+        DefaultListModel<String> conductores = new DefaultListModel<>();
+        for (Itinerario itinerario : new ItinerarioDAO().listaItinerarios()) {
+            if ("Programado".equalsIgnoreCase(itinerario.getEstado())
+                    || "En Curso".equalsIgnoreCase(itinerario.getEstado())) {
+                rutas.addElement(itinerario.getRuta() + " | " + itinerario.getHoraSalida()
+                        + " | " + itinerario.getEstado());
+
+                String conductor = "Cédula: " + itinerario.getConductor();
+                if (!conductores.contains(conductor)) {
+                    conductores.addElement(conductor);
+                }
+            }
+        }
+
+        panel.add(panelLista("Unidades", unidades));
+        panel.add(panelLista("Rutas", rutas));
+        panel.add(panelLista("Conductores", conductores));
+        return panel;
+    }
+
+    private JPanel panelLista(String titulo, DefaultListModel<String> datos) {
+        JPanel panel = new JPanel(new BorderLayout(0, 12));
+        panel.setBackground(COLOR_PANEL); 
+        panel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(COLOR_BOTONES, 1),
+                new EmptyBorder(15, 15, 15, 15))); 
+
+        JLabel etiqueta = new JLabel(titulo);
+        etiqueta.setFont(FUENTE_TARJETA_TITULO); 
+        etiqueta.setForeground(COLOR_TEXTO); 
+
+        JList<String> lista = new JList<>(datos);
+        // CAMBIO AQUÍ: Font.BOLD para la negrita
+        lista.setFont(new Font(FUENTE_TEXTO.getFamily(), Font.BOLD, 14));
+        // CAMBIO AQUÍ: COLOR_TEXTO para que sea blanco humo
+        lista.setForeground(COLOR_TEXTO); 
+        lista.setBackground(COLOR_PANEL);
+        lista.setFixedCellHeight(35); 
+
+        // Renderizador personalizado 
+        lista.setCellRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                label.setBorder(new EmptyBorder(0, 10, 0, 10)); 
+                
+                if (isSelected) {
+                    label.setBackground(COLOR_FONDO); 
+                    label.setForeground(COLOR_BOTONES); 
+                } else {
+                    label.setBackground(COLOR_PANEL);
+                    // CAMBIO AQUÍ: COLOR_TEXTO para mantener el blanco cuando no está seleccionado
+                    label.setForeground(COLOR_TEXTO);
+                }
+                return label;
+            }
+        });
+
+        panel.add(etiqueta, BorderLayout.NORTH);
+        
+        JScrollPane desplazamiento = new JScrollPane(lista);
+        desplazamiento.setBackground(COLOR_PANEL);
+        desplazamiento.getViewport().setBackground(COLOR_PANEL);
+        desplazamiento.setBorder(BorderFactory.createEmptyBorder()); 
+        
+        desplazamiento.getVerticalScrollBar().setPreferredSize(new Dimension(8, 0));
+
+        panel.add(desplazamiento, BorderLayout.CENTER);
+        return panel;
+    }
+
+
+    private int contarUnidadesActivas() {
+        int activas = 0;
+        for (Unidad unidad : new UnidadDAO().listaUnidades()) {
+            if ("Operativo".equalsIgnoreCase(unidad.getDisponible())) {
+                activas++;
+            }
+        }
+        return activas;
+    }
+
+    private int contarItinerariosPorEstado(String estado) {
+        int cantidad = 0;
+        for (Itinerario itinerario : new ItinerarioDAO().listaItinerarios()) {
+            if (estado.equalsIgnoreCase(itinerario.getEstado())) {
+                cantidad++;
+            }
+        }
+        return cantidad;
+    }
+
+    private int contarPasajerosProgramados() {
+        int pasajeros = 0;
+        for (Itinerario itinerario : new ItinerarioDAO().listaItinerarios()) {
+            if ("Programado".equalsIgnoreCase(itinerario.getEstado())) {
+                pasajeros += itinerario.getReservas();
+            }
+        }
+        return pasajeros;
+    }
+
+    private int contarConductores() {
+        try {
+            List<String> conductores = UsuarioDAO.obtenerConductores();
+            return conductores.size();
+        } catch (IOException e) {
+            return 0;
+        }
+    }
 
     // clase para las mini tarjetas del mosaico
      private JPanel miniTarjeta(String titulo, String detalles, Color colorLinea, Color colorDetalle) {

@@ -123,9 +123,9 @@ public class UnidadDAO{
         return null;
     }
 
-    //Función para actualizar la disponibilidad de una unidad en el archivo de unidades
+    // Función para actualizar modelo, capacidad y disponibilidad sin cambiar la placa
 
-    public boolean actualizarUnidad(String placaVieja, String placa, String disponible){
+    public boolean actualizarUnidad(String placa, String modelo, int capacidad, String disponible){
 
         if (!Files.exists(RUTA_UNIDADES) || placa == null) {
             return false;
@@ -151,17 +151,23 @@ public class UnidadDAO{
 
                 String[] datos = linea.split("\\|");
 
-                if(datos.length == 4 && datos[0].trim().equalsIgnoreCase(placaVieja)){
-                    datos[0] = placa.trim();
+                if(datos.length == 4 && datos[0].trim().equalsIgnoreCase(placa)){
+
+                    datos[1] = modelo.trim();
+                    datos[2] = String.valueOf(capacidad);
                     datos[3] = disponible.trim();
-                    linea = String.join("|", datos);
+
+                    String nuevaLinea = String.join("|", datos);
+
                     existe = true;
 
-                }
+                    archivoActualizado.add(nuevaLinea);
 
-                archivoActualizado.add(linea);
+                } else {
+
+                  archivoActualizado.add(linea);
+                }  
             }
-
 
         } catch (IOException e) {
             return false;
