@@ -1,4 +1,4 @@
 ruta|horaSalida|placa|conductor|estado|reservas
 Petare|07:00|01AB2CA|13579|Programado|20
-San Martin - Antimano|07:00|01FG2WA|6526291|Programado|15
+San Martin - Antimano|07:00|01FG2WA|6526291|Cancelado|15
 Bandera - Rinconada|14:30|01HR2FA|6027522|Cancelado|0

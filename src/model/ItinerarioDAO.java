@@ -11,8 +11,6 @@ import java.util.LinkedList;
 import java.util.List;
 import src._helpers.Validaciones;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 
 public class ItinerarioDAO {
 
@@ -60,8 +58,6 @@ public class ItinerarioDAO {
     //Función para leer todos los itinerarios
 
     public List<Itinerario> listaItinerarios(){
-
-        cancelarItinerario(LocalTime.now()); //llamada para canecaler itinerarios antes de cargar lista
 
         List<Itinerario> itinerarios = new LinkedList<>();
 
@@ -156,17 +152,16 @@ public class ItinerarioDAO {
         }
     }
 
+    @Deprecated
     public boolean cancelarItinerario(LocalTime horaActual){
-
         if(!Files.exists(RUTA_ITINERARIOS)){
             return false;
         }
 
         List<String> archivoActualizado = new LinkedList<>();
-        boolean existe = false;
-        
-        try(BufferedReader lectorArchivo = Files.newBufferedReader(RUTA_ITINERARIOS, StandardCharsets.UTF_8)){
+        boolean cancelado = false;
 
+        try(BufferedReader lectorArchivo = Files.newBufferedReader(RUTA_ITINERARIOS, StandardCharsets.UTF_8)){
             String linea;
 
             while((linea = lectorArchivo.readLine()) != null){
@@ -178,18 +173,11 @@ public class ItinerarioDAO {
 
                 Itinerario itinerario = leerItinerario(linea);
 
-                if(itinerario != null && itinerario.getEstado().equalsIgnoreCase("Programado") && itinerario.getReservas() == 0){
-
-                    LocalTime horaSalida = LocalTime.parse(itinerario.getHoraSalida(),DateTimeFormatter.ofPattern("HH:mm"));
-
-                    long minutosDiferencia = ChronoUnit.MINUTES.between(horaActual, horaSalida);
-
-                    if(minutosDiferencia <= 30){
-                        itinerario.setEstado("Cancelado");
-
-                        linea = itinerario.getRuta() + "|" + itinerario.getHoraSalida() + "|" + itinerario.getPlaca() + "|" + itinerario.getConductor() + "|" + itinerario.getEstado() + "|" + itinerario.getReservas();
-                        existe = true;
-                    }
+                if(itinerario != null && itinerario.getEstado().equalsIgnoreCase("Programado")){
+                    itinerario.setEstado("Cancelado");
+                    linea = itinerario.getRuta() + "|" + itinerario.getHoraSalida() + "|" + itinerario.getPlaca()
+                            + "|" + itinerario.getConductor() + "|" + itinerario.getEstado() + "|" + itinerario.getReservas();
+                    cancelado = true;
                 }
 
                 archivoActualizado.add(linea);
@@ -198,8 +186,57 @@ public class ItinerarioDAO {
             return false;
         }
 
-        if(existe){
-            
+        if(cancelado){
+            try{
+                Files.write(RUTA_ITINERARIOS, archivoActualizado, StandardCharsets.UTF_8);
+                return true;
+            } catch (IOException e){
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean cancelarItinerario(String ruta, String horaSalida, String placa){
+
+        if(!Files.exists(RUTA_ITINERARIOS) || ruta == null || horaSalida == null || placa == null){
+            return false;
+        }
+
+        List<String> archivoActualizado = new LinkedList<>();
+        boolean cancelado = false;
+
+        try(BufferedReader lectorArchivo = Files.newBufferedReader(RUTA_ITINERARIOS, StandardCharsets.UTF_8)){
+            String linea;
+
+            while((linea = lectorArchivo.readLine()) != null){
+                linea = linea.trim();
+
+                if(linea.isEmpty()){
+                    continue;
+                }
+
+                Itinerario itinerario = leerItinerario(linea);
+
+                if(itinerario != null
+                        && itinerario.getRuta().equalsIgnoreCase(ruta.trim())
+                        && itinerario.getHoraSalida().equals(horaSalida.trim())
+                        && itinerario.getPlaca().equalsIgnoreCase(placa.trim())
+                        && itinerario.getEstado().equalsIgnoreCase("Programado")){
+                    itinerario.setEstado("Cancelado");
+                    linea = itinerario.getRuta() + "|" + itinerario.getHoraSalida() + "|" + itinerario.getPlaca()
+                            + "|" + itinerario.getConductor() + "|" + itinerario.getEstado() + "|" + itinerario.getReservas();
+                    cancelado = true;
+                }
+
+                archivoActualizado.add(linea);
+            }
+        } catch (IOException e){
+            return false;
+        }
+
+        if(cancelado){
             try{
                 Files.write(RUTA_ITINERARIOS, archivoActualizado, StandardCharsets.UTF_8);
                 return true;
@@ -331,4 +368,3 @@ public class ItinerarioDAO {
 
 
 }
-

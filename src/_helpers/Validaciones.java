@@ -97,7 +97,7 @@ public class Validaciones {
             return false;
         }
 
-        return true;
+        return ruta.trim().matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ]+(?:[ -][A-Za-zÁÉÍÓÚáéíóúÑñ]+)*$");
     }
 
     public static boolean validarFormatoItinerario(String ruta, String hora, String estado){

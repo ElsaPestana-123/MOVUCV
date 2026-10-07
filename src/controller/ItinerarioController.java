@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import src._helpers.Validaciones;
 import src.model.Itinerario;
 import src.model.ItinerarioDAO;
 import src.model.Unidad;
@@ -103,6 +104,77 @@ public class ItinerarioController {
         });
 
         vista.getBtnProgramar().addActionListener(e -> procesarFormulario());
+        vista.getBtnCancelar().addActionListener(e -> cancelarItinerarioSeleccionado());
+        vista.getBtnEliminar().addActionListener(e -> eliminarItinerarioSeleccionado());
+    }
+
+    private void cancelarItinerarioSeleccionado(){
+        int fila = vista.getTablaUnidades().getSelectedRow();
+
+        if(fila < 0){
+            vista.mostrarError("Seleccione un itinerario para cancelarlo");
+            return;
+        }
+
+        String ruta = vista.getTabla().getValueAt(fila, 0).toString();
+        String horaSalida = vista.getTabla().getValueAt(fila, 3).toString();
+        String placa = vista.getTabla().getValueAt(fila, 2).toString();
+
+        boolean cancelado = itinerarioDAO.cancelarItinerario(ruta, horaSalida, placa);
+
+        if(cancelado){
+            JOptionPane.showMessageDialog(vista, "Itinerario cancelado correctamente");
+            cargarTabla();
+            vista.limpiarFormulario();
+            vista.cambiarModoBoton(false);
+            vista.getTablaUnidades().clearSelection();
+            Editar = false;
+            estadoSeleccionado = "Programado";
+        } else {
+            vista.mostrarError("El itinerario seleccionado no se puede cancelar");
+        }
+    }
+
+    private void eliminarItinerarioSeleccionado(){
+        int fila = vista.getTablaUnidades().getSelectedRow();
+
+        if(fila < 0){
+            vista.mostrarError("Seleccione un itinerario para eliminarlo");
+            return;
+        }
+
+        int confirmacion = JOptionPane.showConfirmDialog(
+                vista,
+                "¿Está seguro de eliminar el itinerario seleccionado?",
+                "Confirmar eliminación",
+                JOptionPane.YES_NO_OPTION);
+
+        if(confirmacion != JOptionPane.YES_OPTION){
+            return;
+        }
+
+        String ruta = vista.getTabla().getValueAt(fila, 0).toString();
+        String horaSalida = vista.getTabla().getValueAt(fila, 3).toString();
+        String placa = vista.getTabla().getValueAt(fila, 2).toString();
+
+        boolean eliminado = itinerarioDAO.eliminarItinerario(ruta, horaSalida, placa);
+
+        if(eliminado){
+            JOptionPane.showMessageDialog(vista, "Itinerario eliminado correctamente");
+            cargarTabla();
+            vista.limpiarFormulario();
+            vista.cambiarModoBoton(false);
+            vista.getTablaUnidades().clearSelection();
+            Editar = false;
+            estadoSeleccionado = "Programado";
+        } else {
+            vista.mostrarError("No se pudo eliminar el itinerario seleccionado");
+        }
+    }
+
+    private void mostrarErrorValidacion(String mensaje){
+        vista.mostrarError(mensaje);
+        JOptionPane.showMessageDialog(vista, mensaje, "Error de validación", JOptionPane.ERROR_MESSAGE);
     }
 
     private void procesarFormulario(){
@@ -113,9 +185,23 @@ public class ItinerarioController {
         String placa = vista.getUnidad();
         String conductor = vista.getConductor();
 
-        if(ruta == null || ruta.isEmpty() || horaSalida == null || horaSalida.isEmpty() || 
-           placa == null || placa.isEmpty() || conductor == null || conductor.isEmpty()){
-            vista.mostrarError("Todos los campos son obligatorios");
+        if(ruta == null || ruta.trim().isEmpty() || horaSalida == null || horaSalida.trim().isEmpty()){
+            mostrarErrorValidacion("La ruta y la hora de salida son obligatorias");
+            return;
+        }
+
+        if(placa == null || placa.trim().isEmpty() || conductor == null || conductor.trim().isEmpty()){
+            mostrarErrorValidacion("Todos los campos son obligatorios");
+            return;
+        }
+
+        if(!Validaciones.validarHora(horaSalida)){
+            mostrarErrorValidacion("La hora de salida no es válida. Use el formato HH:MM entre 05:00 y 20:00");
+            return;
+        }
+
+        if(!Validaciones.validarRuta(ruta)){
+            vista.mostrarError("La ruta no tiene un formato válido");
             return;
         }
 

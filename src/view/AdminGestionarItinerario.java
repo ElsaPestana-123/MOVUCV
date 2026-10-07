@@ -23,11 +23,13 @@ public class AdminGestionarItinerario extends JFrame {
     private static final Font FUENTE_TEXTO = new Font("SansSerif", Font.PLAIN, 18);
 
     // variables
-    private JComboBox<String> desplegableRuta;
+    private JTextField ruta;
     private JComboBox<String> desplegableConductor;
     private JComboBox<String> desplegableUnidad;
     private JTextField hora;
     private JButton btnProgramar;
+    private JButton btnCancelar;
+    private JButton btnEliminar;
     private JButton Limpiar;
     private JTable tablaUnidades;
 
@@ -199,11 +201,11 @@ public class AdminGestionarItinerario extends JFrame {
         casillas.add(texto2, c);
 
         c.gridx = 1;
-        String[] rutas = {"La Vega - Ruiz Pineda", "Bandera - Rinconada", "Catia", "Petare", "San Martin - Antimano"}; 
-        desplegableRuta = new JComboBox<>(rutas);
-        desplegableRuta.setFont(FUENTE_TEXTO);
-        desplegableRuta.setBackground(COLOR_INPUT);
-        casillas.add(desplegableRuta, c);
+        ruta = new JTextField();
+        ruta.setFont(FUENTE_TEXTO);
+        ruta.setBackground(COLOR_INPUT);
+        ruta.setBorder(new EmptyBorder(8, 10, 8, 10));
+        casillas.add(ruta, c);
 
         c.gridx = 0;
         c.gridy = 1;
@@ -246,6 +248,28 @@ public class AdminGestionarItinerario extends JFrame {
         btnProgramar.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnProgramar.setMaximumSize(new Dimension(200, 45));
         p.add(btnProgramar);
+        p.add(Box.createRigidArea(new Dimension(0, 15)));
+
+        btnCancelar = new JButton("Cancelar Itinerario");
+        btnCancelar.setFont(FUENTE_SUBTITULO);
+        btnCancelar.setBackground(new Color(190, 70, 70));
+        btnCancelar.setForeground(Color.WHITE);
+        btnCancelar.setFocusPainted(false);
+        btnCancelar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnCancelar.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnCancelar.setMaximumSize(new Dimension(200, 45));
+        p.add(btnCancelar);
+        p.add(Box.createRigidArea(new Dimension(0, 15)));
+
+        btnEliminar = new JButton("Eliminar Itinerario");
+        btnEliminar.setFont(FUENTE_SUBTITULO);
+        btnEliminar.setBackground(new Color(130, 45, 45));
+        btnEliminar.setForeground(Color.WHITE);
+        btnEliminar.setFocusPainted(false);
+        btnEliminar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnEliminar.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnEliminar.setMaximumSize(new Dimension(200, 45));
+        p.add(btnEliminar);
         p.add(Box.createRigidArea(new Dimension(0, 15)));
 
         // boton para limpiar el form
@@ -319,6 +343,14 @@ public class AdminGestionarItinerario extends JFrame {
         return btnProgramar;
     }
 
+    public JButton getBtnCancelar() {
+        return btnCancelar;
+    }
+
+    public JButton getBtnEliminar() {
+        return btnEliminar;
+    }
+
     public JButton getBtnLimpiarButton() {
         return Limpiar;
     }
@@ -332,7 +364,7 @@ public class AdminGestionarItinerario extends JFrame {
     }
 
     public String getRuta() {
-        return (String) desplegableRuta.getSelectedItem();
+        return ruta.getText();
     }
 
     public String getConductor() {
@@ -349,7 +381,7 @@ public class AdminGestionarItinerario extends JFrame {
 
     // setters
     public void setRuta(String ruta) {
-        desplegableRuta.setSelectedItem(ruta);
+        this.ruta.setText(ruta);
     }
 
     public void setConductor(String conductor) {
@@ -382,8 +414,7 @@ public class AdminGestionarItinerario extends JFrame {
     // metodo para limpiar el form despues de que se edite algo correctamente o se
     // registre una unidad correctamente
     public void limpiarFormulario() {
-        if (desplegableRuta.getItemCount() > 0)
-            desplegableRuta.setSelectedIndex(0);
+        ruta.setText("");
         if (desplegableConductor.getItemCount() > 0)
             desplegableConductor.setSelectedIndex(0);
         if (desplegableUnidad.getItemCount() > 0)
