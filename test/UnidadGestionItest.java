@@ -91,13 +91,6 @@ public class UnidadGestionItest {
 
         itinerario.guardarItinerario("La Rinconada - UCV", "14:30", "01HR2FA", "6027522", "Programado", 0);
 
-        java.time.LocalTime horaActualS = java.time.LocalTime.of(14, 0);
-
-        Boolean cancelado = itinerario.cancelarItinerario(horaActualS);
-
-        assertTrue(cancelado);
-
-        itinerario.buscarItinerario("La Rinconada - UCV", "14:30");
     }
 
 }

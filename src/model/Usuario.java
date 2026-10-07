@@ -2,7 +2,7 @@ package src.model;
 
 public class Usuario {
     private String cedula;
-    private char rol; // E -> Estudiante, T -> Trabajador, P -> Público general, C -> Conductor y A -> Administrador
+    private char rol; // E -> Estudiante, T -> Trabajador, P -> Público general, C -> Conductor, A -> Administrador y S -> Superusuario
     private String nombre;
     private String correo;
     private String claveAcceso;

@@ -15,6 +15,7 @@ import src.model.UsuarioDAO;
 import src._helpers.ComponentUtils;
 import src._helpers.ComponentUtils.Tarjeta;
 import src.controller.HomeAdminController;
+import src.controller.UsuarioController;
 
 public class HomeAdmin extends JFrame {
     private Usuario adminLogeado;
@@ -50,12 +51,12 @@ public class HomeAdmin extends JFrame {
         setLayout(new BorderLayout()); 
  
         add(Cabezal(), BorderLayout.NORTH);
-       add(Cuerpo(), BorderLayout.CENTER);
+        add(dashboard(), BorderLayout.CENTER);
         add(PieDePagina(), BorderLayout.SOUTH);
 
     }
 
-     private JPanel Cabezal() {
+    private JPanel Cabezal() {
         JPanel p = new JPanel(new BorderLayout());
 
         p.setBackground(COLOR_PANEL);
@@ -82,7 +83,6 @@ public class HomeAdmin extends JFrame {
         } else 
             System.err.println("Error: No se encontró el logo en " + ruta);
         
- 
         JLabel sep = new JLabel("|"); 
         sep.setFont(FUENTE_TITULO);
         sep.setForeground(COLOR_SECUNDARIO);
@@ -91,13 +91,28 @@ public class HomeAdmin extends JFrame {
         texto1.setFont(FUENTE_TITULO);
         texto1.setForeground(COLOR_TEXTO);
  
-        izq.add(titulo); // agregar el titulo a la izquierda
-        izq.add(sep); // agregar el separador
-        izq.add(texto1); // agregamos el texto de inicio
+        izq.add(titulo); 
+        izq.add(sep); 
+        izq.add(texto1); 
  
         // parte derecha 
         JPanel dere = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 10));
         dere.setOpaque(false);
+
+        // 1. PRIMERO validamos si es Superusuario para que "Crear Admin" aparezca a la izquierda
+        if (adminLogeado.getRol() == 'S') { 
+            dere.add(ComponentUtils.textoPresionable("Crear Admin", COLOR_VERDE, FUENTE_TEXTO, () -> {
+                
+                // AQUÍ INVOCAMOS AL MODAL
+                UsuarioController controladorUsuarios = new UsuarioController();
+                ModalRegistroAdmin modal = new ModalRegistroAdmin(this, controladorUsuarios);
+                modal.setVisible(true); // Esto pausa el HomeAdmin hasta que el modal se cierre
+                
+            }));
+            dere.add(ComponentUtils.textoPresionable("|", COLOR_TEXTO, FUENTE_TEXTO, null)); 
+        }
+
+        // 2. LUEGO agregamos el nombre y el botón de Cerrar Sesión
         dere.add(ComponentUtils.textoPresionable(adminLogeado.getNombre(), COLOR_TEXTO, FUENTE_TEXTO, null));
         dere.add(ComponentUtils.textoPresionable("|", COLOR_TEXTO, FUENTE_TEXTO, null)); 
         dere.add(ComponentUtils.textoPresionable("Cerrar Sesion", COLOR_TEXTO, FUENTE_TEXTO, () -> {controlador.cerrarSesion(this);})); 
@@ -108,14 +123,6 @@ public class HomeAdmin extends JFrame {
         return p;
     }
 
-    private JPanel Cuerpo() {
-        JPanel p = new JPanel(new BorderLayout());
-        p.setOpaque(false);
- 
-       p.add(ComponentUtils.menuIzqu(this,controlador), BorderLayout.WEST);
-       p.add(dashboard(), BorderLayout.CENTER);
-        return p;
-    }
 
     private JPanel PieDePagina() { // pie de pagina por defecto en todas las ventanas
         JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER)); 

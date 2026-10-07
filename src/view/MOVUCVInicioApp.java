@@ -212,7 +212,7 @@ public class MOVUCVInicioApp extends JFrame {
                     homecontrol.iniciarHome(getCorreo());
                 }
 
-                else if (resultadoString.equals("A")) {
+                else if (resultadoString.equals("A") || resultadoString.equals("S")) {
                     HomeAdminController homeadmincontrol = new HomeAdminController();
                     homeadmincontrol.iniciarHome(getCorreo());
                 }

@@ -6,3 +6,4 @@ cedula|rol|nombre|apellido|correo|claveAcceso|saldo
 9876543210|A|ELSA|PESTANA|pestana@ucv.com|admin123|0.0
 6027522|C|MATEO|MORALES|morales@gmail.com|condutor1234|0.0
 6526291|C|ISRAEL|HURTADO|hurtado@mail.com|conductor12345|0.0
+00000000|S|SUPER|ADMINISTRADOR|superadmin@movucv.ve|Super123&|0.0
