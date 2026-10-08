@@ -51,6 +51,7 @@ public class HomeAdmin extends JFrame {
         setLayout(new BorderLayout()); 
  
         add(Cabezal(), BorderLayout.NORTH);
+        add(ComponentUtils.menuIzqu(this, controlador), BorderLayout.WEST);
         add(dashboard(), BorderLayout.CENTER);
         add(PieDePagina(), BorderLayout.SOUTH);
 

@@ -65,10 +65,10 @@ public class AdminGestionarItinerario extends JFrame {
         JPanel p = new JPanel(new BorderLayout());
 
         p.setBackground(COLOR_PANEL); // color d el fondo
-        p.setBorder(new EmptyBorder(15, 50, 15, 50)); // Márgenes
+        p.setBorder(new EmptyBorder(15, 20, 15, 20)); // Márgenes
 
         // parte izquierda del cabezal
-        JPanel izq = new JPanel(new FlowLayout(FlowLayout.LEFT, 25, 0));
+        JPanel izq = new JPanel(new FlowLayout(FlowLayout.LEFT, 12, 0));
         izq.setOpaque(false);
 
         JLabel titulo = new JLabel("MOVUCV");
@@ -97,8 +97,8 @@ public class AdminGestionarItinerario extends JFrame {
         sep.setFont(FUENTE_TITULO);
         sep.setForeground(COLOR_SECUNDARIO);
 
-        JLabel texto1 = new JLabel("Panel de Administrador");
-        texto1.setFont(FUENTE_TEXTO);
+        JLabel texto1 = new JLabel("Panel Administrador");
+        texto1.setFont(FUENTE_TITULO);
         texto1.setForeground(COLOR_TEXTO);
 
         izq.add(titulo); // agregar el titulo a la izquierda
