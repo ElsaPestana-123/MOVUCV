@@ -18,9 +18,9 @@ public class Validaciones {
         return correo != null && correo.matches(FORMATO_CORREO);
     }
 
-    //validación de que la cédula no comience en 0 y solo contenga números de 2 a 8 digitos, usando regex
+    //validación de que la cédula no comience en 0 y solo contenga números de 4 a 8 digitos, usando regex
     public static boolean validarFormatoCedula(String cedula){
-        final String FORMATO_CEDULA = "^[1-9]\\d{1,7}$";
+        final String FORMATO_CEDULA = "^[1-9]\\d{3,7}$";
         return cedula != null && cedula.matches(FORMATO_CEDULA);
     }
 

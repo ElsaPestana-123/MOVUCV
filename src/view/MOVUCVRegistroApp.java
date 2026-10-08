@@ -276,7 +276,7 @@ public class MOVUCVRegistroApp extends JFrame {
         btnRegistrar = new JButton("Crear Cuenta");
         btnRegistrar.setFont(FUENTE_SUBTITULO);
         btnRegistrar.setBackground(COLOR_BOTONES);
-        btnRegistrar.setForeground(COLOR_TEXTO);
+        btnRegistrar.setForeground(COLOR_FONDO);
         btnRegistrar.setFocusPainted(false);
         btnRegistrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnRegistrar.setAlignmentX(Component.CENTER_ALIGNMENT);

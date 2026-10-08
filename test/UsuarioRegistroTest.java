@@ -31,6 +31,8 @@ public class UsuarioRegistroTest {
 
     public void testValidarCedula(){
         assertTrue(Validaciones.validarFormatoCedula("31380819"));
+        assertTrue(Validaciones.validarFormatoCedula("1234"));
+        assertFalse(Validaciones.validarFormatoCedula("123"));
         assertFalse(Validaciones.validarFormatoCedula("1"));
         assertFalse(Validaciones.validarFormatoCedula("123456789"));
         assertFalse(Validaciones.validarFormatoCedula("01234567"));

@@ -169,21 +169,10 @@ public class MOVUCVInicioApp extends JFrame {
 
         p.add(casillas);
 
-        JPanel terminos = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
-        terminos.setOpaque(false);
-        terminos.setBorder(new EmptyBorder(0, 0, 30, 0)); // Espacio antes del checkbox
-        JLabel texto3 = new JLabel(
-                "<html><body>Aceptas los <span style='color:#7DB6F5;'>Terminos y Condiciones</span> y la <span style='color:#7DB6F5;'>Politica de Privacidad</span></body></html>");
-        texto3.setFont(FUENTE_TEXTO);
-        texto3.setForeground(COLOR_TEXTO);
-        terminos.add(texto3);
-        p.add(Box.createRigidArea(new Dimension(0, 20))); // espacio
-        p.add(terminos);
-
         btnRegistrar = new JButton("Iniciar Sesión");
         btnRegistrar.setFont(FUENTE_SUBTITULO);
         btnRegistrar.setBackground(COLOR_BOTONES);
-        btnRegistrar.setForeground(COLOR_TEXTO);
+        btnRegistrar.setForeground(COLOR_FONDO);
         btnRegistrar.setFocusPainted(false);
         btnRegistrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnRegistrar.setAlignmentX(Component.CENTER_ALIGNMENT);

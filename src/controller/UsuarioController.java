@@ -49,7 +49,7 @@ public class UsuarioController{
         }
 
         if(!Validaciones.validarFormatoCedula(cedula)){
-            return "*La Cédula debe contener de 2 a 8 digitos y no debe empezar con 0.";
+            return "*La Cédula debe contener de 4 a 8 digitos y no debe empezar con 0.";
         }
 
         if(!Validaciones.validarFormatoCorreo(correo)){
@@ -105,7 +105,7 @@ public class UsuarioController{
         }
 
         if(!Validaciones.validarFormatoCedula(cedula)){
-            return "*La Cédula debe contener de 2 a 8 digitos y no debe empezar con 0.";
+            return "*La Cédula debe contener de 4 a 8 digitos y no debe empezar con 0.";
         }
 
         if(!Validaciones.validarFormatoCorreo(correo)){
