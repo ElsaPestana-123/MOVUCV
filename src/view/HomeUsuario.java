@@ -87,10 +87,12 @@ public class HomeUsuario extends JFrame {
         }
     }
 
-    private static class BotonRedondeado extends JButton { // boton redondito de acceder
+    private static class BotonRedondeado extends JButton {
+        private Color colorFondo; // boton redondito de acceder
 
-        BotonRedondeado(String texto) {
+        BotonRedondeado(String texto, Color colorFondo) {
             super(texto);
+            this.colorFondo = colorFondo;
             setContentAreaFilled(false);
             setFocusPainted(false);
             setBorderPainted(false);
@@ -107,7 +109,7 @@ public class HomeUsuario extends JFrame {
         protected void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setColor(getModel().isRollover() ? COLOR_BOTONES.brighter() : COLOR_BOTONES);
+            g2.setColor(colorFondo);
             g2.fillRoundRect(0, 0, getWidth(), getHeight(), getHeight(), getHeight());
             g2.dispose();
             super.paintComponent(g);
@@ -165,12 +167,16 @@ public class HomeUsuario extends JFrame {
         dere.setOpaque(false);
         dere.add(ComponentUtils.textoPresionable(darNombre(), COLOR_TEXTO, FUENTE_TEXTO, null));
         dere.add(ComponentUtils.textoPresionable("|", COLOR_TEXTO, FUENTE_TEXTO, null));
-        dere.add(ComponentUtils.textoPresionable("Mi Cuenta", COLOR_TEXTO, FUENTE_TEXTO, () -> {
-        })); // le pasamos una función lamda a fin de que sea presionable pero no rediriga
+        BotonRedondeado botonMonedero = new BotonRedondeado("Mi Monedero",COLOR_BOTONES);
+        botonMonedero.addActionListener(e -> {}); // le pasamos una función lamda a fin de que sea presionable pero no rediriga
+        dere.add(botonMonedero);
+
         dere.add(ComponentUtils.textoPresionable("|", COLOR_TEXTO, FUENTE_TEXTO, null));
-        dere.add(ComponentUtils.textoPresionable("Cerrar Sesion", COLOR_TEXTO, FUENTE_TEXTO, () -> {
+        BotonRedondeado botonCerrar = new BotonRedondeado("Cerrar Sesión",COLOR_ROJO);
+        botonCerrar.addActionListener(e -> {
             controlador.cerrarSesion(this);
-        }));
+        });
+        dere.add(botonCerrar);
 
         p.add(izq, BorderLayout.WEST);
         p.add(dere, BorderLayout.EAST);
@@ -235,14 +241,14 @@ public class HomeUsuario extends JFrame {
                 "", COLOR_FONDO, COLOR_BOTONES, () -> {
                 }));
 
-        grid.add(crearTarjeta("notificaciones.png", "Notificaciones",
+        /*grid.add(crearTarjeta("notificaciones.png", "Notificaciones",
                 "Mantente informado sobre cambios de ruta, suspensiones, retrasos y novedades del sistema.",
                 "", COLOR_ROJO, COLOR_ROJO, () -> {
-                }));
+                }));*/
 
-        grid.add(crearTarjeta("perfil.png", "Mi Perfil", "Actualiza tus datos personales, preferencias.", "",
+        /*grid.add(crearTarjeta("perfil.png", "Mi Perfil", "Actualiza tus datos personales, preferencias.", "",
                 COLOR_FONDO, COLOR_TEXTO, () -> {
-                }));
+                }));*/
 
         return grid;
     }
@@ -268,7 +274,7 @@ public class HomeUsuario extends JFrame {
         lblTitulo.setForeground(COLOR_TEXTO);
         izq.add(lblTitulo);
 
-        BotonRedondeado botonAcc = new BotonRedondeado("Acceder");
+        BotonRedondeado botonAcc = new BotonRedondeado("Acceder",COLOR_BOTONES);
         botonAcc.addActionListener(e -> {
         }); // función lamda again
 
