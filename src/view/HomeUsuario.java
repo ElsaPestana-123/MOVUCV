@@ -87,7 +87,7 @@ public class HomeUsuario extends JFrame {
         }
     }
 
-    private static class BotonRedondeado extends JButton {
+    public static class BotonRedondeado extends JButton {
         private Color colorFondo; // boton redondito de acceder
 
         BotonRedondeado(String texto, Color colorFondo) {

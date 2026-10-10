@@ -16,6 +16,7 @@ import src._helpers.ComponentUtils;
 import src._helpers.ComponentUtils.Tarjeta;
 import src.controller.HomeAdminController;
 import src.controller.UsuarioController;
+import src.view.HomeUsuario;
 
 public class HomeAdmin extends JFrame {
     private Usuario adminLogeado;
@@ -113,11 +114,14 @@ public class HomeAdmin extends JFrame {
             dere.add(ComponentUtils.textoPresionable("|", COLOR_TEXTO, FUENTE_TEXTO, null)); 
         }
 
-        // 2. LUEGO agregamos el nombre y el botón de Cerrar Sesión
+        // LUEGO agregamos el nombre y el botón de Cerrar Sesión
         dere.add(ComponentUtils.textoPresionable(adminLogeado.getNombre(), COLOR_TEXTO, FUENTE_TEXTO, null));
         dere.add(ComponentUtils.textoPresionable("|", COLOR_TEXTO, FUENTE_TEXTO, null)); 
-        dere.add(ComponentUtils.textoPresionable("Cerrar Sesion", COLOR_TEXTO, FUENTE_TEXTO, () -> {controlador.cerrarSesion(this);})); 
- 
+        HomeUsuario.BotonRedondeado botonCerrar = new HomeUsuario.BotonRedondeado("Cerrar Sesión",COLOR_ROJO);
+        botonCerrar.addActionListener(e -> {
+            controlador.cerrarSesion(this);
+        });
+        dere.add(botonCerrar);
         p.add(izq, BorderLayout.WEST);
         p.add(dere, BorderLayout.EAST);
  
