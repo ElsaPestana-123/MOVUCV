@@ -114,7 +114,7 @@ public class PasajeroMonedero extends JFrame {
     private JPanel Cuerpo() {
         JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER, 40, 30));
         p.setOpaque(false);
-        p.setBorder(new EmptyBorder(50, 0, 20, 0));
+        p.setBorder(new EmptyBorder(15, 0, 10, 0));
 
         p.add(cuadroIzq());
         p.add(cuadroDere());
@@ -125,7 +125,7 @@ public class PasajeroMonedero extends JFrame {
     private JPanel cuadroIzq() {
         JPanel p = new JPanel();
         p.setBackground(COLOR_PANEL);
-        p.setPreferredSize(new Dimension(620, 620));
+        p.setPreferredSize(new Dimension(620, 500));
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS)); 
         p.setBorder(new EmptyBorder(50, 30, 30, 30));
 
@@ -171,16 +171,23 @@ public class PasajeroMonedero extends JFrame {
     private JPanel cuadroDere() {
         JPanel p = new JPanel();
         p.setBackground(COLOR_PANEL);
-        p.setPreferredSize(new Dimension(620, 620)); 
+        p.setPreferredSize(new Dimension(620, 500)); 
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-        p.setBorder(new EmptyBorder(30, 40, 30, 40));
+        p.setBorder(new EmptyBorder(15, 40, 15, 40));
 
         JLabel texto1 = new JLabel("Registrar Recarga");
         texto1.setFont(FUENTE_TITULO);
         texto1.setForeground(COLOR_TEXTO);
         texto1.setAlignmentX(Component.CENTER_ALIGNMENT);
         p.add(texto1);
-        p.add(Box.createRigidArea(new Dimension(0, 30)));
+        p.add(Box.createRigidArea(new Dimension(0, 15)));
+
+        TextoError = new JLabel(" ");
+        TextoError.setFont(FUENTE_SUBTITULO);
+        TextoError.setForeground(COLOR_ROJO);
+        TextoError.setAlignmentX(Component.CENTER_ALIGNMENT);
+        p.add(TextoError);
+        p.add(Box.createRigidArea(new Dimension(0, 10)));
 
         JPanel casillas = new JPanel(new GridBagLayout());
         casillas.setOpaque(false);
@@ -225,8 +232,6 @@ public class PasajeroMonedero extends JFrame {
         btnConfirmar.setMaximumSize(new Dimension(200, 45));
         p.add(btnConfirmar);
         
-        p.add(Box.createRigidArea(new Dimension(0, 10)));
-
         btnLimpiar = new JButton("Limpiar");
         btnLimpiar.setFont(FUENTE_SUBTITULO);
         btnLimpiar.setBackground(Color.GRAY);
@@ -236,14 +241,6 @@ public class PasajeroMonedero extends JFrame {
         btnLimpiar.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnLimpiar.setMaximumSize(new Dimension(100, 30));
         p.add(btnLimpiar);
-
-        p.add(Box.createRigidArea(new Dimension(0, 15)));
-
-        TextoError = new JLabel(" "); 
-        TextoError.setFont(FUENTE_SUBTITULO);
-        TextoError.setForeground(Color.RED);
-        TextoError.setAlignmentX(Component.CENTER_ALIGNMENT);
-        p.add(TextoError);
 
         return p;
     }
@@ -309,6 +306,7 @@ public class PasajeroMonedero extends JFrame {
     public JButton getBtnConfirmar() { return btnConfirmar; }
     public JButton getBtnLimpiar() { return btnLimpiar; }
     public String getBanco() { return (String) comboBanco.getSelectedItem(); }
+    public String getBancoEmisor() { return (String) comboBanco.getSelectedItem(); }
     public String getTelefono() { return txtTelefono.getText().trim(); }
     public String getCedula() { return txtCedula.getText().trim(); }
     public String getReferencia() { return txtReferencia.getText().trim(); }

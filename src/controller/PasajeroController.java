@@ -3,6 +3,9 @@ package src.controller;
 import src.view.PasajeroMonedero;
 import src.model.Usuario;
 import src.model.UsuarioDAO;
+import src.model.Mondero;
+import src.model.MonederoDAO;
+import src._helpers.Validaciones;
 import java.io.IOException;
 
 public class PasajeroController {
@@ -23,6 +26,14 @@ public class PasajeroController {
         vista.setSaldoActual(saldo);
     }
 
+    public String getBancoEmisor() {
+    
+        if (vista.getBancoEmisor() != null) {
+            return vista.getBancoEmisor();
+        }
+        return ""; 
+    }
+
     private void iniciarEventos() {
 
         vista.getBtnLimpiar().addActionListener(e -> {
@@ -31,51 +42,81 @@ public class PasajeroController {
 
         // procesar pago
         vista.getBtnConfirmar().addActionListener(e -> {
-            String telefono = vista.getTelefono();
-            String cedula = vista.getCedula();
-            String referencia = vista.getReferencia();
-            String montoStr = vista.getMonto();
+           String telefono = vista.getTelefono();
+           String cedula = vista.getCedula();
+           String referencia = vista.getReferencia();
+           String monto = vista.getMonto();
+           String bancoEmisor = vista.getBancoEmisor();
 
-            // campos vacios
-            if (telefono.isEmpty() || cedula.isEmpty() || referencia.isEmpty() || montoStr.isEmpty()) {
-                vista.mostrarError("Complete todos los datos bancarios requeridos para procesar la recarga");
+           // Validaciones
+
+            if(telefono.isEmpty() || cedula.isEmpty() || referencia.isEmpty() || monto.isEmpty()){
+                vista.mostrarError("Todos los campos son obligatorios.");
+                return;
+            }
+
+            if (!Validaciones.validarNumeroTelefono(telefono)) {
+
+                vista.mostrarError("El número de teléfono debe tener exactamente 11 dígitos.");
+                return;
+            }
+
+            if (!Validaciones.validarCedula(cedula)){
+                vista.mostrarError("La Cedula debe tener entre 4 y 8 digitos");
+                return;
+            }
+
+            if (!Validaciones.validarNumeroReferencia(referencia)){
+                vista.mostrarError("La referencia debe tener entre 4 y 13 digitos");
                 return;
             }
 
             try {
-                double montoRecarga = Double.parseDouble(montoStr);
-                
-                // monto distinto de cero
-                if (montoRecarga <= 0) {
-                    vista.mostrarError("El monto a recargar debe ser mayor a cero");
+                float montoFloat = Float.parseFloat(monto);
+
+                if (!Validaciones.validarMonto(montoFloat)) {
+                    vista.mostrarError("El monto debe ser mayor a 0.");
                     return;
                 }
 
-                // exito
-                double nuevoSaldoTotal = usuario.getSaldo() + montoRecarga; 
-
-                // guardamos en la base el nuevo saldo
-                boolean guardadoExitoso = UsuarioDAO.actualizarSaldo(nuevoSaldoTotal, usuario.getCorreo()); 
-
-                if (guardadoExitoso) {
-                    // Si se guardó en el txt, actualizamos el objeto Usuario en memoria
-                    usuario.setSaldo(nuevoSaldoTotal); 
-                    
-                    // Actualizamos la pantalla
-                    String saldoFormateado = String.format("%.2f", nuevoSaldoTotal);
-                    vista.setSaldoActual(saldoFormateado);
-                    vista.mostrarExito("Recarga Exitosa");
-                    vista.limpiarFormulario();
-
-                } else {
-                    vista.mostrarError("Error del sistema: No se pudo registrar la recarga en la base de datos.");
+                if (bancoEmisor == null || bancoEmisor.trim().isEmpty()) {
+                    vista.mostrarError("Debe seleccionar un banco emisor.");
+                    return;
                 }
 
+                Mondero monedero = new Mondero(bancoEmisor, telefono, cedula, referencia, montoFloat);
+
+                boolean pagoRegistrado = MonederoDAO.guardarPago(monedero);
+
+                if (!pagoRegistrado) {
+                    vista.mostrarError("No se pudo registrar el pago");
+                    return;
+                }
+
+                double nuevoSaldo = usuario.getSaldo() + montoFloat;
+
+                boolean saldoActualizado = UsuarioDAO.actualizarSaldo(nuevoSaldo, usuario.getCorreo());
+
+                if (saldoActualizado){
+
+                    usuario.setSaldo(nuevoSaldo);
+
+                    String saldoFormateado = String.format("%.2f", nuevoSaldo);
+                    vista.setSaldoActual(saldoFormateado);
+
+                    vista.limpiarFormulario();
+                    vista.mostrarExito("Recarga Exitosa. Referencia #" + referencia + " procesada.");
+
+                } else {
+                    vista.mostrarError("No se pudo actualizar el saldo del usuario.");
+                }
             } catch (NumberFormatException ex) {
-                vista.mostrarError("Error: El monto debe ser numérico (Ej: 50.00)");
+                vista.mostrarError("El monto debe ser un número válido.");
             } catch (IOException ex) {
-                vista.mostrarError("Error crítico al intentar acceder al archivo de base de datos.");
-            }
+                vista.mostrarError("Error al actualizar el saldo del usuario.");
+            } 
+
+                
         });
     }
     
