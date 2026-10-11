@@ -168,7 +168,7 @@ public class HomeUsuario extends JFrame {
         dere.add(ComponentUtils.textoPresionable(darNombre(), COLOR_TEXTO, FUENTE_TEXTO, null));
         dere.add(ComponentUtils.textoPresionable("|", COLOR_TEXTO, FUENTE_TEXTO, null));
         BotonRedondeado botonMonedero = new BotonRedondeado("Mi Monedero",COLOR_BOTONES);
-        botonMonedero.addActionListener(e -> {}); // le pasamos una función lamda a fin de que sea presionable pero no rediriga
+        botonMonedero.addActionListener(e -> controlador.abrirMonedero(this)); // le pasamos una función lamda a fin de que sea presionable pero no rediriga
         dere.add(botonMonedero);
 
         dere.add(ComponentUtils.textoPresionable("|", COLOR_TEXTO, FUENTE_TEXTO, null));
