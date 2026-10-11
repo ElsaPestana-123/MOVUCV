@@ -24,20 +24,19 @@ public class PasajeroController {
     }
 
     private void iniciarEventos() {
-        
-        // Evento para limpiar el formulario
+
         vista.getBtnLimpiar().addActionListener(e -> {
             vista.limpiarFormulario();
         });
 
-        // Evento principal para procesar el pago (Escenarios 1, 2 y 3)
+        // procesar pago
         vista.getBtnConfirmar().addActionListener(e -> {
             String telefono = vista.getTelefono();
             String cedula = vista.getCedula();
             String referencia = vista.getReferencia();
             String montoStr = vista.getMonto();
 
-            // ESCENARIO 2: Campos vacíos
+            // campos vacios
             if (telefono.isEmpty() || cedula.isEmpty() || referencia.isEmpty() || montoStr.isEmpty()) {
                 vista.mostrarError("Complete todos los datos bancarios requeridos para procesar la recarga");
                 return;
@@ -46,18 +45,16 @@ public class PasajeroController {
             try {
                 double montoRecarga = Double.parseDouble(montoStr);
                 
-                // ESCENARIO 3: Monto menor a cero
+                // monto distinto de cero
                 if (montoRecarga <= 0) {
                     vista.mostrarError("El monto a recargar debe ser mayor a cero");
                     return;
                 }
 
-                // ESCENARIO 1: Recarga Exitosa y Guardado en Base de Datos
-                
-                // Calculamos el nuevo saldo total
+                // exito
                 double nuevoSaldoTotal = usuario.getSaldo() + montoRecarga; 
 
-                // Intentamos guardar en usuarios.txt usando tu DAO
+                // guardamos en la base el nuevo saldo
                 boolean guardadoExitoso = UsuarioDAO.actualizarSaldo(nuevoSaldoTotal, usuario.getCorreo()); 
 
                 if (guardadoExitoso) {
