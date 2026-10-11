@@ -22,7 +22,6 @@ public class HomeUsuarioController {
 
         HomeUsuario vista = new HomeUsuario(usuarioLogeado, this);
         vista.setVisible(true); 
-
     }
     
     public void cerrarSesion(JFrame ventanaActual) {
@@ -31,7 +30,6 @@ public class HomeUsuarioController {
 
     public void abrirMonedero(JFrame ventanaActual) {
         ventanaActual.dispose();
-
         PasajeroMonedero vistaMonedero = new PasajeroMonedero(usuarioLogeado, this);
         new PasajeroController(vistaMonedero, usuarioLogeado);
         vistaMonedero.setVisible(true);
