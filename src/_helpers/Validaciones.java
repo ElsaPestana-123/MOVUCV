@@ -103,4 +103,45 @@ public class Validaciones {
     public static boolean validarFormatoItinerario(String ruta, String hora, String estado){
         return validarHora(hora) && validarEstado(estado) && validarRuta(ruta);
     }
+
+    //Validaciones del Monedero
+
+    public static boolean validarBancoEmisor(String bancoEmisor){
+        if(bancoEmisor == null || bancoEmisor.trim().isEmpty()){
+            return false;
+        }
+       
+        return bancoEmisor.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$");
+    }
+
+    public static boolean validarNumeroTelefono(String numeroTelefono){
+        if(numeroTelefono == null || numeroTelefono.trim().isEmpty()){
+            return false;
+        }
+
+        return numeroTelefono.matches("^[0-9]{11}$");
+    }
+
+    public static boolean validarCedula(String cedula){
+        if(cedula == null || cedula.trim().isEmpty()){
+            return false;
+        }
+        
+        return cedula.matches("^[1-9][0-9]{3,7}$");
+    }
+
+    public static boolean validarNumeroReferencia(String numeroReferencia){
+        if(numeroReferencia == null || numeroReferencia.trim().isEmpty()){
+            return false;
+        }
+       
+        return numeroReferencia.matches("^[0-9]{4,13}$");
+    }
+
+    public static boolean validarMonto(float monto){
+        if(monto <= 0){
+            return false;
+        }
+        return true;
+    }
 }

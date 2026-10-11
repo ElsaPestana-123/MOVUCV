@@ -16,7 +16,6 @@ import src._helpers.ComponentUtils;
 import src._helpers.ComponentUtils.Tarjeta;
 import src.controller.HomeAdminController;
 import src.controller.UsuarioController;
-import src.view.HomeUsuario;
 
 public class HomeAdmin extends JFrame {
     private Usuario adminLogeado;
