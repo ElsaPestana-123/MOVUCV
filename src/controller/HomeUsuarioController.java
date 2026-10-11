@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import src.model.Usuario;
 import src.model.UsuarioDAO;
 import src.view.HomeUsuario;
+import src.view.PasajeroMonedero;
 
 public class HomeUsuarioController {
     private Usuario usuarioLogeado;
@@ -26,6 +27,20 @@ public class HomeUsuarioController {
     
     public void cerrarSesion(JFrame ventanaActual) {
         ventanaActual.dispose();
+    }
+
+    public void abrirMonedero(JFrame ventanaActual) {
+        ventanaActual.dispose();
+
+        PasajeroMonedero vistaMonedero = new PasajeroMonedero(usuarioLogeado, this);
+        new PasajeroController(vistaMonedero, usuarioLogeado);
+        vistaMonedero.setVisible(true);
+    }
+
+    public void regresarHome(JFrame ventanaActual) {
+        ventanaActual.dispose();
+        HomeUsuario vistaHome = new HomeUsuario(usuarioLogeado, this);
+        vistaHome.setVisible(true);
     }
 
     
