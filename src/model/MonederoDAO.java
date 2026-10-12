@@ -8,7 +8,7 @@ import java.nio.file.StandardOpenOption;
 
 public class MonederoDAO {
 
-    private static final Path RUTA_PAGOS = Paths.get("data", "pagos.txt").toAbsolutePath();
+    private static final Path RUTA_PAGOS = Paths.get("data", "pagos_Recarga.txt").toAbsolutePath();
    
     public MonederoDAO(){
 
