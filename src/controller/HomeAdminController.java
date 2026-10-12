@@ -7,6 +7,7 @@ import src.model.UsuarioDAO;
 import src.view.HomeAdmin; 
 import src.view.AdminGestionarFlota;
 import src.view.AdminGestionarItinerario;
+import src.view.AdminReporte;
 
 
 public class HomeAdminController {
@@ -52,5 +53,12 @@ public class HomeAdminController {
 
         HomeAdmin dashboard = new HomeAdmin(this.usuarioLogeado, this);
         dashboard.setVisible(true);
+    }
+
+    public void llamarReportes(JFrame ventanaActual) { 
+        ventanaActual.dispose();
+
+        AdminReporte vistaReportes = new AdminReporte(this, this.usuarioLogeado);
+        vistaReportes.setVisible(true);
     }
 }
