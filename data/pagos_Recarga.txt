@@ -1,2 +1,3 @@
 Banco Emisor|Número de telefono|Cedula|Número de referencia|Monto
 0105 - Mercantil|04165874563|1234|2365|85.0
+0102 - Venezuela|04145674391|12345678|8765|400.0

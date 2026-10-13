@@ -106,28 +106,12 @@ public class Validaciones {
 
     //Validaciones del Monedero
 
-    public static boolean validarBancoEmisor(String bancoEmisor){
-        if(bancoEmisor == null || bancoEmisor.trim().isEmpty()){
-            return false;
-        }
-       
-        return bancoEmisor.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$");
-    }
-
     public static boolean validarNumeroTelefono(String numeroTelefono){
         if(numeroTelefono == null || numeroTelefono.trim().isEmpty()){
             return false;
         }
 
         return numeroTelefono.matches("^[0-9]{11}$");
-    }
-
-    public static boolean validarCedula(String cedula){
-        if(cedula == null || cedula.trim().isEmpty()){
-            return false;
-        }
-        
-        return cedula.matches("^[1-9][0-9]{3,7}$");
     }
 
     public static boolean validarNumeroReferencia(String numeroReferencia){

@@ -61,7 +61,7 @@ public class PasajeroController {
                 return;
             }
 
-            if (!Validaciones.validarCedula(cedula)){
+            if (!Validaciones.validarFormatoCedula(cedula)){
                 vista.mostrarError("La Cedula debe tener entre 4 y 8 digitos");
                 return;
             }
