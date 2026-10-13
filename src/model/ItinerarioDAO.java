@@ -30,7 +30,7 @@ public class ItinerarioDAO {
 
         String[] datos = linea.split("\\|");
 
-        if(datos.length != 6){
+        if(datos.length < 7){
             return null;
         }
 
@@ -43,9 +43,10 @@ public class ItinerarioDAO {
             String estado = datos[4].trim();
 
             int reservas = Integer.parseInt(datos[5].trim());
+            int id = Integer.parseInt(datos[6].trim());
 
             if(Validaciones.validarFormatoItinerario(ruta, horaSalida,estado)){
-                return new Itinerario(ruta, horaSalida, placa, conductor, estado, reservas);
+                return new Itinerario(ruta, horaSalida, placa, conductor, estado, reservas,id);
             } else {
                 return null;
             }
@@ -152,13 +153,15 @@ public class ItinerarioDAO {
             return false;
         }
 
-        Itinerario itinerario = new Itinerario(ruta, horaSalida, placa, conductor, estado, reservas);
+        int idNuevo = generarIDRandom();
+        Itinerario itinerario = new Itinerario(ruta, horaSalida, placa, conductor, estado, reservas, idNuevo);
 
         // Rastreador 2
         if(evitarConflictos(itinerario)){
             System.out.println("ERROR: Conflicto detectado. Ese autobús o conductor ya tiene un viaje a las " + horaSalida);
             return false;
         }
+
 
         try{
             String contenidoArchivo = Files.readString(RUTA_ITINERARIOS, StandardCharsets.UTF_8);
@@ -168,7 +171,7 @@ public class ItinerarioDAO {
                 inicioLinea = System.lineSeparator();
             }
 
-            String lineaAgregada = inicioLinea + ruta + "|" + horaSalida + "|" + placa + "|" + conductor + "|" + estado + "|" + reservas + System.lineSeparator();
+            String lineaAgregada = inicioLinea + ruta + "|" + horaSalida + "|" + placa + "|" + conductor + "|" + estado + "|" + reservas + "|" + idNuevo + System.lineSeparator();
 
             Files.write(RUTA_ITINERARIOS, lineaAgregada.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             

@@ -10,12 +10,13 @@ public class Itinerario {
     private String conductor;
     private String estado;
     private int reservas;
+    private int id;
 
     public boolean validarDatos(){
         return Validaciones.validarFormatoItinerario(this.ruta, this.horaSalida, this.estado);
     }
 
-    public Itinerario(String ruta, String horaSalida, String placa, String conductor, String estado, int reservas) {
+    public Itinerario(String ruta, String horaSalida, String placa, String conductor, String estado, int reservas, int id) {
 
         this.ruta = ruta;
         this.horaSalida = horaSalida;
@@ -23,10 +24,15 @@ public class Itinerario {
         this.conductor = conductor;
         this.estado = estado;
         this.reservas = reservas;
+        this.id = id;
 
     }
 
     //Get and set
+
+    public int getId() {
+        return id;
+    }
 
     public String getRuta() {
 
