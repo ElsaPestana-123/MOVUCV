@@ -55,6 +55,35 @@ public class ItinerarioDAO {
 
     }
 
+// Método para leer las rutas desde rutas.txt
+    public List<String> obtenerRutas() {
+        List<String> rutas = new LinkedList<>();
+        Path rutaArchivo = Paths.get("data", "rutas.txt").toAbsolutePath();
+        
+        if (!Files.exists(rutaArchivo)) {
+            return rutas;
+        }
+
+        try (BufferedReader lector = Files.newBufferedReader(rutaArchivo, StandardCharsets.UTF_8)) {
+            String linea;
+            while ((linea = lector.readLine()) != null) {
+                linea = linea.trim();
+                // Saltamos líneas vacías o el encabezado "nombre|tarifa"
+                if (linea.isEmpty() || linea.toLowerCase().startsWith("nombre")) {
+                    continue;
+                }
+                
+                String[] datos = linea.split("\\|");
+                if (datos.length >= 1) {
+                    rutas.add(datos[0].trim()); // Tomamos solo el nombre de la ruta
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error al leer rutas.txt: " + e.getMessage());
+        }
+        return rutas;
+    }
+
     //Función para leer todos los itinerarios
 
     public List<Itinerario> listaItinerarios(){
