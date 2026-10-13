@@ -23,7 +23,7 @@ public class AdminGestionarItinerario extends JFrame {
     private static final Font FUENTE_TEXTO = new Font("SansSerif", Font.PLAIN, 18);
 
     // variables
-    private JTextField ruta;
+    private JComboBox<String> desplegableRuta;
     private JComboBox<String> desplegableConductor;
     private JComboBox<String> desplegableUnidad;
     private JTextField hora;
@@ -201,11 +201,10 @@ public class AdminGestionarItinerario extends JFrame {
         casillas.add(texto2, c);
 
         c.gridx = 1;
-        ruta = new JTextField();
-        ruta.setFont(FUENTE_TEXTO);
-        ruta.setBackground(COLOR_INPUT);
-        ruta.setBorder(new EmptyBorder(8, 10, 8, 10));
-        casillas.add(ruta, c);
+        desplegableRuta = new JComboBox<>();
+        desplegableRuta.setFont(FUENTE_TEXTO);
+        desplegableRuta.setBackground(COLOR_INPUT);
+        casillas.add(desplegableRuta, c);
 
         c.gridx = 0;
         c.gridy = 1;
@@ -364,7 +363,7 @@ public class AdminGestionarItinerario extends JFrame {
     }
 
     public String getRuta() {
-        return ruta.getText();
+        return (String) desplegableRuta.getSelectedItem();
     }
 
     public String getConductor() {
@@ -379,9 +378,10 @@ public class AdminGestionarItinerario extends JFrame {
         return hora.getText();
     }
 
+
     // setters
     public void setRuta(String ruta) {
-        this.ruta.setText(ruta);
+        desplegableRuta.setSelectedItem(ruta);
     }
 
     public void setConductor(String conductor) {
@@ -411,10 +411,18 @@ public class AdminGestionarItinerario extends JFrame {
         }
     }
 
+    public void cargarRutas(String[] rutas) {
+        desplegableRuta.removeAllItems();
+        for (String r : rutas) {
+            desplegableRuta.addItem(r);
+        }
+    }
+
     // metodo para limpiar el form despues de que se edite algo correctamente o se
     // registre una unidad correctamente
     public void limpiarFormulario() {
-        ruta.setText("");
+        if (desplegableRuta.getItemCount() > 0)
+            desplegableRuta.setSelectedIndex(0);
         if (desplegableConductor.getItemCount() > 0)
             desplegableConductor.setSelectedIndex(0);
         if (desplegableUnidad.getItemCount() > 0)
