@@ -35,6 +35,9 @@ public class ItinerarioController {
 
     private void cargarDesplegables(){
         
+        List<String> listaRutas = itinerarioDAO.obtenerRutas();
+        vista.cargarRutas(listaRutas.toArray(new String[0]));
+
         List<Unidad> unidades = unidadDAO.listaUnidades();
         List<String> placas = new LinkedList<>();
 
