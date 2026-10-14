@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import src._helpers.Validaciones;
 import java.time.LocalTime;
+import java.util.Random;
 
 public class ItinerarioDAO {
 
@@ -345,6 +346,51 @@ public class ItinerarioDAO {
         }
 
         return null;
+    }
+
+    public boolean existeItinerario(int idBuscado){ // busqueda en itinerario.txt por id
+         if(!Files.exists(RUTA_ITINERARIOS)){
+            return false;
+        }
+
+        try (BufferedReader lectorArchivo = Files.newBufferedReader(RUTA_ITINERARIOS, StandardCharsets.UTF_8)) {
+            String linea;
+
+            while((linea = lectorArchivo.readLine()) != null){
+                linea = linea.trim();
+
+                if (linea.isEmpty()) 
+                    continue; //ignora vacias
+
+                String[] datos = linea.split("\\|");
+                if (datos.length >= 7) {
+
+                    int idExistente = Integer.parseInt(datos[6].trim()); 
+
+                    if (idExistente == idBuscado) 
+                        return true;
+                    
+                    
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return false; 
+
+    }
+
+    public int generarIDRandom(){ // función que genera numeros aleatorios para id itinerario
+        Random random = new Random(); 
+        int idNuevo = 1000 + random.nextInt(90000);
+
+        while (existeItinerario(idNuevo)) {
+        idNuevo = 1000 + random.nextInt(90000);
+        }
+
+        return idNuevo;
     }
 
     public boolean eliminarItinerario(String ruta, String horaSalida, String placa){
