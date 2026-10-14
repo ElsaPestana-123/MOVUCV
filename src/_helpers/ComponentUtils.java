@@ -100,6 +100,8 @@ public class ComponentUtils {
         p.add(botonMenu("Gestionar Reportes", false, () -> controlador.llamarReportes(ventana)));
         p.add(Box.createRigidArea(new Dimension(0, 10)));
         p.add(botonMenu("Gestionar Rutas", false, () -> controlador.llamarRutas(ventana)));
+        p.add(Box.createRigidArea(new Dimension(0, 10)));
+        p.add(botonMenu("Gestionar Tarifas", false, () -> controlador.llamarTarifas(ventana)));
 
         p.add(Box.createVerticalGlue()); 
         return p;

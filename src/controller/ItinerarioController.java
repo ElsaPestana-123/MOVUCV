@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import src._helpers.Validaciones;
 import src.model.Itinerario;
 import src.model.ItinerarioDAO;
+import src.model.RutasDAO;
 import src.model.Unidad;
 import src.model.UnidadDAO;
 import src.model.UsuarioDAO;
@@ -16,6 +17,7 @@ public class ItinerarioController {
 
     private ItinerarioDAO itinerarioDAO;
     private UnidadDAO unidadDAO;
+    private RutasDAO rutasDAO;
     private AdminGestionarItinerario vista;
     private boolean Editar = false;
 
@@ -27,6 +29,7 @@ public class ItinerarioController {
         this.vista = vista;
         this.itinerarioDAO = new ItinerarioDAO();
         this.unidadDAO = new UnidadDAO();
+        this.rutasDAO = new RutasDAO();
 
         cargarDesplegables();
         cargarTabla();
@@ -35,7 +38,7 @@ public class ItinerarioController {
 
     private void cargarDesplegables(){
         
-        List<String> listaRutas = itinerarioDAO.obtenerRutas();
+        List<String> listaRutas = rutasDAO.obtenerNombresRutas();
         vista.cargarRutas(listaRutas.toArray(new String[0]));
 
         List<Unidad> unidades = unidadDAO.listaUnidades();

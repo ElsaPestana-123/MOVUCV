@@ -4,7 +4,6 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import src.model.Usuario;
-import src._helpers.ComponentUtils;
 import src.controller.HomeAdminController;
 import src._helpers.ComponentUtils;
 public class AdminGestionarTarifas extends JFrame {
@@ -29,11 +28,8 @@ public class AdminGestionarTarifas extends JFrame {
     // variables de la interfaz
     private JTable tablaRutas;
     private javax.swing.table.DefaultTableModel modeloTabla;
-    private JTextField txtNombreRuta;
-    private JComboBox<String> comboTipoRuta;
     private JTextField txtTarifa;
     private JButton btnGuardar;
-    private JButton btnEliminar;
     private JButton btnLimpiar;
     private JLabel error;
 
@@ -41,7 +37,7 @@ public class AdminGestionarTarifas extends JFrame {
         this.controlador = controlador;
         this.adminLogeado = adminLogeado;
 
-        setTitle("MOVUCV - Gestión de Rutas y Tarifas");
+        setTitle("MOVUCV - Gestión de Tarifas");
         setSize(1366, 768);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -122,7 +118,7 @@ public class AdminGestionarTarifas extends JFrame {
         p.setLayout(new BorderLayout());
         p.setBorder(new EmptyBorder(30, 30, 30, 30));
 
-        JLabel titulo = new JLabel("Rutas y Tarifas");
+        JLabel titulo = new JLabel("Tarifas");
         titulo.setFont(FUENTE_TITULO);
         titulo.setForeground(COLOR_TEXTO);
         titulo.setHorizontalAlignment(SwingConstants.CENTER);
@@ -155,7 +151,7 @@ public class AdminGestionarTarifas extends JFrame {
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         p.setBorder(new EmptyBorder(30, 30, 30, 30));
 
-        JLabel texto1 = new JLabel("Datos de la Ruta");
+        JLabel texto1 = new JLabel("Actualizar Tarifa");
         texto1.setFont(FUENTE_TITULO);
         texto1.setForeground(COLOR_TEXTO);
         texto1.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -169,36 +165,7 @@ public class AdminGestionarTarifas extends JFrame {
         c.weightx = 1.0;
         c.insets = new Insets(0, 0, 15, 0);
 
-        // Fila 1: Nombre de la Ruta
         c.gridx = 0; c.gridy = 0;
-        JLabel ruta = new JLabel("Nombre Ruta:");
-        ruta.setFont(FUENTE_SUBTITULO);
-        ruta.setForeground(COLOR_TEXTO);
-        casillas.add(ruta, c);
-
-        c.gridx = 1;
-        txtNombreRuta = new JTextField();
-        txtNombreRuta.setFont(FUENTE_TEXTO);
-        txtNombreRuta.setBackground(COLOR_INPUT);
-        txtNombreRuta.setBorder(new EmptyBorder(8, 10, 8, 10));
-        casillas.add(txtNombreRuta, c);
-
-        // Fila 2: Tipo de Ruta
-        c.gridx = 0; c.gridy = 1;
-        JLabel tipo = new JLabel("Tipo:");
-        tipo.setFont(FUENTE_SUBTITULO);
-        tipo.setForeground(COLOR_TEXTO);
-        casillas.add(tipo, c);
-
-        c.gridx = 1;
-        String[] tipos = {"Urbana", "Extraurbana"};
-        comboTipoRuta = new JComboBox<>(tipos);
-        comboTipoRuta.setFont(FUENTE_TEXTO);
-        comboTipoRuta.setBackground(COLOR_INPUT);
-        casillas.add(comboTipoRuta, c);
-
-        // Fila 3: Tarifa
-        c.gridx = 0; c.gridy = 2;
         JLabel tarifa = new JLabel("Tarifa (Bs):");
         tarifa.setFont(FUENTE_SUBTITULO);
         tarifa.setForeground(COLOR_TEXTO);
@@ -211,13 +178,13 @@ public class AdminGestionarTarifas extends JFrame {
         txtTarifa.setBorder(new EmptyBorder(8, 10, 8, 10));
         casillas.add(txtTarifa, c);
 
-        casillas.setMaximumSize(new Dimension(450, 150));
+        casillas.setMaximumSize(new Dimension(450, 80));
         p.add(casillas);
         
         p.add(Box.createRigidArea(new Dimension(0, 20)));
 
         // Botón Guardar / Registrar
-        btnGuardar = new JButton("Registrar Ruta");
+        btnGuardar = new JButton("Guardar Tarifa");
         btnGuardar.setFont(FUENTE_SUBTITULO);
         btnGuardar.setBackground(COLOR_BOTONES);
         btnGuardar.setForeground(Color.WHITE);
@@ -227,20 +194,6 @@ public class AdminGestionarTarifas extends JFrame {
         btnGuardar.setMaximumSize(new Dimension(200, 45));
         p.add(btnGuardar);
         
-        p.add(Box.createRigidArea(new Dimension(0, 10)));
-
-        // Botón Eliminar
-        btnEliminar = new JButton("Eliminar Ruta");
-        btnEliminar.setFont(FUENTE_SUBTITULO);
-        btnEliminar.setBackground(new Color(190, 70, 70)); // Rojo
-        btnEliminar.setForeground(Color.WHITE);
-        btnEliminar.setFocusPainted(false);
-        btnEliminar.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btnEliminar.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnEliminar.setMaximumSize(new Dimension(200, 45));
-        btnEliminar.setEnabled(false); // Nace deshabilitado
-        p.add(btnEliminar);
-
         p.add(Box.createRigidArea(new Dimension(0, 10)));
 
         // Botón Limpiar
@@ -282,17 +235,12 @@ public class AdminGestionarTarifas extends JFrame {
     //getters
 
     public JButton getBtnGuardar() { return btnGuardar; }
-    public JButton getBtnEliminar() { return btnEliminar; }
     public JButton getBtnLimpiar() { return btnLimpiar; }
     public JTable getTablaRutas() { return tablaRutas; }
     public javax.swing.table.DefaultTableModel getModeloTabla() { return modeloTabla; }
 
-    public String getNombreRuta() { return txtNombreRuta.getText().trim(); }
-    public String getTipoRuta() { return (String) comboTipoRuta.getSelectedItem(); }
     public String getTarifa() { return txtTarifa.getText().trim(); }
 //settters
-    public void setNombreRuta(String nombre) { txtNombreRuta.setText(nombre); }
-    public void setTipoRuta(String tipo) { comboTipoRuta.setSelectedItem(tipo); }
     public void setTarifa(String tarifa) { txtTarifa.setText(tarifa); }
 
     public void cargarDatosEnTabla(Object[][] datos) {
@@ -306,7 +254,7 @@ public class AdminGestionarTarifas extends JFrame {
         if (actualizar) {
             btnGuardar.setText("Guardar Cambios");
         } else {
-            btnGuardar.setText("Registrar Ruta");
+            btnGuardar.setText("Guardar Tarifa");
         }
     }
 
@@ -323,13 +271,10 @@ public class AdminGestionarTarifas extends JFrame {
     }
 
     public void limpiarFormulario() {
-        txtNombreRuta.setText("");
-        comboTipoRuta.setSelectedIndex(0);
         txtTarifa.setText("");
         txtTarifa.setBorder(new EmptyBorder(8, 10, 8, 10));
         error.setText(" ");
         
-        btnEliminar.setEnabled(false);
         cambiarModoBoton(false);
         tablaRutas.clearSelection();
     }
