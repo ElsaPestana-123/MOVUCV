@@ -24,6 +24,7 @@ public class AdminGestionarRutas extends JFrame {
     private javax.swing.table.DefaultTableModel modeloTabla;
     private JTextField txtNombreRuta;
     private JComboBox<String> comboTipoRuta;
+    private JTextField txtTarifa;
     private JButton btnGuardar;
     private JButton btnEliminar;
     private JButton btnLimpiar;
@@ -103,7 +104,7 @@ public class AdminGestionarRutas extends JFrame {
         titulo.setForeground(COLOR_TEXTO);
         titulo.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(titulo, BorderLayout.NORTH);
-        modeloTabla = new javax.swing.table.DefaultTableModel(null, new String[]{"Nombre de la Ruta", "Tipo"}) {
+        modeloTabla = new javax.swing.table.DefaultTableModel(null, new String[]{"Nombre de la Ruta", "Tipo", "Tarifa (Bs)"}) {
             @Override
             public boolean isCellEditable(int row, int column) { return false; }
         };
@@ -121,67 +122,103 @@ public class AdminGestionarRutas extends JFrame {
         panel.setPreferredSize(new Dimension(450, 500));
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(new EmptyBorder(30, 30, 30, 30));
+
         JLabel titulo = new JLabel("Datos de la Ruta");
         titulo.setFont(FUENTE_TITULO);
         titulo.setForeground(COLOR_TEXTO);
         titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(titulo);
         panel.add(Box.createRigidArea(new Dimension(0, 25)));
+
         JPanel campos = new JPanel(new GridBagLayout());
         campos.setOpaque(false);
+
         JLabel nombre = new JLabel("Nombre Ruta:");
         nombre.setForeground(COLOR_TEXTO);
         nombre.setFont(FUENTE_SUBTITULO);
+
         JLabel tipo = new JLabel("Tipo:");
         tipo.setForeground(COLOR_TEXTO);
         tipo.setFont(FUENTE_SUBTITULO);
+
+        // --- NUEVO: Etiqueta de la tarifa ---
+        JLabel lblTarifa = new JLabel("Tarifa Base:");
+        lblTarifa.setForeground(COLOR_TEXTO);
+        lblTarifa.setFont(FUENTE_SUBTITULO);
+
         txtNombreRuta = new JTextField();
         comboTipoRuta = new JComboBox<>(new String[]{"Urbana", "Extraurbana"});
+        txtTarifa = new JTextField(); // --- NUEVO: Campo de texto ---
+
         configurarCampo(txtNombreRuta);
         configurarCampo(comboTipoRuta);
+        configurarCampo(txtTarifa); // --- NUEVO: Configuración visual ---
 
         GridBagConstraints restricciones = new GridBagConstraints();
-        restricciones.insets = new Insets(0, 0, 15, 10);
         restricciones.anchor = GridBagConstraints.WEST;
         restricciones.fill = GridBagConstraints.HORIZONTAL;
+
+        // --- FILA 0: Nombre de Ruta ---
         restricciones.weightx = 0;
         restricciones.gridx = 0;
         restricciones.gridy = 0;
+        restricciones.insets = new Insets(0, 0, 15, 10);
         campos.add(nombre, restricciones);
 
         restricciones.gridx = 1;
-        restricciones.insets = new Insets(0, 0, 15, 0);
         restricciones.weightx = 1;
+        restricciones.insets = new Insets(0, 0, 15, 0);
         campos.add(txtNombreRuta, restricciones);
 
+        // --- FILA 1: Tipo de Ruta ---
         restricciones.gridx = 0;
         restricciones.gridy = 1;
-        restricciones.insets = new Insets(0, 0, 0, 10);
         restricciones.weightx = 0;
+        restricciones.insets = new Insets(0, 0, 15, 10); // Margen inferior de 15
         campos.add(tipo, restricciones);
 
         restricciones.gridx = 1;
-        restricciones.insets = new Insets(0, 0, 0, 0);
         restricciones.weightx = 1;
+        restricciones.insets = new Insets(0, 0, 15, 0);
         campos.add(comboTipoRuta, restricciones);
+
+        // --- FILA 2: Tarifa Base ---
+        restricciones.gridx = 0;
+        restricciones.gridy = 2;
+        restricciones.weightx = 0;
+        restricciones.insets = new Insets(0, 0, 0, 10); // Cero margen inferior porque es el último
+        campos.add(lblTarifa, restricciones);
+
+        restricciones.gridx = 1;
+        restricciones.weightx = 1;
+        restricciones.insets = new Insets(0, 0, 0, 0);
+        campos.add(txtTarifa, restricciones);
+
         panel.add(campos);
         panel.add(Box.createRigidArea(new Dimension(0, 25)));
+
+        // --- BOTONES ---
         btnGuardar = boton("Registrar Ruta", COLOR_BOTONES);
         btnEliminar = boton("Eliminar Ruta", new Color(190, 70, 70));
         btnEliminar.setEnabled(false);
+        
         btnLimpiar = boton("Limpiar", Color.GRAY);
         btnLimpiar.setMaximumSize(new Dimension(100, 30));
+
         panel.add(btnGuardar);
         panel.add(Box.createRigidArea(new Dimension(0, 10)));
         panel.add(btnEliminar);
         panel.add(Box.createRigidArea(new Dimension(0, 10)));
         panel.add(btnLimpiar);
+
         error = new JLabel(" ");
         error.setFont(FUENTE_TEXTO);
         error.setForeground(Color.RED);
         error.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
         panel.add(Box.createRigidArea(new Dimension(0, 15)));
         panel.add(error);
+
         return panel;
     }
 
@@ -221,9 +258,10 @@ public class AdminGestionarRutas extends JFrame {
     public JButton getBtnLimpiar() { return btnLimpiar; }
     public String getNombreRuta() { return txtNombreRuta.getText().trim(); }
     public String getTipoRuta() { return (String) comboTipoRuta.getSelectedItem(); }
+    public String getTarifa() { return txtTarifa.getText().trim(); }
     public void setNombreRuta(String nombre) { txtNombreRuta.setText(nombre); }
     public void setTipoRuta(String tipo) { comboTipoRuta.setSelectedItem(tipo); }
-
+    public void setTarifa(String tarifa) { txtTarifa.setText(tarifa); }
     public void cargarDatosEnTabla(Object[][] datos) {
         modeloTabla.setRowCount(0);
         for (Object[] fila : datos) modeloTabla.addRow(fila);
@@ -246,6 +284,7 @@ public class AdminGestionarRutas extends JFrame {
     public void limpiarFormulario() {
         txtNombreRuta.setText("");
         comboTipoRuta.setSelectedIndex(0);
+        txtTarifa.setText("");
         tablaRutas.clearSelection();
         btnEliminar.setEnabled(false);
         error.setText(" ");

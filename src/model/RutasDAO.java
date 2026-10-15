@@ -27,10 +27,19 @@ public class RutasDAO {
         try {
             String nombre = datos[0].trim();
             Rutas.TipoRuta tipo = Rutas.TipoRuta.valueOf(datos[1].trim().toUpperCase());
+            double tarifa = 0.0;
+
+            if (datos.length >= 3) {
+                try {
+                    tarifa = Double.parseDouble(datos[2].trim());
+                } catch (NumberFormatException e) { tarifa = 0.0; }
+            }
+
             if (nombre.isEmpty()) {
                 return null;
             }
-            return new Rutas(nombre, tipo);
+            return new Rutas(nombre, tipo, tarifa);
+
         } catch (IllegalArgumentException e) {
             return null;
         }
@@ -84,15 +93,12 @@ public class RutasDAO {
         }
 
         try {
-            String contenido = Files.exists(RUTA_RUTAS)
-                    ? Files.readString(RUTA_RUTAS, StandardCharsets.UTF_8) : "";
-            String separador = contenido.isEmpty() || contenido.endsWith("\n")
-                    || contenido.endsWith("\r\n") ? "" : System.lineSeparator();
-            String linea = separador + ruta.getNombreRuta().trim() + "|"
-                    + ruta.getTipoRuta().name().toLowerCase() + "|0.00"
-                    + System.lineSeparator();
-            Files.writeString(RUTA_RUTAS, linea, StandardCharsets.UTF_8,
-                    StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            String contenido = Files.exists(RUTA_RUTAS) ? Files.readString(RUTA_RUTAS, StandardCharsets.UTF_8) : "";
+            String separador = contenido.isEmpty() || contenido.endsWith("\n") || contenido.endsWith("\r\n") ? "" : System.lineSeparator();
+
+            String linea = separador + ruta.getNombreRuta().trim() + "|" + ruta.getTipoRuta().name().toLowerCase() + "|" + ruta.getTarifa() + System.lineSeparator();
+
+            Files.writeString(RUTA_RUTAS, linea, StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             return true;
         } catch (IOException e) {
             return false;
@@ -115,9 +121,8 @@ public class RutasDAO {
             while ((linea = lector.readLine()) != null) {
                 String[] datos = linea.split("\\|");
                 if (datos.length >= 2 && datos[0].trim().equalsIgnoreCase(nombreOriginal.trim())) {
-                    String tarifa = datos.length >= 3 ? datos[2].trim() : "0.00";
                     lineas.add(rutaActualizada.getNombreRuta().trim() + "|"
-                            + rutaActualizada.getTipoRuta().name().toLowerCase() + "|" + tarifa);
+                            + rutaActualizada.getTipoRuta().name().toLowerCase() + "|" + rutaActualizada.getTarifa());
                     encontrada = true;
                 } else {
                     lineas.add(linea);
