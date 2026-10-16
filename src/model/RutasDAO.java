@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.LinkedList;
 import java.util.List;
+import src._helpers.Validaciones;
 
 public class RutasDAO {
     private static final Path RUTA_RUTAS = Paths.get("data", "rutas.txt").toAbsolutePath();
@@ -27,17 +28,21 @@ public class RutasDAO {
         try {
             String nombre = datos[0].trim();
             Rutas.TipoRuta tipo = Rutas.TipoRuta.valueOf(datos[1].trim().toUpperCase());
-            double tarifa = 0.0;
-
-            if (datos.length >= 3) {
-                try {
-                    tarifa = Double.parseDouble(datos[2].trim());
-                } catch (NumberFormatException e) { tarifa = 0.0; }
-            }
-
-            if (nombre.isEmpty()) {
+            if (datos.length < 3 || nombre.isEmpty()) {
                 return null;
             }
+
+            double tarifa;
+            try {
+                tarifa = Double.parseDouble(datos[2].trim());
+            } catch (NumberFormatException e) {
+                return null;
+            }
+
+            if (!Validaciones.validarTarifa(tarifa)) {
+                return null;
+            }
+
             return new Rutas(nombre, tipo, tarifa);
 
         } catch (IllegalArgumentException e) {
@@ -88,7 +93,9 @@ public class RutasDAO {
     public boolean guardarRuta(Rutas ruta) {
         if (ruta == null || ruta.getNombreRuta() == null
                 || ruta.getNombreRuta().trim().isEmpty()
-                || ruta.getTipoRuta() == null || existeRuta(ruta.getNombreRuta())) {
+                || ruta.getTipoRuta() == null
+                || !Validaciones.validarTarifa(ruta.getTarifa())
+                || existeRuta(ruta.getNombreRuta())) {
             return false;
         }
 
@@ -110,7 +117,8 @@ public class RutasDAO {
                 || nombreOriginal.trim().isEmpty()
                 || rutaActualizada.getNombreRuta() == null
                 || rutaActualizada.getNombreRuta().trim().isEmpty()
-                || rutaActualizada.getTipoRuta() == null) {
+                || rutaActualizada.getTipoRuta() == null
+                || !Validaciones.validarTarifa(rutaActualizada.getTarifa())) {
             return false;
         }
 

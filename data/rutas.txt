@@ -1,4 +1,7 @@
 nombre|tipo|tarifa
-UCV - MARACAY|urbana|1.99
-UCV- La Guaira|extraurbana|0.00
-UCV-CATIA|urbana|0.00
+UCV - MARACAY|urbana|900.0
+UCV- La Guaira|extraurbana|850.0
+UCV-CATIA|urbana|220.0
+UCV - Los Teques|extraurbana|870.0
+sgsxgsgb|urbana|0.0
+UCV - San Antonio|urbana|860.0

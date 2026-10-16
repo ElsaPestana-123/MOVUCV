@@ -8,6 +8,22 @@ public class Validaciones {
         return cadena == null || cadena.trim().isEmpty();
     }
 
+    public static boolean validarTarifa(String tarifa){
+        if (EsVacia(tarifa)) {
+            return false;
+        }
+
+        try {
+            return validarTarifa(Double.parseDouble(tarifa.trim().replace(",", ".")));
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public static boolean validarTarifa(double tarifa){
+        return Double.isFinite(tarifa) && tarifa > 0;
+    }
+
     public static boolean validarCamposVacios(String nombre, String apellido, String cedula, String correo, String clave, String confirmacionClave){
         return EsVacia(nombre) || EsVacia(cedula) || EsVacia(correo) || EsVacia(clave) || EsVacia(apellido);
     }

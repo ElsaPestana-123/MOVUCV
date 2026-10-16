@@ -2,6 +2,7 @@ package src.controller;
 
 import javax.swing.JOptionPane;
 import java.util.List;
+import src._helpers.Validaciones;
 import src.model.Rutas;
 import src.model.RutasDAO;
 import src.view.AdminGestionarRutas;
@@ -57,19 +58,29 @@ public class RutasController {
         String nombreRuta = vista.getNombreRuta().trim();
         String tarifaStr = vista.getTarifa().trim(); // EXTRAE LA TARIFA
         
-        if (nombreRuta.isEmpty() || tarifaStr.isEmpty()) {
-            vista.mostrarError("Todos los campos son obligatorios.");
+        if (nombreRuta.isEmpty()) {
+            vista.mostrarError("El nombre de la ruta es obligatorio.");
             return;
         }
 
-        double tarifaBase = 0.0;
-        try {
-           
-            tarifaBase = Double.parseDouble(tarifaStr.replace(",", "."));
-            if (tarifaBase < 0) {
-                vista.mostrarError("La tarifa debe ser un monto positivo.");
-                return;
+        if (tarifaStr.isEmpty()) {
+            vista.mostrarError("La tarifa es obligatoria.");
+            return;
+        }
+
+        if (!Validaciones.validarTarifa(tarifaStr)) {
+            try {
+                Double.parseDouble(tarifaStr.replace(",", "."));
+                vista.mostrarError("La tarifa debe ser mayor que cero.");
+            } catch (NumberFormatException ex) {
+                vista.mostrarError("La tarifa debe ser un número válido (ej. 1.50).");
             }
+            return;
+        }
+
+        double tarifaBase;
+        try {
+            tarifaBase = Double.parseDouble(tarifaStr.replace(",", "."));
         } catch (NumberFormatException ex) {
             vista.mostrarError("La tarifa debe ser un número válido (ej. 1.50).");
             return;

@@ -9,7 +9,6 @@ import src.view.AdminGestionarFlota;
 import src.view.AdminGestionarItinerario;
 import src.view.AdminReporte;
 import src.view.AdminGestionarRutas;
-import src.view.AdminGestionarTarifas;
 
 public class HomeAdminController {
     private Usuario usuarioLogeado;
@@ -47,14 +46,6 @@ public class HomeAdminController {
         AdminGestionarRutas vistaRutas = new AdminGestionarRutas(this, this.usuarioLogeado);
         new RutasController(vistaRutas);
         vistaRutas.setVisible(true);
-    }
-
-    public void llamarTarifas(JFrame ventanaActual){
-        ventanaActual.dispose();
-
-        AdminGestionarTarifas vistaTarifas = new AdminGestionarTarifas(this, this.usuarioLogeado);
-        new TarifasController(vistaTarifas);
-        vistaTarifas.setVisible(true);
     }
 
     public void llamarGestionarI(JFrame ventanaActual){ //llamada de redirección a Gestionar itinerario
