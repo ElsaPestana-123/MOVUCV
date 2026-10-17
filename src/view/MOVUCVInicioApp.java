@@ -2,6 +2,7 @@ package src.view;
 
 import src.controller.HomeUsuarioController;
 import src.controller.HomeAdminController;
+import src.controller.HomeConductorController;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -191,11 +192,6 @@ public class MOVUCVInicioApp extends JFrame {
 
                 resultadoString = resultadoString.toUpperCase();
 
-                /*
-                 * if (resultadoString.equals("C"))
-                 * new HomeConductor(getCorreo()).setVisible(true);
-                 */ // mouseherramienta para más tarde
-
                 if (resultadoString.equals("E") || resultadoString.equals("T") || resultadoString.equals("P")) {
                     HomeUsuarioController homecontrol = new HomeUsuarioController();
                     homecontrol.iniciarHome(getCorreo());
@@ -206,9 +202,17 @@ public class MOVUCVInicioApp extends JFrame {
                     homeadmincontrol.iniciarHome(getCorreo());
                 }
 
+                else if (resultadoString.equals("C")) {
+                    HomeConductorController homeConductorControl = new HomeConductorController();
+                    homeConductorControl.iniciarHome(getCorreo());
+
+                    
+                }
+
                 else {
                     mostrarError("*Rol no reconocido en el sistema.");
                     TextoError.setForeground(Color.RED);
+                    return;
                 }
 
                 dispose();
