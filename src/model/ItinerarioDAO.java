@@ -118,6 +118,20 @@ public class ItinerarioDAO {
         return itinerarios;
     }
 
+     public List<Itinerario> listaItinerariosPorConductor(String cedula){
+        List<Itinerario> itinerariosAsignados = new LinkedList<>();
+        if(cedula == null || cedula.trim().isEmpty()){
+            return itinerariosAsignados;
+        }
+
+        for(Itinerario itinerario : listaItinerarios()){
+            if(itinerario.getConductor().trim().equalsIgnoreCase(cedula.trim())){
+                itinerariosAsignados.add(itinerario);
+            }
+        }
+
+        return itinerariosAsignados;
+    }
     //Función para verificar que un mismo autobus no sea asignado a la misma hora
 
     public boolean evitarConflictos(Itinerario itinerarionuevo){
