@@ -57,6 +57,7 @@ public class ReservaDAO {
 
             // Si el archivo no existe, lo crea y escribe la cabecera
             boolean archivoExiste = Files.exists(RUTA_RESERVAS);
+            String contenido = archivoExiste? Files.readString(RUTA_RESERVAS, StandardCharsets.UTF_8): "";
 
             try (BufferedWriter writer = Files.newBufferedWriter(
                     RUTA_RESERVAS,
@@ -64,10 +65,12 @@ public class ReservaDAO {
                     archivoExiste ? StandardOpenOption.APPEND : StandardOpenOption.CREATE,
                     StandardOpenOption.WRITE
             )) {
-                if (!archivoExiste) {
-                    writer.write("id|cedula|itinerarioID|asiento|fecha");
-                    writer.newLine();
-                }
+                if (contenido.isEmpty()) {
+                writer.write("id|cedula|itinerarioID|asiento|fecha");
+                writer.newLine();
+            } else if (!contenido.endsWith("\n") && !contenido.endsWith("\r")) {
+                writer.newLine();
+            }
 
                 writer.write(
                     reserva.getIdReserva() + "|" +
@@ -175,61 +178,94 @@ public class ReservaDAO {
     }
 
     public boolean eliminarReservaPorId(String idReserva) {
-    if (idReserva == null || idReserva.trim().isEmpty()) {
+        if (idReserva == null || idReserva.trim().isEmpty()) {
+            return false;
+        }
+
+        Path rutaOriginal = RUTA_RESERVAS;
+        Path rutaTmp = Paths.get("data", "reservas_tmp.txt").toAbsolutePath();
+
+        if (!Files.exists(rutaOriginal)) {
+            return false;
+        }
+
+        try (BufferedReader lector = Files.newBufferedReader(rutaOriginal, StandardCharsets.UTF_8);
+            BufferedWriter writer = Files.newBufferedWriter(rutaTmp, StandardCharsets.UTF_8,
+                    StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
+
+            String linea;
+            boolean primeraLinea = true;
+
+            while ((linea = lector.readLine()) != null) {
+                if (linea == null || linea.trim().isEmpty()) {
+                    continue;
+                }
+
+                if (primeraLinea) {
+                    primeraLinea = false;
+                    if (linea.toLowerCase().startsWith("id|")) {
+                        writer.write(linea);
+                        writer.newLine();
+                        continue;
+                    }
+                }
+
+                Reserva reserva = leerReserva(linea);
+                if (reserva != null && reserva.getIdReserva().equals(idReserva)) {
+                    continue; // la salta, la elimina
+                }
+
+                writer.write(linea);
+                writer.newLine();
+            }
+
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        try {
+            Files.deleteIfExists(rutaOriginal);
+            Files.move(rutaTmp, rutaOriginal, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+            return true;
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean usuarioTieneReservaEnHorario(String cedula, Itinerario nuevo)
+        throws IOException {
+
+    if (cedula == null || nuevo == null || !Files.exists(RUTA_RESERVAS)) {
         return false;
     }
 
-    Path rutaOriginal = RUTA_RESERVAS;
-    Path rutaTmp = Paths.get("data", "reservas_tmp.txt").toAbsolutePath();
+    List<Itinerario> itinerarios = new ItinerarioDAO().listaItinerarios();
 
-    if (!Files.exists(rutaOriginal)) {
-        return false;
-    }
-
-    try (BufferedReader lector = Files.newBufferedReader(rutaOriginal, StandardCharsets.UTF_8);
-         BufferedWriter writer = Files.newBufferedWriter(rutaTmp, StandardCharsets.UTF_8,
-                 StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
-
+    try (BufferedReader lector =
+                 Files.newBufferedReader(RUTA_RESERVAS, StandardCharsets.UTF_8)) {
         String linea;
-        boolean primeraLinea = true;
 
         while ((linea = lector.readLine()) != null) {
-            if (linea == null || linea.trim().isEmpty()) {
+            Reserva reserva = leerReserva(linea);
+
+            if (reserva == null
+                    || !reserva.getCedulaPasajero().equals(cedula.trim())) {
                 continue;
             }
 
-            if (primeraLinea) {
-                primeraLinea = false;
-                if (linea.toLowerCase().startsWith("id|")) {
-                    writer.write(linea);
-                    writer.newLine();
-                    continue;
+            for (Itinerario existente : itinerarios) {
+                if (existente.getId() == reserva.getIdItinerario()
+                        && existente.getHoraSalida().equals(nuevo.getHoraSalida())) {
+                    return true;
                 }
             }
-
-            Reserva reserva = leerReserva(linea);
-            if (reserva != null && reserva.getIdReserva().equals(idReserva)) {
-                continue; // la salta, la elimina
-            }
-
-            writer.write(linea);
-            writer.newLine();
         }
-
-        writer.flush();
-    } catch (IOException e) {
-        e.printStackTrace();
-        return false;
     }
 
-    try {
-        Files.deleteIfExists(rutaOriginal);
-        Files.move(rutaTmp, rutaOriginal, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-        return true;
-        
-    } catch (IOException e) {
-        e.printStackTrace();
-        return false;
-    }
+    return false;
 }
 }

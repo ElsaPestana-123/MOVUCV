@@ -45,13 +45,17 @@ public class ReservaController {
         
 
         try {
-            if (reservaDAO.usuarioConReservaenItinerario(usuarioLogueado.getCedula(), itinerario.getId())) {
+            if (reservaDAO.usuarioConReservaenItinerario(usuarioLogueado.getCedula(), itinerario.getId())) 
                 return "*Usted ya cuenta con una reserva activa para este itinerario.";
-            }
+            
 
-            if (estaAsientoOcupado(itinerario.getId(), numeroAsiento)) {
+            if (reservaDAO.usuarioTieneReservaEnHorario(usuarioLogueado.getCedula(), itinerario)) {
+                return "*Ya tienes una reserva para otro viaje a esa hora.";
+    }
+
+            if (estaAsientoOcupado(itinerario.getId(), numeroAsiento)) 
                 return "*El asiento N° " + numeroAsiento + " ya se encuentra ocupado por otro pasajero.";
-            }
+            
 
             Reserva nuevaReserva = new Reserva(generarIdReservaUnico(), usuarioLogueado.getCedula(), itinerario.getId(), numeroAsiento, LocalDate.now().toString());
 
