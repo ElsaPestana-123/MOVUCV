@@ -21,7 +21,7 @@ public class ReservaDAO {
 
         String texto = linea.trim();
 
-        // Ignora la cabecera del archivo
+        // ignorecabecera archivo
         if (texto.toLowerCase().startsWith("id|")) {
             return null;
         }
