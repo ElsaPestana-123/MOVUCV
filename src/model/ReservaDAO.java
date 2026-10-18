@@ -55,8 +55,7 @@ public class ReservaDAO {
                 Files.createDirectories(carpeta);
             }
 
-            // Si el archivo no existe, lo crea y escribe la cabecera
-            boolean archivoExiste = Files.exists(RUTA_RESERVAS);
+            boolean archivoExiste = Files.exists(RUTA_RESERVAS); //crear en caso de no existir
             String contenido = archivoExiste? Files.readString(RUTA_RESERVAS, StandardCharsets.UTF_8): "";
 
             try (BufferedWriter writer = Files.newBufferedWriter(
@@ -89,7 +88,7 @@ public class ReservaDAO {
         }
     }
 
-    public List<Integer> listaAsientosOcupados(int idItinerario) throws IOException {
+    public List<Integer> listaAsientosOcupados(int idItinerario) throws IOException { //retorna ocupados usados para la vista
         List<Integer> asientosOcupados = new LinkedList<>();
 
         if (!Files.exists(RUTA_RESERVAS)) {
@@ -147,7 +146,7 @@ public class ReservaDAO {
         return false;
     }
 
-    public boolean usuarioConReservaenItinerario(String cedulaPasajero, int idItinerario) throws IOException {
+    public boolean usuarioConReservaenItinerario(String cedulaPasajero, int idItinerario) throws IOException { //evita reservar 2 puestos el mismo usuario
         if (!Files.exists(RUTA_RESERVAS)) {
             return false;
         }
@@ -177,7 +176,7 @@ public class ReservaDAO {
         return false;
     }
 
-    public boolean eliminarReservaPorId(String idReserva) {
+    public boolean eliminarReservaPorId(String idReserva) { 
         if (idReserva == null || idReserva.trim().isEmpty()) {
             return false;
         }
@@ -236,36 +235,33 @@ public class ReservaDAO {
         }
     }
 
-    public boolean usuarioTieneReservaEnHorario(String cedula, Itinerario nuevo)
+    public boolean usuarioTieneReservaEnHorario(String cedula, Itinerario nuevo) //evitar una reserva de dos itinerarios la misma hora
         throws IOException {
 
-    if (cedula == null || nuevo == null || !Files.exists(RUTA_RESERVAS)) {
-        return false;
-    }
+        if (cedula == null || nuevo == null || !Files.exists(RUTA_RESERVAS)) 
+            return false;
+        
 
-    List<Itinerario> itinerarios = new ItinerarioDAO().listaItinerarios();
+        List<Itinerario> itinerarios = new ItinerarioDAO().listaItinerarios();
 
-    try (BufferedReader lector =
-                 Files.newBufferedReader(RUTA_RESERVAS, StandardCharsets.UTF_8)) {
-        String linea;
+        try (BufferedReader lector = Files.newBufferedReader(RUTA_RESERVAS, StandardCharsets.UTF_8)) {
+            String linea;
 
-        while ((linea = lector.readLine()) != null) {
-            Reserva reserva = leerReserva(linea);
+            while ((linea = lector.readLine()) != null) {
+                Reserva reserva = leerReserva(linea);
 
-            if (reserva == null
-                    || !reserva.getCedulaPasajero().equals(cedula.trim())) {
-                continue;
-            }
+                if (reserva == null || !reserva.getCedulaPasajero().equals(cedula.trim())) 
+                    continue;
+            
 
-            for (Itinerario existente : itinerarios) {
-                if (existente.getId() == reserva.getIdItinerario()
-                        && existente.getHoraSalida().equals(nuevo.getHoraSalida())) {
-                    return true;
+                for (Itinerario existente : itinerarios) {
+                    if (existente.getId() == reserva.getIdItinerario() && existente.getHoraSalida().equals(nuevo.getHoraSalida())) 
+                        return true;
+                    
                 }
             }
         }
-    }
 
-    return false;
-}
+        return false;
+        }
 }
