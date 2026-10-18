@@ -7,7 +7,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -113,53 +112,37 @@ public class UsuarioDAO {
     }
 
     //búsqueda en usuarios y modifica el archivo reescribiendolo
-    public static boolean actualizarSaldo(double saldo, String correo) throws IOException{
+    public static boolean actualizarSaldo(String cedula, double nuevoSaldo) {
+        Path rutaUsuarios = Paths.get("data", "usuarios.txt").toAbsolutePath();
+        if (!Files.exists(rutaUsuarios)) return false;
 
-        if(!Files.exists(RUTA_REGISTRADOS))
-            return false;
+        try {
+            List<String> lineas = Files.readAllLines(rutaUsuarios, java.nio.charset.StandardCharsets.UTF_8);
+            boolean actualizado = false;
 
-        List<String> archivoActualizado = new ArrayList<>();
-        boolean existe = false;
-        
-        try(BufferedReader lectorArchivo = Files.newBufferedReader(RUTA_REGISTRADOS, StandardCharsets.UTF_8)){
+            for (int i = 0; i < lineas.size(); i++) {
+                String linea = lineas.get(i);
+                if (linea.trim().isEmpty() || linea.toLowerCase().startsWith("nombre|")) continue;
 
-            String linea;
-            correo = correo.trim();
-
-
-            while((linea = lectorArchivo.readLine()) != null){
-
-                linea = linea.trim();
-                if(linea.isEmpty() || linea.startsWith("cedula")){
-                    archivoActualizado.add(linea);
-                    continue;
-                }
-
-                String[] informacionUsuario = linea.split("\\|");
-
-                if(informacionUsuario[4].trim().equalsIgnoreCase(correo)){
-
-                    informacionUsuario[6] = String.valueOf(saldo);
-                    linea = String.join("|", informacionUsuario);
-                    existe = true;
-                }
-
-                archivoActualizado.add(linea);
+                String[] datos = linea.split("\\|");
                 
+                if (datos.length >= 7 && datos[0].trim().equals(cedula.trim())) {
+                    datos[6] = String.valueOf(nuevoSaldo);
+                    
+                    lineas.set(i, String.join("|", datos));
+                    actualizado = true;
+                    break; 
+                }
             }
-        
-        } 
 
-        if(existe){ // solo si encontramos al usuario, reescribimos
-            try{
-                Files.write(RUTA_REGISTRADOS, archivoActualizado, StandardCharsets.UTF_8);
+            if (actualizado) {
+                Files.write(rutaUsuarios, lineas, java.nio.charset.StandardCharsets.UTF_8);
                 return true;
-
-            } catch(IOException e){
-                return false;
             }
-        }
 
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 

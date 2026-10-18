@@ -1,18 +1,24 @@
 package src.controller;
 
-import src.model.Reserva;
-import src.model.ReservaDAO;
-import src.model.Itinerario;
-import src.model.Usuario;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Random;
+
+import src._helpers.CobroSolidario;
+import src.model.Itinerario;
 import src.model.ItinerarioDAO;
+import src.model.Pasaje;
+import src.model.PasajeDAO;
+import src.model.Reserva;
+import src.model.ReservaDAO;
+import src.model.Rutas;
+import src.model.RutasDAO;
 import src.model.Unidad;
 import src.model.UnidadDAO;
 
 import javax.swing.JOptionPane;
+
 
 public class ReservaController {
 
@@ -34,31 +40,45 @@ public class ReservaController {
     }
 
     private boolean esRutaReservable(Itinerario itinerario) {
-        return itinerario != null && "Programado".equalsIgnoreCase(itinerario.getEstado());
+        return itinerario != null
+                && "Programado".equalsIgnoreCase(itinerario.getEstado());
     }
 
-    public String procesarReserva(Usuario usuarioLogueado, Itinerario itinerario, int numeroAsiento) { // verifica
-                                                                                                       // formato y
-                                                                                                       // guarda
-                                                                                                       // reservas
-        if (!esRutaReservable(itinerario))
+    public String procesarReserva(Usuario usuarioLogueado, Itinerario itinerario, int numeroAsiento) { //verifica formato y guarda reservas
+        if (!esRutaReservable(itinerario)) 
             return "*La ruta seleccionada no se encuentra disponible para reservas.";
+        
 
-        if (numeroAsiento <= 0)
+        if (numeroAsiento <= 0) 
             return "*Debe seleccionar un asiento válido en el mapa.";
+        
 
         try {
-            if (reservaDAO.usuarioConReservaenItinerario(usuarioLogueado.getCedula(), itinerario.getId()))
+            if (reservaDAO.usuarioConReservaenItinerario(usuarioLogueado.getCedula(), itinerario.getId())) 
                 return "*Usted ya cuenta con una reserva activa para este itinerario.";
+            
 
             if (reservaDAO.usuarioTieneReservaEnHorario(usuarioLogueado.getCedula(), itinerario)) {
                 return "*Ya tienes una reserva para otro viaje a esa hora.";
             }
 
-            if (estaAsientoOcupado(itinerario.getId(), numeroAsiento))
+            if (estaAsientoOcupado(itinerario.getId(), numeroAsiento)) 
                 return "*El asiento N° " + numeroAsiento + " ya se encuentra ocupado por otro pasajero.";
+            
 
-            // ...existing code...
+            RutasDAO rutasDAO = new RutasDAO();
+            double tarifaBase = 0.0;
+            for (Rutas ruta : rutasDAO.listaRutas()) {
+                if (ruta.getNombreRuta().equalsIgnoreCase(itinerario.getRuta())) {
+                    tarifaBase = ruta.getTarifa();
+                    break;
+                }
+            }
+
+            double montoFinal = CobroSolidario.calcularMonto(tarifaBase, usuario.getRol());
+            if (usuario.getSaldo() < montoFinal) {
+                return "*Saldo insuficiente para realizar el pago del pasaje.";
+            }
 
             Unidad unidad = new UnidadDAO().buscarUnidad(itinerario.getPlaca());
             if (unidad == null) {
@@ -76,48 +96,52 @@ public class ReservaController {
                 return "*No se encontró el itinerario.";
             }
 
+            String idReserva = generarIdReservaUnico();
             Reserva nuevaReserva = new Reserva(
-                    generarIdReservaUnico(),
-                    usuarioLogueado.getCedula(),
+                    idReserva,
+                    usuario.getCedula(),
                     itinerario.getId(),
                     numeroAsiento,
                     LocalDate.now().toString());
 
-            if (ReservaDAO.guardarReserva(nuevaReserva)) {
-                return "Reserva confirmada exitosamente. Proceda al pago";
+            if (!ReservaDAO.guardarReserva(nuevaReserva)) {
+                itinerarioDAO.decrementarReservas(itinerario.getId());
+                return "*Error al registrar la reserva en el sistema.";
             }
 
-            itinerarioDAO.decrementarReservas(itinerario.getId());
-            return "*Error al registrar la reserva en el sistema.";
+            double nuevoSaldo = usuario.getSaldo() - montoFinal;
+            usuario.setSaldo(nuevoSaldo);
+            UsuarioDAO.actualizarSaldo(usuario.getCedula(), nuevoSaldo);
 
-        } catch (IOException e) {
+            Pasaje nuevoPasaje = new Pasaje(
+                    itinerario.getRuta(), usuario.getRol(), montoFinal);
+            new PasajeDAO().guardarPasaje(nuevoPasaje);
+
+            return "EXITO|" + idReserva + "|" + tarifaBase + "|" + montoFinal;
+        } catch (Exception e) {
             e.printStackTrace();
             return "*Error al acceder a la base de datos de reservas.";
         }
     }
 
-    public boolean guardarReserva(Reserva reserva) { // llama a guardar reserva en DAO
+    public boolean guardarReserva(Reserva reserva) { //llama a guardar reserva en DAO
         try {
-            return reservaDAO.guardarReserva(reserva);
+            return reservaDAO.guardarReserva(reserva); 
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
 
-    public List<Integer> obtenerAsientosOcupados(int idItinerario) throws IOException { // para obtener coupados en
-                                                                                        // itinerario
+    public List<Integer> obtenerAsientosOcupados(int idItinerario) throws IOException { //para obtener coupados en itinerario
         return reservaDAO.listaAsientosOcupados(idItinerario);
     }
 
-    public boolean estaAsientoOcupado(int idItinerario, int numeroAsiento) throws IOException { // para revisar si un
-                                                                                                // asiento esta ocupado
-                                                                                                // en itinerario
+    public boolean estaAsientoOcupado(int idItinerario, int numeroAsiento) throws IOException { // para revisar si un asiento esta ocupado en itinerario
         return obtenerAsientosOcupados(idItinerario).contains(numeroAsiento);
     }
 
-    public boolean cancelarReserva(String idReserva) { // mouski herramienta para más tarde
-        return reservaDAO.eliminarReservaPorId(idReserva);
+    public boolean cancelarReserva(String idReserva) { //mouski herramienta para más tarde 
+    return reservaDAO.eliminarReservaPorId(idReserva);
     }
-
 }

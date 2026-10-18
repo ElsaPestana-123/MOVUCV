@@ -6,7 +6,6 @@ import src.model.UsuarioDAO;
 import src.model.Mondero;
 import src.model.MonederoDAO;
 import src._helpers.Validaciones;
-import java.io.IOException;
 
 public class PasajeroController {
     
@@ -95,7 +94,7 @@ public class PasajeroController {
 
                 double nuevoSaldo = usuario.getSaldo() + montoFloat;
 
-                boolean saldoActualizado = UsuarioDAO.actualizarSaldo(nuevoSaldo, usuario.getCorreo());
+                boolean saldoActualizado = UsuarioDAO.actualizarSaldo(usuario.getCedula(), nuevoSaldo);
 
                 if (saldoActualizado){
 
@@ -112,11 +111,7 @@ public class PasajeroController {
                 }
             } catch (NumberFormatException ex) {
                 vista.mostrarError("El monto debe ser un número válido.");
-            } catch (IOException ex) {
-                vista.mostrarError("Error al actualizar el saldo del usuario.");
-            } 
-
-                
+            }
         });
     }
     

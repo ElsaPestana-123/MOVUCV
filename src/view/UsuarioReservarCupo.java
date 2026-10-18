@@ -8,6 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import src._helpers.CobroSolidario;
+import src.model.Rutas;
+import src.model.RutasDAO;
+import src.model.TicketDigital;
+import src.model.TicketDigitalDAO;
 import src.controller.HomeUsuarioController;
 import src.controller.ReservaController;
 import src.model.Itinerario;
@@ -29,7 +35,6 @@ public class UsuarioReservarCupo extends JPanel {
     private final Itinerario itinerario;
     private final ReservaController reservaController;
     private final JFrame home;
-    private final HomeUsuarioController controlador;
     private final Runnable alVolver;
 
     private Unidad unidad;
@@ -37,6 +42,9 @@ public class UsuarioReservarCupo extends JPanel {
     private List<Integer> ocupados = new ArrayList<>();
     private int asientoSeleccionado = -1;
     private final List<AsientoBoton> botones = new ArrayList<>();
+
+    private double tarifaBase = 0.0;
+    private double montoFinal = 0.0;
 
     private final JPanel zonaDerecha = new JPanel(new BorderLayout());
     private JLabel lblAsiento;
@@ -51,7 +59,6 @@ public class UsuarioReservarCupo extends JPanel {
         this.itinerario = itinerario;
         this.reservaController = reservaController;
         this.home = home;
-        this.controlador = controlador;
         this.alVolver = alVolver;
 
         unidad = new UnidadDAO().buscarUnidad(itinerario.getPlaca());
@@ -59,6 +66,15 @@ public class UsuarioReservarCupo extends JPanel {
         if (unidad != null)
             capacidad = unidad.getCapacidad();
         cargarOcupados();
+
+        RutasDAO rutasDAO = new RutasDAO();
+        for (Rutas r : rutasDAO.listaRutas()) {
+            if (r.getNombreRuta().equalsIgnoreCase(itinerario.getRuta())) {
+                tarifaBase = r.getTarifa();
+                break;
+            }
+        }
+        montoFinal = CobroSolidario.calcularMonto(tarifaBase, usuario.getRol());
 
         setOpaque(false);
         setLayout(new BorderLayout(20, 0));
@@ -85,14 +101,12 @@ public class UsuarioReservarCupo extends JPanel {
     }
 
     private String nombreUsuario() {
-        if (usuario == null)
-            return "Usuario";
+        if (usuario == null) return "Usuario";
         return usuario.getNombre();
     }
 
     private String cedulaUsuario() {
-        if (usuario == null)
-            return "";
+        if (usuario == null) return "";
         return usuario.getCedula();
     }
 
@@ -238,14 +252,36 @@ public class UsuarioReservarCupo extends JPanel {
         detalles.add(fila2);
         detalles.add(Box.createVerticalStrut(18));
 
+        // NUEVO: Agrupamos los datos del pasajero horizontalmente para ahorrar espacio vertical
         detalles.add(etiqueta("Datos del Pasajero", new Font("SansSerif", Font.BOLD, 14), TEXTO));
         detalles.add(Box.createVerticalStrut(6));
-        detalles.add(campoPlano("Nombre completo", nombreUsuario()));
-        detalles.add(Box.createVerticalStrut(8));
-        detalles.add(campoPlano("Cédula", cedulaUsuario()));
+        
+        JPanel filaPasajero = new JPanel(new GridLayout(1, 2, 12, 0));
+        filaPasajero.setOpaque(false);
+        filaPasajero.add(campoPlano("Nombre completo", nombreUsuario()));
+        filaPasajero.add(campoPlano("Cédula", cedulaUsuario()));
+        filaPasajero.setAlignmentX(Component.LEFT_ALIGNMENT);
+        filaPasajero.setMaximumSize(new Dimension(Integer.MAX_VALUE, 54));
+        detalles.add(filaPasajero);
+        detalles.add(Box.createVerticalStrut(14));
+
+        // NUEVO: Desglose de pago / Cobro Solidario
+        detalles.add(etiqueta("Desglose de Pago (Cobro Solidario)", new Font("SansSerif", Font.BOLD, 14), TEXTO));
+        detalles.add(Box.createVerticalStrut(6));
+        
+        JPanel filaPago = new JPanel(new GridLayout(1, 2, 12, 0));
+        filaPago.setOpaque(false);
+        filaPago.add(campoPlano("Tarifa Base", "Bs. " + String.format("%.2f", tarifaBase)));
+        
+        String nombreRol = CobroSolidario.obtenerNombreRol(usuario.getRol());
+        filaPago.add(campoPlano("A Pagar (" + nombreRol + ")", "Bs. " + String.format("%.2f", montoFinal)));
+        filaPago.setAlignmentX(Component.LEFT_ALIGNMENT);
+        filaPago.setMaximumSize(new Dimension(Integer.MAX_VALUE, 54));
+        detalles.add(filaPago);
         detalles.add(Box.createVerticalStrut(20));
 
-        btnConfirmar = new BotonOscuro("Confirmar Reserva");
+        // Botones
+        btnConfirmar = new BotonOscuro("Confirmar y Pagar");
         btnConfirmar.setEnabled(asientoSeleccionado > 0);
         btnConfirmar.addActionListener(e -> confirmarReserva());
 
@@ -263,15 +299,15 @@ public class UsuarioReservarCupo extends JPanel {
 
         lblMensaje = new JLabel();
         lblMensaje.setOpaque(false);
-        lblMensaje.setForeground(new Color(140, 0, 0));
-        lblMensaje.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        lblMensaje.setForeground(new Color(255, 100, 100)); // Rojo más claro para destacar sobre el panel azul
+        lblMensaje.setFont(new Font("SansSerif", Font.BOLD, 14));
         lblMensaje.setHorizontalAlignment(SwingConstants.CENTER);
         lblMensaje.setAlignmentX(Component.LEFT_ALIGNMENT);
         lblMensaje.setMaximumSize(new Dimension(Integer.MAX_VALUE, 70));
         if (mensajeError.isEmpty()) {
             lblMensaje.setVisible(false);
         } else {
-            lblMensaje.setText("/*" + mensajeError);
+            lblMensaje.setText("¡Atención! " + mensajeError);
             lblMensaje.setVisible(true);
         }
         detalles.add(lblMensaje);
@@ -295,7 +331,7 @@ public class UsuarioReservarCupo extends JPanel {
         r.setBackground(Color.WHITE);
         r.setLayout(new BoxLayout(r, BoxLayout.Y_AXIS));
         r.setBorder(new EmptyBorder(18, 20, 18, 20));
-        r.setPreferredSize(new Dimension(340, 100));
+        r.setPreferredSize(new Dimension(460, 300));
 
         String textoTitulo = "Resumen de Reserva";
         Color colorTitulo = FONDO;
@@ -313,13 +349,23 @@ public class UsuarioReservarCupo extends JPanel {
 
         String fecha = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         r.add(filaResumen("Ruta", itinerario.getRuta()));
+        r.add(Box.createVerticalStrut(4));
         r.add(filaResumen("Placa de unidad", itinerario.getPlaca()));
+        r.add(Box.createVerticalStrut(4));
         r.add(filaResumen("Fecha", fecha));
+        r.add(Box.createVerticalStrut(4));
         r.add(filaResumen("Horario", itinerario.getHoraSalida()));
+        r.add(Box.createVerticalStrut(4));
         r.add(filaResumen("Pasajero", nombreUsuario()));
+        r.add(Box.createVerticalStrut(4));
         r.add(filaResumen("Cédula", cedulaUsuario()));
+        
+        // NUEVO: Información de cobro en el ticket blanco derecho
+        r.add(Box.createVerticalStrut(4));
+        r.add(filaResumen("Total a Pagar", "Bs. " + String.format("%.2f", montoFinal)));
 
         if (confirmada) {
+            r.add(Box.createVerticalStrut(4));
             r.add(filaResumen("Asiento", "#" + asientoSeleccionado));
         } else {
             JPanel fila = new JPanel(new BorderLayout());
@@ -337,14 +383,13 @@ public class UsuarioReservarCupo extends JPanel {
 
         if (confirmada && mensaje != null) {
             r.add(Box.createVerticalStrut(12));
-            JTextArea area = new JTextArea(mensaje);
-            area.setEditable(false);
-            area.setLineWrap(true);
-            area.setWrapStyleWord(true);
+            JLabel area = new JLabel(
+                    "<html><div style='text-align: center;'>" + mensaje + "</div></html>",
+                    SwingConstants.CENTER);
             area.setOpaque(false);
             area.setFont(new Font("SansSerif", Font.PLAIN, 12));
             area.setForeground(FONDO);
-            area.setAlignmentX(Component.LEFT_ALIGNMENT);
+            area.setAlignmentX(Component.CENTER_ALIGNMENT);
             r.add(area);
         }
         return r;
@@ -365,18 +410,16 @@ public class UsuarioReservarCupo extends JPanel {
         return fila;
     }
 
+    // NUEVO: Actualizado para disparar el ModalTicketDigital y capturar saldo insuficiente
     private void confirmarReserva() {
-        if (asientoSeleccionado <= 0)
-            return;
+        if (asientoSeleccionado <= 0) return;
 
         String respuesta = reservaController.procesarReserva(usuario, itinerario, asientoSeleccionado);
-        boolean exito = respuesta != null && !respuesta.startsWith("*");
+        boolean exito = respuesta != null && respuesta.startsWith("EXITO");
 
         if (!exito) {
-            String mensaje = "Error desconocido.";
-            if (respuesta != null)
-                mensaje = respuesta.substring(1);
-
+            String mensaje = respuesta != null ? respuesta.substring(1) : "Error desconocido.";
+            
             cargarOcupados();
             for (AsientoBoton b : botones) {
                 b.setSeleccionado(false);
@@ -388,11 +431,25 @@ public class UsuarioReservarCupo extends JPanel {
             return;
         }
 
+        // Si fue exitoso, seccionamos los datos de respuesta
+        String[] datosTicket = respuesta.split("\\|");
+        String idReserva = datosTicket[1];
+        double tarifaBaseTicket = Double.parseDouble(datosTicket[2]);
+        double montoPagado = Double.parseDouble(datosTicket[3]);
+
         for (AsientoBoton b : botones) {
             b.setOcupado(ocupados.contains(b.numero) || b.numero == asientoSeleccionado);
             b.setEnabled(false);
         }
-        mostrarConfirmacion(respuesta);
+
+        mostrarConfirmacion("Pago procesado exitosamente. Se debitó Bs. " + String.format("%.2f", montoPagado) + " de su monedero.");
+
+        TicketDigital ticket = new TicketDigital(
+                idReserva, usuario.getNombre(), usuario.getCedula(), itinerario.getRuta(), 
+                itinerario.getHoraSalida(), tarifaBaseTicket, montoPagado, 
+                CobroSolidario.obtenerNombreRol(usuario.getRol()));
+
+        TicketDigitalDAO.guardarTicket(ticket);
     }
 
     private void mostrarConfirmacion(String mensaje) {
@@ -401,7 +458,7 @@ public class UsuarioReservarCupo extends JPanel {
         JPanel panel = new JPanel();
         panel.setBackground(PANEL_CLARO);
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBorder(new EmptyBorder(40, 60, 40, 60));
+        panel.setBorder(new EmptyBorder(20, 60, 20, 60));
 
         JLabel titulo = new JLabel("Reserva realizada con éxito");
         titulo.setFont(new Font("SansSerif", Font.BOLD, 26));
@@ -414,7 +471,7 @@ public class UsuarioReservarCupo extends JPanel {
         sub.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JPanel tarjeta = crearResumen(true, mensaje);
-        tarjeta.setMaximumSize(new Dimension(460, 420));
+        tarjeta.setMaximumSize(new Dimension(460, 330));
         tarjeta.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JButton btnHome = new JButton("Regresar al Home");
@@ -427,9 +484,9 @@ public class UsuarioReservarCupo extends JPanel {
         panel.add(titulo);
         panel.add(Box.createVerticalStrut(6));
         panel.add(sub);
-        panel.add(Box.createVerticalStrut(22));
+        panel.add(Box.createVerticalStrut(16));
         panel.add(tarjeta);
-        panel.add(Box.createVerticalStrut(22));
+        panel.add(Box.createVerticalStrut(16));
         panel.add(btnHome);
         panel.add(Box.createVerticalGlue());
 

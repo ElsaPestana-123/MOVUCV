@@ -5,3 +5,4 @@ UCV - CATIA|urbana|220.0
 UCV - Los Teques|extraurbana|870.0
 UCV - San Antonio|urbana|860.0
 UCV - Petare|urbana|220.0
+UCV - El Hatillo|urbana|320.0

@@ -393,31 +393,31 @@ public class UsuarioSeleccionarRuta extends JFrame { // copia y pega de colores 
                 agregarAccion((JComponent) hijo, accion);
         }
     }
-
+ 
     private void mostrarAsientos(Itinerario itinerario, int capacidad, List<Integer> ocupados) {
         JDialog dialogo = new JDialog(this, "Seleccionar asiento", true);
         dialogo.setLayout(new BorderLayout(12, 12));
         dialogo.getContentPane().setBackground(FONDO);
-
+ 
         JLabel titulo = new JLabel(itinerario.getRuta() + "  |  " + itinerario.getHoraSalida());
         titulo.setFont(new Font("SansSerif", Font.BOLD, 17));
         titulo.setForeground(TEXTO);
         titulo.setBorder(new EmptyBorder(16, 18, 0, 18));
-
+ 
         JPanel asientos = new JPanel(new GridLayout(0, 5, 9, 9));
         asientos.setBackground(FONDO);
         asientos.setBorder(new EmptyBorder(12, 18, 12, 18));
         for (int numero = 1; numero <= capacidad; numero++) {
             int asiento = numero;
             boolean ocupado = ocupados.contains(asiento);
-
+ 
             Color colorBoton = VERDE;
             String tooltip = "Reservar asiento " + asiento;
             if (ocupado) {
                 colorBoton = TEXTO_SUAVE;
                 tooltip = "Asiento ocupado";
             }
-
+ 
             JButton boton = new HomeUsuario.BotonRedondeado(String.valueOf(asiento), colorBoton);
             boton.setPreferredSize(new Dimension(58, 42));
             boton.setEnabled(!ocupado);
@@ -428,7 +428,7 @@ public class UsuarioSeleccionarRuta extends JFrame { // copia y pega de colores 
             });
             asientos.add(boton);
         }
-
+ 
         JScrollPane scroll = new JScrollPane(asientos);
         scroll.setBorder(null);
         scroll.getViewport().setBackground(FONDO);
@@ -436,7 +436,7 @@ public class UsuarioSeleccionarRuta extends JFrame { // copia y pega de colores 
         JLabel leyenda = new JLabel("Verde: disponible     Gris: ocupado");
         leyenda.setForeground(TEXTO_SUAVE);
         leyenda.setBorder(new EmptyBorder(0, 18, 14, 18));
-
+ 
         dialogo.add(titulo, BorderLayout.NORTH);
         dialogo.add(scroll, BorderLayout.CENTER);
         dialogo.add(leyenda, BorderLayout.SOUTH);
@@ -444,11 +444,11 @@ public class UsuarioSeleccionarRuta extends JFrame { // copia y pega de colores 
         dialogo.setLocationRelativeTo(this);
         dialogo.setVisible(true);
     }
-
-    private void confirmarReserva(Itinerario itinerario, int numeroAsiento) { //con trolador valida y aca se muestran resultados
+ 
+    private void confirmarReserva(Itinerario itinerario, int numeroAsiento) {
         String respuesta = reservaController.procesarReserva(usuario, itinerario, numeroAsiento);
         boolean confirmada = !respuesta.startsWith("*");
-
+ 
         String mensaje = respuesta.substring(1);
         String tituloMensaje = "No se pudo reservar";
         int tipoMensaje = JOptionPane.WARNING_MESSAGE;
@@ -457,11 +457,11 @@ public class UsuarioSeleccionarRuta extends JFrame { // copia y pega de colores 
             tituloMensaje = "Reserva confirmada";
             tipoMensaje = JOptionPane.INFORMATION_MESSAGE;
         }
-
+ 
         JOptionPane.showMessageDialog(this, mensaje, tituloMensaje, tipoMensaje);
         refrescar();
     }
-
+ 
     private void volverAlInicio() {
         dispose();
         if (home != null)
