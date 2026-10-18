@@ -2,12 +2,16 @@ package src.view;
 
 import java.awt.*;
 import java.io.File;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import src.model.Usuario;
 import src.controller.HomeUsuarioController;
 import src._helpers.ComponentUtils;
 import src._helpers.ComponentUtils.Tarjeta;
+import src.controller.ReservaController;
+import src.model.Itinerario;
+import src.model.ItinerarioDAO;
 
 public class HomeUsuario extends JFrame {
     private Usuario usuarioLogeado;
@@ -123,6 +127,14 @@ public class HomeUsuario extends JFrame {
         return "Usuario";
     }
 
+    private void abrirReservarPuesto() {
+        List<Itinerario> itinerarios = new ItinerarioDAO().listaItinerarios();
+        UsuarioSeleccionarRuta vista = new UsuarioSeleccionarRuta(
+            usuarioLogeado, itinerarios, new ReservaController(), this, controlador);
+        vista.setVisible(true);
+        setVisible(false);
+    }
+
     private JPanel Cabezal() {
         JPanel p = new JPanel(new BorderLayout());
 
@@ -214,45 +226,29 @@ public class HomeUsuario extends JFrame {
     }
 
     // cuadrados de las 6 tarjetas
-    private JPanel cuadricularTarjetas() {
-        JPanel grid = new JPanel(new GridLayout(2, 3, 30, 30));
-        grid.setOpaque(false);
-        grid.setBorder(new EmptyBorder(35, 0, 0, 0));
+   // ...existing code...
+private JPanel cuadricularTarjetas() {
+    JPanel panel = new JPanel(new GridBagLayout());
+    panel.setOpaque(false);
 
-        // en cada tarjeta pasamos como acción lamda para que sea clickleable sin que
-        // haga nada
+    JPanel fila = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 20));
+    fila.setOpaque(false);
 
-        grid.add(crearTarjeta("rutas.png", "Consultar Rutas",
-                "Explora todas las rutas urbanas y extraurbanas disponibles. Consulta horarios, paradas y disponibilidad en tiempo real.",
-                "", COLOR_FONDO, COLOR_BOTONES, () -> {
-                }));
+    fila.add(crearTarjeta("rutas.png", "Consultar Rutas",
+            "Explora todas las rutas urbanas y extraurbanas disponibles. Consulta horarios, paradas y disponibilidad en tiempo real.",
+            "", COLOR_FONDO, COLOR_BOTONES, () -> abrirRutasHorarios()));
 
-        grid.add(crearTarjeta("reservar.png", "Reservar Puesto",
-                "Selecciona tu ruta y reserva un asiento en la unidad de tu preferencia.",
-                "", COLOR_VERDE, COLOR_VERDE, () -> {
-                }));
+    fila.add(crearTarjeta("reservar.png", "Reservar Puesto",
+            "Selecciona tu ruta y reserva un asiento en la unidad de tu preferencia.",
+            "", COLOR_VERDE, COLOR_VERDE, () -> abrirReservarPuesto()));
 
-        grid.add(crearTarjeta("reservas.png", "Mis Reservas",
-                "Revisa el historial de tus reservas, cancela o modifica tus viajes programados.",
-                "", COLOR_NARANJA, COLOR_NARANJA, () -> {
-                }));
+    fila.add(crearTarjeta("reservas.png", "Mis Reservas",
+            "Revisa el historial de tus reservas, cancela o modifica tus viajes programados.",
+            "", COLOR_NARANJA, COLOR_NARANJA, () -> abrirHistorialReservas()));
 
-        grid.add(crearTarjeta("horarios.png", "Horarios", "Consulta los horarios de salida de cada ruta.",
-                "", COLOR_FONDO, COLOR_BOTONES, () -> {
-                }));
-
-        /*grid.add(crearTarjeta("notificaciones.png", "Notificaciones",
-                "Mantente informado sobre cambios de ruta, suspensiones, retrasos y novedades del sistema.",
-                "", COLOR_ROJO, COLOR_ROJO, () -> {
-                }));*/
-
-        /*grid.add(crearTarjeta("perfil.png", "Mi Perfil", "Actualiza tus datos personales, preferencias.", "",
-                COLOR_FONDO, COLOR_TEXTO, () -> {
-                }));*/
-
-        return grid;
-    }
-
+    panel.add(fila);
+    return panel;
+}
     // crear una tarjeta
     private JPanel crearTarjeta(String icono, String titulo, String descripcion, String infoBlanco, Color colorInfo,
             Color colorBorde, Runnable accion) {
@@ -260,6 +256,7 @@ public class HomeUsuario extends JFrame {
         Tarjeta tarjeta = new Tarjeta(colorBorde);
         tarjeta.setLayout(new BorderLayout(0, 8));
         tarjeta.setBorder(new EmptyBorder(20, 20, 18, 20));
+        tarjeta.setPreferredSize(new Dimension(360, 240));
 
         // parte de arriba del circulitoo y botón acceder
         JPanel encabezado = new JPanel(new BorderLayout());
@@ -275,8 +272,7 @@ public class HomeUsuario extends JFrame {
         izq.add(lblTitulo);
 
         BotonRedondeado botonAcc = new BotonRedondeado("Acceder",COLOR_BOTONES);
-        botonAcc.addActionListener(e -> {
-        }); // función lamda again
+        botonAcc.addActionListener(e -> accion.run()); // función lamda again
 
         JPanel der = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 8));
         der.setOpaque(false);
@@ -321,6 +317,18 @@ public class HomeUsuario extends JFrame {
         p.add(texto);
 
         return p;
+    }
+
+    private void abrirRutasHorarios() {
+    UsuarioRutasHorarios vista = new UsuarioRutasHorarios(usuarioLogeado, this, controlador);
+    vista.setVisible(true);
+    setVisible(false);
+    }
+
+    private void abrirHistorialReservas() {
+    UsuarioHistorialReservas vista = new UsuarioHistorialReservas(usuarioLogeado, this, controlador);
+    vista.setVisible(true);
+    setVisible(false);
     }
 
 }
