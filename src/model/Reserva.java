@@ -4,13 +4,15 @@ public class Reserva {
     private String idReserva; 
     private String cedulaPasajero; 
     private int idItinerario; 
-    private int numeroAsiento; 
+    private int numeroAsiento;
+    private String fecha; 
 
-    public Reserva(String idReserva, String cedulaPasajero, int idItinerario, int numeroAsiento) {
+    public Reserva(String idReserva, String cedulaPasajero, int idItinerario, int numeroAsiento, String fecha) {
         this.idReserva = idReserva;
         this.cedulaPasajero = cedulaPasajero;
         this.idItinerario = idItinerario;
         this.numeroAsiento = numeroAsiento;
+        this.fecha = fecha;
     }
 
     // getters and setters
@@ -44,5 +46,13 @@ public class Reserva {
 
     public void setNumeroAsiento(int numeroAsiento) {
         this.numeroAsiento = numeroAsiento;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 }
