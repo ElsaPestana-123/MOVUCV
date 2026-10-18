@@ -15,21 +15,21 @@ public class ReservaDAO {
     private static final Path RUTA_RESERVAS = Paths.get("data", "reservas.txt").toAbsolutePath();
 
     public Reserva leerReserva(String linea) {
-        if (linea == null || linea.trim().isEmpty()) {
+        if (linea == null || linea.trim().isEmpty()) 
             return null;
-        }
+        
 
         String texto = linea.trim();
 
         // ignorecabecera archivo
-        if (texto.toLowerCase().startsWith("id|")) {
+        if (texto.toLowerCase().startsWith("id|")) 
             return null;
-        }
+        
 
         String[] infoReserva = texto.split("\\|");
-        if (infoReserva.length != 5) {
+        if (infoReserva.length != 5) 
             return null;
-        }
+        
 
         try {
             String idReserva = infoReserva[0].trim();
