@@ -1,5 +1,6 @@
 package src.view;
 
+import src._helpers.ComponentUtils;
 import src.controller.UsuarioController;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -19,6 +20,7 @@ public class ModalRegistroAdmin extends JDialog {
     public ModalRegistroAdmin(JFrame parent, UsuarioController controlador) {
         super(parent, "Registrar Nuevo Administrador", true); // true = modal (bloquea el fondo)
         this.controlador = controlador;
+         ComponentUtils.aplicarIcono(this);
 
         setSize(400, 500);
         setLocationRelativeTo(parent); 

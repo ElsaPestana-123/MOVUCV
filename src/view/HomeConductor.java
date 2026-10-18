@@ -15,6 +15,8 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import src._helpers.ComponentUtils;
 import src.controller.HomeConductorController;
 import src.model.Itinerario;
 import src.model.Usuario;
@@ -39,6 +41,7 @@ public class HomeConductor extends JFrame {
         this.usuarioLogeado = usuarioLogeado;
         this.itinerarios = itinerarios;
         this.controlador = controlador;
+         ComponentUtils.aplicarIcono(this);
 
         setTitle("MOVUCV - Panel de Conductor");
         setSize(1366, 768);

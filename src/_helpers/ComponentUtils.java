@@ -2,6 +2,7 @@ package src._helpers;
 
 import java.awt.*;
 import javax.swing.border.EmptyBorder;
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -9,6 +10,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.geom.RoundRectangle2D;
+import java.io.File;
+import java.io.IOException;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+
 import src.controller.HomeAdminController;
 
 
@@ -133,4 +140,15 @@ public class ComponentUtils {
 
         return b;
     }  
+
+    public static void aplicarIcono(Window ventana) {
+        try {
+            var imagen = ImageIO.read(new File("res/images/logo sin fondo.png"));
+            if (imagen != null) {
+                ventana.setIconImage(imagen.getScaledInstance(64, 64, Image.SCALE_SMOOTH));
+            }
+        } catch (IOException e) {
+            System.err.println("No se pudo cargar res/images/logo sin fondo.png " + e.getMessage());
+        }
+    }
 }

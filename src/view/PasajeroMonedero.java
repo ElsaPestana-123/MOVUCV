@@ -42,6 +42,7 @@ public class PasajeroMonedero extends JFrame {
     public PasajeroMonedero(Usuario usuarioLogeado, HomeUsuarioController controladorController) {
         this.controlador = controladorController;
         this.usuarioLogeado = usuarioLogeado; 
+         ComponentUtils.aplicarIcono(this);
 
         setTitle("MOVUCV - Mi Monedero");
         setSize(1366, 768); 

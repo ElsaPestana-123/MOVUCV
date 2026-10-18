@@ -33,6 +33,7 @@ public class AdminGestionarRutas extends JFrame {
     public AdminGestionarRutas(HomeAdminController controlador, Usuario adminLogeado) {
         this.controlador = controlador;
         this.adminLogeado = adminLogeado;
+         ComponentUtils.aplicarIcono(this);
         setTitle("MOVUCV - Gestión de Rutas");
         setSize(1366, 768);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

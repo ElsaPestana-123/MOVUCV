@@ -9,7 +9,8 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import src._helpers.CobroSolidario;
+import src._helpers.*;
+import src._helpers.ComponentUtils;
 import src.model.Rutas;
 import src.model.RutasDAO;
 import src.model.TicketDigital;
@@ -60,6 +61,7 @@ public class UsuarioReservarCupo extends JPanel {
         this.reservaController = reservaController;
         this.home = home;
         this.alVolver = alVolver;
+         //ComponentUtils.aplicarIcono(this);
 
         unidad = new UnidadDAO().buscarUnidad(itinerario.getPlaca());
         capacidad = 0;

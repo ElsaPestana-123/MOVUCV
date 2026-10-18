@@ -57,6 +57,7 @@ public class AdminReporte extends JFrame {
         this.controlador = controlador;
         this.adminLogeado = adminLogeado;
         this.reporteController = new ReporteController();
+         ComponentUtils.aplicarIcono(this);
 
         setTitle("MOVUCV - Panel de Administrador - Gestionar Reportes");
         setSize(1366, 768);
