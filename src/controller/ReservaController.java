@@ -8,9 +8,12 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Random;
-
-import javax.swing.JOptionPane;
-
+import src.model.Pasaje;
+import src.model.PasajeDAO;
+import src.model.Rutas;
+import src.model.RutasDAO;
+import src.model.UsuarioDAO;
+import src._helpers.CobroSolidario;
 
 public class ReservaController {
     
@@ -35,17 +38,14 @@ public class ReservaController {
         return itinerario != null && "Programado".equalsIgnoreCase(itinerario.getEstado());
     }
 
-    public String procesarReserva(Usuario usuarioLogueado, Itinerario itinerario, int numeroAsiento) { //verifica formato y guarda reservas
+    public String procesarReserva(Usuario usuario, Itinerario itinerario, int numeroAsiento) {
         if (!esRutaReservable(itinerario)) 
             return "*La ruta seleccionada no se encuentra disponible para reservas.";
-        
-
         if (numeroAsiento <= 0) 
             return "*Debe seleccionar un asiento válido en el mapa.";
-        
 
         try {
-            if (reservaDAO.usuarioConReservaenItinerario(usuarioLogueado.getCedula(), itinerario.getId())) {
+            if (reservaDAO.usuarioConReservaenItinerario(usuario.getCedula(), itinerario.getId())) {
                 return "*Usted ya cuenta con una reserva activa para este itinerario.";
             }
 
@@ -53,22 +53,45 @@ public class ReservaController {
                 return "*El asiento N° " + numeroAsiento + " ya se encuentra ocupado por otro pasajero.";
             }
 
-            Reserva nuevaReserva = new Reserva(generarIdReservaUnico(), usuarioLogueado.getCedula(), itinerario.getId(), numeroAsiento, LocalDate.now().toString());
+            RutasDAO rutasDAO = new RutasDAO();
+            double tarifaBase = 0.0;
+            for (Rutas r : rutasDAO.listaRutas()) {
+                if (r.getNombreRuta().equalsIgnoreCase(itinerario.getRuta())) {
+                    tarifaBase = r.getTarifa(); break;
+                }
+            }
 
-            if (ReservaDAO.guardarReserva(nuevaReserva)) 
-                return "Reserva confirmada exitosamente. Proceda al pago";
-            
+            double montoFinal = CobroSolidario.calcularMonto(tarifaBase, usuario.getRol());
+
+            if (usuario.getSaldo() < montoFinal) {
+                return "*Saldo insuficiente para realizar el pago del pasaje.";
+            }
+
+            String idReserva = generarIdReservaUnico();
+            Reserva nuevaReserva = new Reserva(idReserva, usuario.getCedula(), itinerario.getId(), numeroAsiento, LocalDate.now().toString());
+
+            if (ReservaDAO.guardarReserva(nuevaReserva)) {
+                
+                double nuevoSaldo = usuario.getSaldo() - montoFinal;
+                usuario.setSaldo(nuevoSaldo); 
+                UsuarioDAO.actualizarSaldo(usuario.getCedula(), nuevoSaldo); // Actualiza en .txt
+                
+                Pasaje nuevoPasaje = new Pasaje(itinerario.getRuta(), usuario.getRol(), montoFinal);
+                new PasajeDAO().guardarPasaje(nuevoPasaje);
+
+                return "EXITO|" + idReserva + "|" + tarifaBase + "|" + montoFinal;
+            }
 
             return "*Error al registrar la reserva en el sistema.";
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return "*Error al acceder a la base de datos de reservas.";
         }
     }
 
-    public boolean guardarReserva(Reserva reserva) { //llama a guardar reserva en DAO
+    public boolean guardarReserva(Reserva reserva) { 
         try {
-            return reservaDAO.guardarReserva(reserva); 
+            return ReservaDAO.guardarReserva(reserva); 
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -83,8 +106,8 @@ public class ReservaController {
         return obtenerAsientosOcupados(idItinerario).contains(numeroAsiento);
     }
 
-    public boolean cancelarReserva(String idReserva) { //mouski herramienta para más tarde 
-    return reservaDAO.eliminarReservaPorId(idReserva);
+    public boolean cancelarReserva(String idReserva) { 
+        return reservaDAO.eliminarReservaPorId(idReserva);
     }
 
 }

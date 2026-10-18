@@ -3,13 +3,6 @@ package src.view;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -26,7 +19,6 @@ public class UsuarioRutasHorarios extends JFrame {
     private static final Color TEXTO = new Color(245, 245, 245);
     private static final Color TEXTO_SUAVE = new Color(170, 178, 195);
     private static final Color SECUNDARIO = new Color(150, 150, 150);
-    private static final Color VERDE = new Color(30, 150, 60);
     private static final Color ROJO = new Color(190, 55, 55);
 
     private static final Font FUENTE_TITULO = new Font("SansSerif", Font.BOLD, 26);
@@ -34,12 +26,10 @@ public class UsuarioRutasHorarios extends JFrame {
 
     private final Usuario usuario;
     private final JFrame home;
-    private final HomeUsuarioController controlador;
 
     public UsuarioRutasHorarios(Usuario usuario, JFrame home, HomeUsuarioController controlador) {
         this.usuario = usuario;
         this.home = home;
-        this.controlador = controlador;
 
         setTitle("MOVUCV - Rutas y Horarios");
         setSize(1366, 768);
