@@ -1,2 +1,3 @@
-ruta|horaSalida|placa|conductor|estado|reservas
+ruta|horaSalida|placa|conductor|estado|reservas|ID
 UCV - MARACAY|11:00|01WZ2XA|6027522|Programado|0|18313
+UCV - La Guaira|11:00|01BC2CA|13579|Programado|0|5669
