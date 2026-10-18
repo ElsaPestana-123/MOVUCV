@@ -42,7 +42,7 @@ public class AdminGestionarItinerario extends JFrame {
     public AdminGestionarItinerario(HomeAdminController controlador, Usuario adminLogeado) {
         this.controlador = controlador;
         this.adminLogeado = adminLogeado; // necesario para el menu
-
+         ComponentUtils.aplicarIcono(this);
         setTitle("MOVUCV - Panel de Administrador - Gestionar Itinerarios");
         setSize(1366, 768); // Tamaño de la ventn
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

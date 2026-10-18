@@ -42,6 +42,7 @@ public class AdminGestionarFlota extends JFrame {
     public AdminGestionarFlota(HomeAdminController controlador, Usuario adminLogeado) {
         this.controlador = controlador;
         this.adminLogeado = adminLogeado; // necesario para el menu
+         ComponentUtils.aplicarIcono(this);
 
         setTitle("MOVUCV - Panel de Administrador - Gestionar Flota");
         setSize(1366, 768); // Tamaño de la ventn

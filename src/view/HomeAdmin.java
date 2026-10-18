@@ -41,7 +41,7 @@ public class HomeAdmin extends JFrame {
 
         this.adminLogeado = usuarioadminLogeado;
         this.controlador = controlador;
-
+         ComponentUtils.aplicarIcono(this);
         setTitle("MOVUCV - Panel de Administrador");
         setSize(1366, 768);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

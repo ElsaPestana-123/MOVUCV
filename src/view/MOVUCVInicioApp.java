@@ -33,6 +33,7 @@ public class MOVUCVInicioApp extends JFrame {
     public MOVUCVInicioApp() {
 
         setTitle("MOVUCV - Inicio de Sesión");
+        ComponentUtils.aplicarIcono(this);
         setSize(1366, 768); // Tamaño de la ventn
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);

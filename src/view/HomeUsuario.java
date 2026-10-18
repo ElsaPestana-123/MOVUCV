@@ -38,6 +38,7 @@ public class HomeUsuario extends JFrame {
     public HomeUsuario(Usuario usuarioLogeado, HomeUsuarioController controlador) {
         this.usuarioLogeado = usuarioLogeado;
         this.controlador = controlador;
+         ComponentUtils.aplicarIcono(this);
 
         setTitle("MOVUCV - Inicio");
         setSize(1366, 768);

@@ -56,6 +56,7 @@ public class UsuarioSeleccionarRuta extends JFrame { // copia y pega de colores 
         this.reservaController = reservaController;
         this.home = home;
         this.controlador = controlador;
+         ComponentUtils.aplicarIcono(this);
 
         if (itinerarios != null) {
 

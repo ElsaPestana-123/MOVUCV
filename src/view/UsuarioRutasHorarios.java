@@ -30,6 +30,7 @@ public class UsuarioRutasHorarios extends JFrame {
     public UsuarioRutasHorarios(Usuario usuario, JFrame home, HomeUsuarioController controlador) {
         this.usuario = usuario;
         this.home = home;
+         ComponentUtils.aplicarIcono(this);
 
         setTitle("MOVUCV - Rutas y Horarios");
         setSize(1366, 768);

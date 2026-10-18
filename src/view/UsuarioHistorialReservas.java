@@ -38,6 +38,7 @@ public class UsuarioHistorialReservas extends JFrame {
         this.usuario = usuario;
         this.home = home;
         this.controlador = controlador;
+         ComponentUtils.aplicarIcono(this);
 
         setTitle("MOVUCV - Mis Reservas");
         setSize(1366, 768);
