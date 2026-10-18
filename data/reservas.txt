@@ -1,2 +1,2 @@
 id|cedula|itinerarioID|asiento|fecha
-RES-21028|777777|18313|22|2026-10-18
+RES-60678|777777|18313|18|2026-10-18

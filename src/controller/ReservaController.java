@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Random;
+import src.model.ItinerarioDAO;
+import src.model.Unidad;
+import src.model.UnidadDAO;
 
 import javax.swing.JOptionPane;
 
@@ -57,13 +60,38 @@ public class ReservaController {
                 return "*El asiento N° " + numeroAsiento + " ya se encuentra ocupado por otro pasajero.";
             
 
-            Reserva nuevaReserva = new Reserva(generarIdReservaUnico(), usuarioLogueado.getCedula(), itinerario.getId(), numeroAsiento, LocalDate.now().toString());
+            // ...existing code...
 
-            if (ReservaDAO.guardarReserva(nuevaReserva)) 
+            Unidad unidad = new UnidadDAO().buscarUnidad(itinerario.getPlaca());
+            if (unidad == null) {
+                return "*No se encontró la unidad asignada a este itinerario.";
+            }
+
+            ItinerarioDAO itinerarioDAO = new ItinerarioDAO();
+            int resultado = itinerarioDAO.incrementarReservasSiDisponible(
+                    itinerario.getId(), unidad.getCapacidad());
+
+            if (resultado == 0) {
+                return "*El itinerario está lleno; no hay cupos disponibles.";
+            }
+            if (resultado < 0) {
+                return "*No se encontró el itinerario.";
+            }
+
+            Reserva nuevaReserva = new Reserva(
+                    generarIdReservaUnico(),
+                    usuarioLogueado.getCedula(),
+                    itinerario.getId(),
+                    numeroAsiento,
+                    LocalDate.now().toString());
+
+            if (ReservaDAO.guardarReserva(nuevaReserva)) {
                 return "Reserva confirmada exitosamente. Proceda al pago";
-            
+            }
 
+            itinerarioDAO.decrementarReservas(itinerario.getId());
             return "*Error al registrar la reserva en el sistema.";
+
         } catch (IOException e) {
             e.printStackTrace();
             return "*Error al acceder a la base de datos de reservas.";

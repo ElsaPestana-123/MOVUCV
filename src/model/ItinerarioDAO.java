@@ -457,4 +457,49 @@ public class ItinerarioDAO {
         }
         return false;
     }
+
+    // ...existing code...
+
+public int incrementarReservasSiDisponible(int idItinerario, int capacidad) throws IOException {
+    return ajustarReservas(idItinerario, 1, capacidad);
+}
+
+public boolean decrementarReservas(int idItinerario) throws IOException {
+    return ajustarReservas(idItinerario, -1, Integer.MAX_VALUE) == 1;
+}
+
+private int ajustarReservas(int idItinerario, int cambio, int capacidad) throws IOException {
+    List<String> lineas = Files.readAllLines(RUTA_ITINERARIOS, StandardCharsets.UTF_8);
+
+    for (int i = 0; i < lineas.size(); i++) {
+        String[] datos = lineas.get(i).split("\\|", -1);
+
+        if (datos.length < 7) {
+            continue;
+        }
+
+        try {
+            if (Integer.parseInt(datos[6].trim()) != idItinerario) {
+                continue;
+            }
+
+            int reservasActuales = Integer.parseInt(datos[5].trim());
+            if (cambio > 0 && reservasActuales >= capacidad) {
+                return 0;
+            }
+
+            datos[5] = String.valueOf(Math.max(0, reservasActuales + cambio));
+            lineas.set(i, String.join("|", datos));
+
+            Files.write(RUTA_ITINERARIOS, lineas, StandardCharsets.UTF_8,
+                    StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING,
+                    StandardOpenOption.WRITE);
+            return 1;
+        } catch (NumberFormatException e) {
+            continue;
+        }
+    }
+
+    return -1;
+}
 }
