@@ -14,9 +14,8 @@ import src.model.UnidadDAO;
 
 import javax.swing.JOptionPane;
 
-
 public class ReservaController {
-    
+
     private final ReservaDAO reservaDAO;
 
     public ReservaController() {
@@ -30,7 +29,7 @@ public class ReservaController {
         while (reservaDAO.existeReserva(nuevoId)) {
             nuevoId = "RES-" + (10000 + random.nextInt(90000));
         }
-        
+
         return nuevoId;
     }
 
@@ -38,27 +37,26 @@ public class ReservaController {
         return itinerario != null && "Programado".equalsIgnoreCase(itinerario.getEstado());
     }
 
-    public String procesarReserva(Usuario usuarioLogueado, Itinerario itinerario, int numeroAsiento) { //verifica formato y guarda reservas
-        if (!esRutaReservable(itinerario)) 
+    public String procesarReserva(Usuario usuarioLogueado, Itinerario itinerario, int numeroAsiento) { // verifica
+                                                                                                       // formato y
+                                                                                                       // guarda
+                                                                                                       // reservas
+        if (!esRutaReservable(itinerario))
             return "*La ruta seleccionada no se encuentra disponible para reservas.";
-        
 
-        if (numeroAsiento <= 0) 
+        if (numeroAsiento <= 0)
             return "*Debe seleccionar un asiento válido en el mapa.";
-        
 
         try {
-            if (reservaDAO.usuarioConReservaenItinerario(usuarioLogueado.getCedula(), itinerario.getId())) 
+            if (reservaDAO.usuarioConReservaenItinerario(usuarioLogueado.getCedula(), itinerario.getId()))
                 return "*Usted ya cuenta con una reserva activa para este itinerario.";
-            
 
             if (reservaDAO.usuarioTieneReservaEnHorario(usuarioLogueado.getCedula(), itinerario)) {
                 return "*Ya tienes una reserva para otro viaje a esa hora.";
-    }
+            }
 
-            if (estaAsientoOcupado(itinerario.getId(), numeroAsiento)) 
+            if (estaAsientoOcupado(itinerario.getId(), numeroAsiento))
                 return "*El asiento N° " + numeroAsiento + " ya se encuentra ocupado por otro pasajero.";
-            
 
             // ...existing code...
 
@@ -98,25 +96,28 @@ public class ReservaController {
         }
     }
 
-    public boolean guardarReserva(Reserva reserva) { //llama a guardar reserva en DAO
+    public boolean guardarReserva(Reserva reserva) { // llama a guardar reserva en DAO
         try {
-            return reservaDAO.guardarReserva(reserva); 
+            return reservaDAO.guardarReserva(reserva);
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
 
-    public List<Integer> obtenerAsientosOcupados(int idItinerario) throws IOException { //para obtener coupados en itinerario
+    public List<Integer> obtenerAsientosOcupados(int idItinerario) throws IOException { // para obtener coupados en
+                                                                                        // itinerario
         return reservaDAO.listaAsientosOcupados(idItinerario);
     }
 
-    public boolean estaAsientoOcupado(int idItinerario, int numeroAsiento) throws IOException { // para revisar si un asiento esta ocupado en itinerario
+    public boolean estaAsientoOcupado(int idItinerario, int numeroAsiento) throws IOException { // para revisar si un
+                                                                                                // asiento esta ocupado
+                                                                                                // en itinerario
         return obtenerAsientosOcupados(idItinerario).contains(numeroAsiento);
     }
 
-    public boolean cancelarReserva(String idReserva) { //mouski herramienta para más tarde 
-    return reservaDAO.eliminarReservaPorId(idReserva);
+    public boolean cancelarReserva(String idReserva) { // mouski herramienta para más tarde
+        return reservaDAO.eliminarReservaPorId(idReserva);
     }
 
 }

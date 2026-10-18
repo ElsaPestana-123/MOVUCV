@@ -153,8 +153,7 @@ public class UsuarioRutasHorarios extends JFrame {
         tarjeta.setBackground(new Color(19, 29, 61));
         tarjeta.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(125, 182, 245, 90), 1),
-                new EmptyBorder(18, 18, 18, 18)
-        ));
+                new EmptyBorder(18, 18, 18, 18)));
         tarjeta.setMaximumSize(new Dimension(Integer.MAX_VALUE, 150));
 
         JPanel info = new JPanel();
@@ -186,16 +185,14 @@ public class UsuarioRutasHorarios extends JFrame {
             public void mouseEntered(MouseEvent e) {
                 tarjeta.setBorder(BorderFactory.createCompoundBorder(
                         BorderFactory.createLineBorder(new Color(125, 182, 245), 2),
-                        new EmptyBorder(18, 18, 18, 18)
-                ));
+                        new EmptyBorder(18, 18, 18, 18)));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 tarjeta.setBorder(BorderFactory.createCompoundBorder(
                         BorderFactory.createLineBorder(new Color(125, 182, 245, 90), 1),
-                        new EmptyBorder(18, 18, 18, 18)
-                ));
+                        new EmptyBorder(18, 18, 18, 18)));
             }
         });
 
@@ -241,7 +238,7 @@ public class UsuarioRutasHorarios extends JFrame {
     }
 
     private void cerrarSesion() {
-    dispose();
-    System.exit(0);
+        dispose();
+        System.exit(0);
     }
 }
