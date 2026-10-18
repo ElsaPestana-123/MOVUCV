@@ -16,7 +16,7 @@ import src.model.Itinerario;
 import src.model.Unidad;
 import src.model.UnidadDAO;
 import src.model.Usuario;
- 
+  
 public class UsuarioSeleccionarRuta extends JFrame { //copia y pega de colores homeusuario y monedero
     private static final Color FONDO = new Color(11, 11, 35);
     private static final Color PANEL = new Color(19, 29, 61);
