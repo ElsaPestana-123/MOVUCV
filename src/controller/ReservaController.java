@@ -16,6 +16,8 @@ import src.model.Rutas;
 import src.model.RutasDAO;
 import src.model.Unidad;
 import src.model.UnidadDAO;
+import src.model.Usuario;
+import src.model.UsuarioDAO;
 
 import javax.swing.JOptionPane;
 
@@ -75,8 +77,8 @@ public class ReservaController {
                 }
             }
 
-            double montoFinal = CobroSolidario.calcularMonto(tarifaBase, usuario.getRol());
-            if (usuario.getSaldo() < montoFinal) {
+            double montoFinal = CobroSolidario.calcularMonto(tarifaBase, usuarioLogueado.getRol());
+            if (usuarioLogueado.getSaldo() < montoFinal) {
                 return "*Saldo insuficiente para realizar el pago del pasaje.";
             }
 
@@ -99,7 +101,7 @@ public class ReservaController {
             String idReserva = generarIdReservaUnico();
             Reserva nuevaReserva = new Reserva(
                     idReserva,
-                    usuario.getCedula(),
+                    usuarioLogueado.getCedula(),
                     itinerario.getId(),
                     numeroAsiento,
                     LocalDate.now().toString());
@@ -109,12 +111,12 @@ public class ReservaController {
                 return "*Error al registrar la reserva en el sistema.";
             }
 
-            double nuevoSaldo = usuario.getSaldo() - montoFinal;
-            usuario.setSaldo(nuevoSaldo);
-            UsuarioDAO.actualizarSaldo(usuario.getCedula(), nuevoSaldo);
+            double nuevoSaldo = usuarioLogueado.getSaldo() - montoFinal;
+            usuarioLogueado.setSaldo(nuevoSaldo);
+            UsuarioDAO.actualizarSaldo(usuarioLogueado.getCedula(), nuevoSaldo);
 
             Pasaje nuevoPasaje = new Pasaje(
-                    itinerario.getRuta(), usuario.getRol(), montoFinal);
+                    itinerario.getRuta(), usuarioLogueado.getRol(), montoFinal);
             new PasajeDAO().guardarPasaje(nuevoPasaje);
 
             return "EXITO|" + idReserva + "|" + tarifaBase + "|" + montoFinal;
