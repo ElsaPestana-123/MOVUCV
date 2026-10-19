@@ -228,6 +228,8 @@ public class MOVUCVInicioApp extends JFrame {
         TextoError = new JLabel(" "); // Empieza vacía
         TextoError.setFont(FUENTE_TEXTO);
         TextoError.setForeground(Color.RED);
+        TextoError.setHorizontalAlignment(SwingConstants.CENTER);
+        TextoError.setMaximumSize(new Dimension(420, 70));
         TextoError.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         p.add(TextoError);
@@ -293,8 +295,7 @@ public class MOVUCVInicioApp extends JFrame {
 
     // metodo para mostrar mensaje de error
     public void mostrarError(String mensaje) {
-
-        TextoError.setText(mensaje);
+        TextoError.setText(ComponentUtils.mensajeMultilinea(mensaje, 38));
     }
 
     // limpiar el mensaje de error
@@ -304,7 +305,7 @@ public class MOVUCVInicioApp extends JFrame {
 
     public void inicioExitoso(char c) {
         TextoError.setForeground(new Color(0, 128, 0)); // Verde
-        TextoError.setText("Inicio de Sesión exitoso!");
+        TextoError.setText(ComponentUtils.mensajeMultilinea("Inicio de Sesión exitoso!", 38));
 
     }
 

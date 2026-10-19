@@ -117,7 +117,9 @@ public class UsuarioSeleccionarRuta extends JFrame { // copia y pega de colores 
         contenido.add(scroll, BorderLayout.CENTER);
 
         lblMensaje.setForeground(new Color(255, 30, 30));
-        lblMensaje.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        lblMensaje.setFont(new Font("SansSerif", Font.BOLD, 18));
+        lblMensaje.setHorizontalAlignment(SwingConstants.CENTER);
+        lblMensaje.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
         contenido.add(lblMensaje, BorderLayout.SOUTH);
 
         panelVistas.setOpaque(false);
@@ -474,7 +476,7 @@ public class UsuarioSeleccionarRuta extends JFrame { // copia y pega de colores 
     }
 
     private void mostrarMensaje(String mensaje) { //para mostrar en pantalla
-        lblMensaje.setText(mensaje);
+        lblMensaje.setText(ComponentUtils.mensajeMultilinea(mensaje, 75));
     }
 
     private void mostrarReserva(Itinerario itinerario) {

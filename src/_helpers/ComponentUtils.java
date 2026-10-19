@@ -19,6 +19,38 @@ import src.controller.HomeAdminController;
 
 public class ComponentUtils {
 
+   public static String mensajeMultilinea(String mensaje, int caracteresPorLinea) {
+        return formatearMensaje(mensaje, caracteresPorLinea, "center");
+    }
+
+   public static String mensajeJustificado(String mensaje, int caracteresPorLinea) {
+        return formatearMensaje(mensaje, caracteresPorLinea, "justify");
+    }
+
+   private static String formatearMensaje(String mensaje, int caracteresPorLinea, String alineacion) {
+        if (mensaje == null || mensaje.isEmpty()) {
+            return " ";
+        }
+
+        mensaje = mensaje.replaceAll("<[^>]*>", "").trim();
+        StringBuilder resultado = new StringBuilder("<html><div style='text-align:" + alineacion + ";'>");
+        int caracteresEnLinea = 0;
+        for (String palabra : mensaje.split("\\s+")) {
+            int longitud = palabra.length();
+            if (caracteresEnLinea > 0 && caracteresEnLinea + longitud + 1 > caracteresPorLinea) {
+                resultado.append("<br>");
+                caracteresEnLinea = 0;
+            } else if (caracteresEnLinea > 0) {
+                resultado.append(' ');
+                caracteresEnLinea++;
+            }
+
+            resultado.append(palabra);
+            caracteresEnLinea += longitud;
+        }
+        return resultado.append("</div></html>").toString();
+    }
+
    public static JLabel textoPresionable(String texto,Color COLOR_TEXTO,Font FUENTE_TEXTO, Runnable accion) { 
         JLabel text = new JLabel(texto);
         text.setFont(FUENTE_TEXTO);

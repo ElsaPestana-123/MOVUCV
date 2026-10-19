@@ -285,6 +285,8 @@ public class MOVUCVRegistroApp extends JFrame {
         TextoError = new JLabel(" "); // Empieza vacía
         TextoError.setFont(FUENTE_TEXTO);
         TextoError.setForeground(Color.RED);
+        TextoError.setHorizontalAlignment(SwingConstants.CENTER);
+        TextoError.setMaximumSize(new Dimension(420, 70));
         TextoError.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         p.add(TextoError);
@@ -376,7 +378,7 @@ public class MOVUCVRegistroApp extends JFrame {
         } else {
             TextoError.setForeground(Color.RED); // Rojo
         }
-        TextoError.setText(mensaje);
+        TextoError.setText(ComponentUtils.mensajeMultilinea(mensaje, 38));
     }
 
     // limpiar el mensaje de error

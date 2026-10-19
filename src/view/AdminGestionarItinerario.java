@@ -287,6 +287,8 @@ public class AdminGestionarItinerario extends JFrame {
         TextoError = new JLabel(" "); // Empieza vacía
         TextoError.setFont(FUENTE_TEXTO);
         TextoError.setForeground(Color.RED);
+        TextoError.setHorizontalAlignment(SwingConstants.CENTER);
+        TextoError.setMaximumSize(new Dimension(420, 70));
         TextoError.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         p.add(TextoError);
@@ -328,7 +330,7 @@ public class AdminGestionarItinerario extends JFrame {
     // metodo para mostrar mensaje de error
     public void mostrarError(String mensaje) {
 
-        TextoError.setText(mensaje);
+        TextoError.setText(ComponentUtils.mensajeMultilinea(mensaje, 38));
     }
 
     // limpiar el mensaje de error
