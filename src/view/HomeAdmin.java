@@ -102,14 +102,14 @@ public class HomeAdmin extends JFrame {
 
         // 1. PRIMERO validamos si es Superusuario para que "Crear Admin" aparezca a la izquierda
         if (adminLogeado.getRol() == 'S') { 
-            dere.add(ComponentUtils.textoPresionable("Crear Admin", COLOR_VERDE, FUENTE_TEXTO, () -> {
-                
+            HomeUsuario.BotonRedondeado botonCrearAdmin = new HomeUsuario.BotonRedondeado("Crear Admin", COLOR_VERDE);
+            botonCrearAdmin.addActionListener(e -> {
                 // AQUÍ INVOCAMOS AL MODAL
                 UsuarioController controladorUsuarios = new UsuarioController();
                 ModalRegistroAdmin modal = new ModalRegistroAdmin(this, controladorUsuarios);
                 modal.setVisible(true); // Esto pausa el HomeAdmin hasta que el modal se cierre
-                
-            }));
+            });
+            dere.add(botonCrearAdmin);
             dere.add(ComponentUtils.textoPresionable("|", COLOR_TEXTO, FUENTE_TEXTO, null)); 
         }
 
