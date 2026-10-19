@@ -184,8 +184,10 @@ public class PasajeroMonedero extends JFrame {
         p.add(Box.createRigidArea(new Dimension(0, 15)));
 
         TextoError = new JLabel(" ");
-        TextoError.setFont(FUENTE_SUBTITULO);
+        TextoError.setFont(FUENTE_TEXTO);
         TextoError.setForeground(COLOR_ROJO);
+        TextoError.setHorizontalAlignment(SwingConstants.CENTER);
+        TextoError.setMaximumSize(new Dimension(520, 70));
         TextoError.setAlignmentX(Component.CENTER_ALIGNMENT);
         p.add(TextoError);
         p.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -226,12 +228,13 @@ public class PasajeroMonedero extends JFrame {
         btnConfirmar = new JButton("Confirmar Pago");
         btnConfirmar.setFont(FUENTE_SUBTITULO);
         btnConfirmar.setBackground(COLOR_BOTONES);
-        btnConfirmar.setForeground(Color.WHITE);
+        btnConfirmar.setForeground(COLOR_FONDO);
         btnConfirmar.setFocusPainted(false);
         btnConfirmar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnConfirmar.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnConfirmar.setMaximumSize(new Dimension(200, 45));
         p.add(btnConfirmar);
+        p.add(Box.createRigidArea(new Dimension(0, 12)));
         
         btnLimpiar = new JButton("Limpiar");
         btnLimpiar.setFont(FUENTE_SUBTITULO);
@@ -319,12 +322,12 @@ public class PasajeroMonedero extends JFrame {
 
     public void mostrarError(String texto) {
         TextoError.setForeground(COLOR_ROJO); // Rojo brillante
-        TextoError.setText(texto);
+        TextoError.setText(ComponentUtils.mensajeMultilinea(texto, 48));
     }
 
     public void mostrarExito(String texto) {
         TextoError.setForeground(new Color(46, 204, 113)); // Verde
-        TextoError.setText(texto);
+        TextoError.setText(ComponentUtils.mensajeMultilinea(texto, 48));
     }
 
     public void limpiarFormulario() {

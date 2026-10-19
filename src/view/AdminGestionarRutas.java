@@ -215,6 +215,8 @@ public class AdminGestionarRutas extends JFrame {
         error = new JLabel(" ");
         error.setFont(FUENTE_TEXTO);
         error.setForeground(Color.RED);
+        error.setHorizontalAlignment(SwingConstants.CENTER);
+        error.setMaximumSize(new Dimension(390, 70));
         error.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         panel.add(Box.createRigidArea(new Dimension(0, 15)));
@@ -270,12 +272,12 @@ public class AdminGestionarRutas extends JFrame {
 
     public void mostrarError(String texto) {
         error.setForeground(new Color(255, 85, 85));
-        error.setText(texto);
+        error.setText(ComponentUtils.mensajeMultilinea(texto, 32));
     }
 
     public void mostrarExito(String texto) {
         error.setForeground(new Color(46, 204, 113));
-        error.setText(texto);
+        error.setText(ComponentUtils.mensajeMultilinea(texto, 32));
     }
 
     public void cambiarModoBoton(boolean actualizar) {

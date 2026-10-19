@@ -223,10 +223,16 @@ public class UsuarioReservarCupo extends JPanel {
         detalles.setOpaque(false);
         detalles.setLayout(new BoxLayout(detalles, BoxLayout.Y_AXIS));
 
-        detalles.add(etiqueta("Detalles de Reserva", new Font("SansSerif", Font.BOLD, 24), TEXTO));
+        JLabel tituloDetalles = etiqueta("Detalles de Reserva", new Font("SansSerif", Font.BOLD, 24), TEXTO);
+        tituloDetalles.setAlignmentX(Component.CENTER_ALIGNMENT);
+        detalles.add(tituloDetalles);
         detalles.add(Box.createVerticalStrut(10));
-        detalles.add(etiqueta("Ruta seleccionada", new Font("SansSerif", Font.PLAIN, 12), TEXTO));
-        detalles.add(etiqueta(itinerario.getRuta(), new Font("SansSerif", Font.BOLD, 17), TEXTO));
+        JLabel tituloRuta = etiqueta("Ruta seleccionada", new Font("SansSerif", Font.PLAIN, 12), TEXTO);
+        tituloRuta.setAlignmentX(Component.CENTER_ALIGNMENT);
+        detalles.add(tituloRuta);
+        JLabel ruta = etiqueta(itinerario.getRuta(), new Font("SansSerif", Font.BOLD, 17), TEXTO);
+        ruta.setAlignmentX(Component.CENTER_ALIGNMENT);
+        detalles.add(ruta);
         detalles.add(Box.createVerticalStrut(14));
 
         String textoAsiento = "Sin seleccionar";
@@ -239,7 +245,8 @@ public class UsuarioReservarCupo extends JPanel {
         fila1.add(campo("Unidad", itinerario.getPlaca()));
         fila1.add(campo("Horario de salida", itinerario.getHoraSalida()));
         fila1.setAlignmentX(Component.LEFT_ALIGNMENT);
-        fila1.setMaximumSize(new Dimension(Integer.MAX_VALUE, 62));
+        fila1.setMaximumSize(new Dimension(330, 62));
+        fila1.setAlignmentX(Component.CENTER_ALIGNMENT);
         detalles.add(fila1);
         detalles.add(Box.createVerticalStrut(10));
 
@@ -248,12 +255,15 @@ public class UsuarioReservarCupo extends JPanel {
         fila2.add(campoConLabel("Asiento seleccionado", lblAsiento));
         fila2.add(campo("Conductor", itinerario.getConductor()));
         fila2.setAlignmentX(Component.LEFT_ALIGNMENT);
-        fila2.setMaximumSize(new Dimension(Integer.MAX_VALUE, 62));
+        fila2.setMaximumSize(new Dimension(330, 62));
+        fila2.setAlignmentX(Component.CENTER_ALIGNMENT);
         detalles.add(fila2);
         detalles.add(Box.createVerticalStrut(18));
 
         // NUEVO: Agrupamos los datos del pasajero horizontalmente para ahorrar espacio vertical
-        detalles.add(etiqueta("Datos del Pasajero", new Font("SansSerif", Font.BOLD, 14), TEXTO));
+        JLabel tituloPasajero = etiqueta("Datos del Pasajero", new Font("SansSerif", Font.BOLD, 14), TEXTO);
+        tituloPasajero.setAlignmentX(Component.CENTER_ALIGNMENT);
+        detalles.add(tituloPasajero);
         detalles.add(Box.createVerticalStrut(6));
         
         JPanel filaPasajero = new JPanel(new GridLayout(1, 2, 12, 0));
@@ -261,12 +271,15 @@ public class UsuarioReservarCupo extends JPanel {
         filaPasajero.add(campoPlano("Nombre completo", nombreUsuario()));
         filaPasajero.add(campoPlano("Cédula", cedulaUsuario()));
         filaPasajero.setAlignmentX(Component.LEFT_ALIGNMENT);
-        filaPasajero.setMaximumSize(new Dimension(Integer.MAX_VALUE, 54));
+        filaPasajero.setMaximumSize(new Dimension(330, 54));
+        filaPasajero.setAlignmentX(Component.CENTER_ALIGNMENT);
         detalles.add(filaPasajero);
         detalles.add(Box.createVerticalStrut(14));
 
         // NUEVO: Desglose de pago / Cobro Solidario
-        detalles.add(etiqueta("Desglose de Pago (Cobro Solidario)", new Font("SansSerif", Font.BOLD, 14), TEXTO));
+        JLabel tituloPago = etiqueta("Desglose de Pago (Cobro Solidario)", new Font("SansSerif", Font.BOLD, 14), TEXTO);
+        tituloPago.setAlignmentX(Component.CENTER_ALIGNMENT);
+        detalles.add(tituloPago);
         detalles.add(Box.createVerticalStrut(6));
         
         JPanel filaPago = new JPanel(new GridLayout(1, 2, 12, 0));
@@ -276,7 +289,8 @@ public class UsuarioReservarCupo extends JPanel {
         String nombreRol = CobroSolidario.obtenerNombreRol(usuario.getRol());
         filaPago.add(campoPlano("A Pagar (" + nombreRol + ")", "Bs. " + String.format("%.2f", montoFinal)));
         filaPago.setAlignmentX(Component.LEFT_ALIGNMENT);
-        filaPago.setMaximumSize(new Dimension(Integer.MAX_VALUE, 54));
+        filaPago.setMaximumSize(new Dimension(330, 54));
+        filaPago.setAlignmentX(Component.CENTER_ALIGNMENT);
         detalles.add(filaPago);
         detalles.add(Box.createVerticalStrut(20));
 
@@ -293,21 +307,22 @@ public class UsuarioReservarCupo extends JPanel {
         botonesPanel.add(btnConfirmar);
         botonesPanel.add(btnCancelar);
         botonesPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        botonesPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 42));
+        botonesPanel.setMaximumSize(new Dimension(330, 46));
+        botonesPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         detalles.add(botonesPanel);
         detalles.add(Box.createVerticalStrut(12));
 
-        lblMensaje = new JLabel();
+        lblMensaje = new JLabel("", SwingConstants.CENTER);
         lblMensaje.setOpaque(false);
-        lblMensaje.setForeground(new Color(255, 100, 100)); // Rojo más claro para destacar sobre el panel azul
-        lblMensaje.setFont(new Font("SansSerif", Font.BOLD, 14));
-        lblMensaje.setHorizontalAlignment(SwingConstants.CENTER);
-        lblMensaje.setAlignmentX(Component.LEFT_ALIGNMENT);
-        lblMensaje.setMaximumSize(new Dimension(Integer.MAX_VALUE, 70));
+        lblMensaje.setForeground(Color.RED);
+        lblMensaje.setFont(new Font("SansSerif", Font.BOLD, 18));
+        lblMensaje.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lblMensaje.setMaximumSize(new Dimension(330, 110));
+        lblMensaje.setAlignmentX(Component.CENTER_ALIGNMENT);
         if (mensajeError.isEmpty()) {
             lblMensaje.setVisible(false);
         } else {
-            lblMensaje.setText("¡Atención! " + mensajeError);
+            lblMensaje.setText(ComponentUtils.mensajeJustificado("¡Atención! " + mensajeError, 30));
             lblMensaje.setVisible(true);
         }
         detalles.add(lblMensaje);
@@ -568,7 +583,7 @@ public class UsuarioReservarCupo extends JPanel {
             setBorderPainted(false);
             setFocusPainted(false);
             setFont(new Font("SansSerif", Font.BOLD, 14));
-            setBorder(new EmptyBorder(10, 20, 10, 20));
+            setBorder(new EmptyBorder(8, 8, 8, 8));
             setCursor(new Cursor(Cursor.HAND_CURSOR));
         }
 

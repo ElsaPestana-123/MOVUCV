@@ -179,7 +179,7 @@ public class AdminGestionarFlota extends JFrame {
         p.setBackground(COLOR_PANEL);
         p.setPreferredSize(new Dimension(450, 500)); // Tamaño fijo
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-        p.setBorder(new EmptyBorder(30, 30, 30, 50));
+        p.setBorder(new EmptyBorder(20, 30, 15, 50));
 
         // titulo del form
         JLabel texto1 = new JLabel("Datos de la Unidad");
@@ -187,7 +187,7 @@ public class AdminGestionarFlota extends JFrame {
         texto1.setForeground(COLOR_TEXTO);
         texto1.setAlignmentX(Component.CENTER_ALIGNMENT);
         p.add(texto1);
-        p.add(Box.createRigidArea(new Dimension(0, 30)));
+        p.add(Box.createRigidArea(new Dimension(0, 18)));
 
         JPanel casillas = new JPanel(new GridBagLayout());
         casillas.setOpaque(false);
@@ -222,7 +222,7 @@ public class AdminGestionarFlota extends JFrame {
         comboEstado.setBackground(COLOR_INPUT);
 
         p.add(casillas);
-        p.add(Box.createRigidArea(new Dimension(0, 30)));
+        p.add(Box.createRigidArea(new Dimension(0, 18)));
         casillas.add(comboEstado, c);
 
         // boton para registrar una unidad
@@ -235,7 +235,7 @@ public class AdminGestionarFlota extends JFrame {
         btnRegistrar.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnRegistrar.setMaximumSize(new Dimension(200, 45));
         p.add(btnRegistrar);
-        p.add(Box.createRigidArea(new Dimension(0, 15)));
+        p.add(Box.createRigidArea(new Dimension(0, 8)));
 
         btnEliminar = new JButton("Eliminar Unidad");
         btnEliminar.setFont(FUENTE_SUBTITULO);
@@ -247,7 +247,7 @@ public class AdminGestionarFlota extends JFrame {
         btnEliminar.setMaximumSize(new Dimension(200, 45));
         btnEliminar.setEnabled(false);
         p.add(btnEliminar);
-        p.add(Box.createRigidArea(new Dimension(0, 15)));
+        p.add(Box.createRigidArea(new Dimension(0, 8)));
 
         // boton para limpiar el form
         Limpiar = new JButton("Limpiar");
@@ -257,14 +257,16 @@ public class AdminGestionarFlota extends JFrame {
         Limpiar.setFocusPainted(false);
         Limpiar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         Limpiar.setAlignmentX(Component.CENTER_ALIGNMENT);
-        Limpiar.setMaximumSize(new Dimension(100, 10));
+        Limpiar.setMaximumSize(new Dimension(100, 30));
         p.add(Limpiar);
-        p.add(Box.createRigidArea(new Dimension(0, 15)));
+        p.add(Box.createRigidArea(new Dimension(0, 8)));
 
         // Etiqueta de error
         TextoError = new JLabel(" "); // Empieza vacía
-        TextoError.setFont(FUENTE_TEXTO);
+        TextoError.setFont(new Font("SansSerif", Font.BOLD, 16));
         TextoError.setForeground(Color.RED);
+        TextoError.setHorizontalAlignment(SwingConstants.CENTER);
+        TextoError.setMaximumSize(new Dimension(390, 90));
         TextoError.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         p.add(TextoError);
@@ -306,7 +308,7 @@ public class AdminGestionarFlota extends JFrame {
     // metodo para mostrar mensaje de error
     public void mostrarError(String mensaje) {
 
-        TextoError.setText(mensaje);
+        TextoError.setText(ComponentUtils.mensajeJustificado(mensaje, 32));
     }
 
     // limpiar el mensaje de error
