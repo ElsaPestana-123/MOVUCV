@@ -154,17 +154,8 @@ public class HomeAdmin extends JFrame {
         filaArriba.add(miniTarjeta("Conductores", String.valueOf(contarConductores()), COLOR_ROJO, COLOR_NARANJA));
         arriba.add(filaArriba);
 
-         arriba.add(Box.createRigidArea(new Dimension(0, 30)));
-
-        JPanel filaAbajo = new JPanel(new GridLayout(1, 3, 20, 0));
-        filaAbajo.setOpaque(false);
-        filaAbajo.add(miniTarjeta("Viajes Completados", String.valueOf(contarItinerariosPorEstado("Finalizado")), COLOR_VERDE, COLOR_FONDO));
-        filaAbajo.add(miniTarjeta("Tiempo Promedio de Ruta", "", COLOR_BOTONES, COLOR_FONDO));
-        filaAbajo.add(miniTarjeta("Incidencias Reportadas", "", COLOR_NARANJA, COLOR_FONDO));
-
         p.add(arriba, BorderLayout.NORTH); // tarjetas de arribita en norte
         p.add(listasDatos(), BorderLayout.CENTER);
-        p.add(filaAbajo, BorderLayout.SOUTH); // tarjetas de abajo en sur
 
         return p;
      }
