@@ -106,12 +106,14 @@ public class MOVUCVRegistroApp extends JFrame {
 
         JPanel dere = new JPanel(new FlowLayout(FlowLayout.RIGHT, 50, 10));
         dere.setOpaque(false);
-        dere.add(ComponentUtils.textoPresionable("Inicio", COLOR_TEXTO, FUENTE_TEXTO, () -> {
+        HomeUsuario.BotonRedondeado botonInicio = new HomeUsuario.BotonRedondeado("Inicio", COLOR_BOTONES);
+        botonInicio.addActionListener(e -> {
             UsuarioController.llamarInicio(this);
-        }));
-        dere.add(Textoscabezal("Rutas"));
+        });
+        dere.add(botonInicio);
+        /*dere.add(Textoscabezal("Rutas"));
         dere.add(Textoscabezal("Horarios"));
-        dere.add(Textoscabezal("Contacto"));
+        dere.add(Textoscabezal("Contacto"));*/
 
         p.add(izq, BorderLayout.WEST);
         p.add(dere, BorderLayout.EAST);
