@@ -19,9 +19,6 @@ import src.model.UnidadDAO;
 import src.model.Usuario;
 import src.model.UsuarioDAO;
 
-import javax.swing.JOptionPane;
-
-
 public class ReservaController {
 
     private final ReservaDAO reservaDAO;
@@ -128,7 +125,7 @@ public class ReservaController {
 
     public boolean guardarReserva(Reserva reserva) { //llama a guardar reserva en DAO
         try {
-            return reservaDAO.guardarReserva(reserva); 
+            return ReservaDAO.guardarReserva(reserva); 
         } catch (Exception e) {
             e.printStackTrace();
             return false;

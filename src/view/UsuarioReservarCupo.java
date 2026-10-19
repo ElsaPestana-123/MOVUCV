@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
 import src._helpers.*;
-import src._helpers.ComponentUtils;
 import src.model.Rutas;
 import src.model.RutasDAO;
 import src.model.TicketDigital;

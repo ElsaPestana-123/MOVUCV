@@ -29,7 +29,6 @@ public class MOVUCVRegistroApp extends JFrame {
     private JPasswordField Contrasena;
     private JPasswordField ConfirmarContra;
     private JButton btnRegistrar;
-    private JCheckBox chkTerminos;
     private JLabel TextoError;
 
     // configuración de la ventana
@@ -258,22 +257,6 @@ public class MOVUCVRegistroApp extends JFrame {
 
         p.add(casillas);
 
-        JPanel terminos = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
-        terminos.setOpaque(false);
-        terminos.setBorder(new EmptyBorder(0, 0, 5, 0)); // Espacio antes del checkbox
-        chkTerminos = new JCheckBox();
-        chkTerminos.setOpaque(false);
-        JLabel texto3 = new JLabel(
-                "<html><body>Acepto los <span style='color:#7DB6F5;'>Terminos y Condiciones</span> y la <span style='color:#7DB6F5;'>Politica de Privacidad</span></body></html>");
-        texto3.setFont(FUENTE_TEXTO);
-        texto3.setForeground(COLOR_TEXTO);
-        terminos.add(chkTerminos);
-        terminos.add(texto3);
-        p.add(Box.createRigidArea(new Dimension(0, 20))); // espacio
-        p.add(terminos);
-
-        chkTerminos.addActionListener(e -> btnRegistrar.setEnabled(chkTerminos.isSelected()));
-
         btnRegistrar = new JButton("Crear Cuenta");
         btnRegistrar.setFont(FUENTE_SUBTITULO);
         btnRegistrar.setBackground(COLOR_BOTONES);
@@ -282,7 +265,6 @@ public class MOVUCVRegistroApp extends JFrame {
         btnRegistrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnRegistrar.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnRegistrar.setMaximumSize(new Dimension(200, 45)); // Tamaño fijo
-        btnRegistrar.setEnabled(false);
         btnRegistrar.setBorder(new EmptyBorder(5, 5, 5, 5));
         p.add(btnRegistrar);
 
