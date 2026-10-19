@@ -8,7 +8,11 @@ La aplicación está diseñada como una solución integral de gestión para la c
 
 - **Autenticación y Seguridad:** Registro e inicio de sesión de usuarios con validación estricta de datos (cédula, correo, contraseña, formato de nombres).
 - **Control de Acceso:** Diferenciación operativa según el rol del usuario y autorización cruzada por cédula para miembros de la comunidad universitaria.
-- **Gestión Logística:** Panel administrativo dedicado a la administración de la flota de autobuses y la programación de itinerarios.
+- **Gestión Logística:** Panel administrativo dedicado a la administración de la flota, las rutas y la programación de itinerarios.
+- **Experiencia del pasajero:** Consulta de rutas y horarios, visualización de cupos disponibles y reserva de asientos.
+- **Gestión de pagos:** Monedero del pasajero para consultar el saldo y registrar recargas mediante comprobantes de pago.
+- **Seguimiento:** Historial de reservas, cancelación de reservas y generación de tickets digitales.
+- **Reportes:** Generación y exportación de reportes operativos desde el panel administrativo.
 - **Persistencia Local:** Almacenamiento y manipulación de datos en tiempo real utilizando archivos de texto plano estructurados.
 - **Arquitectura:** Diseño basado en el patrón MVC (Modelo-Vista-Controlador) y DAO (Data Access Object) para la capa de datos.
 
@@ -20,8 +24,17 @@ La aplicación está diseñada como una solución integral de gestión para la c
   - `P` = Público general
   - `C` = Conductor
   - `A` = Administrador
-- **Validaciones de Negocio:** Prevención de choques de horarios, control de unidades operativas y filtrado estricto de expresiones regulares (RegEx).
-- **Paneles Dedicados:** Home personalizado para el usuario final (reservas) y para el administrador (operaciones CRUD).
+- **Registro e inicio de sesión:** Creación de cuentas de pasajeros y administradores, validación de credenciales, control de usuarios autorizados y cierre de sesión.
+- **Consulta de transporte:** Visualización de rutas, horarios, itinerarios, conductores, unidades y estado operativo.
+- **Reservas de asientos:** Consulta de asientos ocupados, validación de disponibilidad, prevención de reservas duplicadas y cancelación de reservas.
+- **Historial y tickets:** Consulta de reservas realizadas y generación de tickets digitales asociados a los viajes.
+- **Monedero del pasajero:** Consulta de saldo y registro de recargas con datos del banco emisor y comprobante de pago.
+- **Administración de la flota:** Alta, modificación y eliminación de unidades, junto con el control de su capacidad y disponibilidad.
+- **Administración de rutas e itinerarios:** Gestión CRUD de rutas e itinerarios, validación de horarios y control de conflictos entre programaciones.
+- **Panel del conductor:** Acceso al panel correspondiente al rol de conductor.
+- **Reportes administrativos:** Procesamiento y exportación de información operativa.
+- **Interfaz Swing:** Ventanas diferenciadas por rol, navegación entre módulos, mensajes de validación y actualización de disponibilidad.
+- **Validaciones de negocio:** Prevención de choques de horarios, control de unidades operativas y validación de formatos mediante expresiones regulares.
 - **Testing:** Suite de pruebas unitarias implementadas con JUnit para garantizar la integridad de las validaciones y el acceso a datos.
 
 ## 🛠️ Tecnologías Utilizadas
@@ -43,9 +56,14 @@ MOVUCV/
 │   └── Main.java                 # Punto de entrada de la aplicación
 ├── data/                         # Archivos de persistencia local
 │   ├── comunidad-universitaria-ucv.txt
-│   ├── itinerarios.txt
+│   ├── itinerario.txt
+│   ├── rutas.txt
 │   ├── unidades.txt
-│   └── usuarios.txt
+│   ├── usuarios.txt
+│   ├── reservas.txt
+│   ├── pagos_Pasaje.txt
+│   ├── pagos_Recarga.txt
+│   └── tickets.txt
 ├── lib/                          # Dependencias externas
 │   ├── junit-4.13.2.jar
 │   └── hamcrest-core-1.3.jar
@@ -88,7 +106,10 @@ java -cp $cp org.junit.runner.JUnitCore UsuarioInicioSesionTest
 La aplicación maneja el estado de la información mediante archivos `.txt` en la carpeta `data/`:
 - Los nombres y apellidos se normalizan a mayúsculas al momento del registro.
 - Se realizan verificaciones de formato (correo, cédula, horas, contraseñas) antes de cualquier escritura en disco.
-- El sistema es capaz de regenerar los archivos de persistencia si estos son eliminados.
+- El sistema es capaz de crear los archivos de persistencia si estos no existen.
+- Las reservas almacenan el itinerario, el usuario y el asiento seleccionado para controlar la disponibilidad.
+- Las recargas y los tickets se guardan localmente para conservar el historial de operaciones.
+- La carpeta `data/` debe mantenerse disponible desde la raíz del proyecto al ejecutar la aplicación.
 
 ## 👥 Autores
 
