@@ -100,6 +100,8 @@ public class MOVUCVInicioApp extends JFrame {
         dere.setOpaque(false);
 
         HomeUsuario.BotonRedondeado botonRegistro = new HomeUsuario.BotonRedondeado("Registro", COLOR_BOTONES);
+        botonRegistro.setFont(new Font("SansSerif", Font.BOLD, 16));
+        botonRegistro.setBorder(new EmptyBorder(12, 32, 12, 32));
         botonRegistro.addActionListener(e -> {
             UsuarioController.llamarRegistro(this);
         });

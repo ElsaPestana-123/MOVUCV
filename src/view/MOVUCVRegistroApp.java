@@ -107,6 +107,8 @@ public class MOVUCVRegistroApp extends JFrame {
         JPanel dere = new JPanel(new FlowLayout(FlowLayout.RIGHT, 50, 10));
         dere.setOpaque(false);
         HomeUsuario.BotonRedondeado botonInicio = new HomeUsuario.BotonRedondeado("Inicio", COLOR_BOTONES);
+        botonInicio.setFont(new Font("SansSerif", Font.BOLD, 16));
+        botonInicio.setBorder(new EmptyBorder(12, 32, 12, 32));
         botonInicio.addActionListener(e -> {
             UsuarioController.llamarInicio(this);
         });
