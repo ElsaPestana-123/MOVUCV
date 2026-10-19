@@ -86,7 +86,7 @@ Desde la carpeta raíz del proyecto, ejecuta los siguientes comandos para compil
 
 ```powershell
 $files = Get-ChildItem -Path '.\src' -Recurse -Filter '*.java' | Select-Object -ExpandProperty FullName
-javac -d '.\build' $files
+javac -encoding UTF-8 -d '.\build' $files
 java -cp '.\build' src.Main
 ```
 
@@ -97,7 +97,7 @@ Para correr la suite de pruebas unitarias y verificar la integridad de los módu
 ```powershell
 $srcFiles = Get-ChildItem -Path '.\src' -Recurse -Filter '*.java' | Select-Object -ExpandProperty FullName
 $testFiles = Get-ChildItem -Path '.\test' -Recurse -Filter '*.java' | Select-Object -ExpandProperty FullName
-javac -cp '.\lib\junit-4.13.2.jar' -d '.\build' $srcFiles $testFiles
+javac -encoding UTF-8 -cp '.\lib\junit-4.13.2.jar' -d '.\build' $srcFiles $testFiles
 $cp = '.\build;.\lib\junit-4.13.2.jar;.\lib\hamcrest-core-1.3.jar'
 java -cp $cp org.junit.runner.JUnitCore UsuarioInicioSesionTest
 ```

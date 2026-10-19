@@ -138,6 +138,13 @@ public class ComponentUtils {
         p.add(Box.createRigidArea(new Dimension(0, 10)));
         p.add(botonMenu("Gestionar Rutas", false, () -> controlador.llamarRutas(ventana)));
 
+        if (controlador.esSuperAdmin()) {
+            p.add(Box.createRigidArea(new Dimension(0, 20)));
+            p.add(botonMenu("Crear Admin", false, () -> controlador.llamarCrearAdmin(ventana)));
+            p.add(Box.createRigidArea(new Dimension(0, 10)));
+            p.add(botonMenu("Eliminar Admin", false, () -> controlador.llamarEliminarAdmin(ventana)));
+        }
+
         p.add(Box.createVerticalGlue()); 
         return p;
     }

@@ -2,6 +2,7 @@ package src.controller;
 
 import src.model.UsuarioDAO;
 import java.io.IOException;
+import java.util.List;
 import src.model.Usuario;
 import src._helpers.Validaciones;
 import javax.swing.JFrame;
@@ -181,6 +182,14 @@ public class UsuarioController{
         e.printStackTrace();
         return "*Error al acceder al registro del sistema.";
        }
+    }
+
+    public List<Usuario> obtenerAdministradores() throws IOException {
+        return UsuarioDAO.obtenerAdministradores();
+    }
+
+    public int eliminarAdministradores(List<String> cedulas) throws IOException {
+        return UsuarioDAO.eliminarAdministradores(cedulas);
     }
 
     public static void llamarRegistro(JFrame ventana){ // para en el inicio general llamar a registro en texto del cabezal

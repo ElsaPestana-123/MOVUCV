@@ -9,6 +9,9 @@ import src.view.AdminGestionarFlota;
 import src.view.AdminGestionarItinerario;
 import src.view.AdminReporte;
 import src.view.AdminGestionarRutas;
+import src.view.ModalEliminarAdmin;
+import src.view.ModalRegistroAdmin;
+import src.controller.UsuarioController;
 
 public class HomeAdminController {
     private Usuario usuarioLogeado;
@@ -30,6 +33,20 @@ public class HomeAdminController {
     
     public void cerrarSesion(JFrame ventanaActual) { // cierra sesion en el texto clickleable en el cabezal
         ventanaActual.dispose();
+    }
+
+    public boolean esSuperAdmin() {
+        return usuarioLogeado != null && usuarioLogeado.getRol() == 'S';
+    }
+
+    public void llamarCrearAdmin(JFrame ventanaActual) {
+        if (esSuperAdmin())
+            new ModalRegistroAdmin(ventanaActual, new UsuarioController()).setVisible(true);
+    }
+
+    public void llamarEliminarAdmin(JFrame ventanaActual) {
+        if (esSuperAdmin())
+            new ModalEliminarAdmin(ventanaActual, new UsuarioController()).setVisible(true);
     }
 
     public void llamarGestionarF(JFrame ventanaActual){ //llamada de redirección a Gestionar Flota

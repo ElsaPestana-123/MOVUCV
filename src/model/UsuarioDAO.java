@@ -7,8 +7,10 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 //throws IOException en los métodos delega el manejo de cualquier error al controlador que lo llamó
 
@@ -202,6 +204,71 @@ public class UsuarioDAO {
 
         return conductores;
     } 
+
+    public static List<Usuario> obtenerAdministradores() throws IOException {
+        List<Usuario> administradores = new LinkedList<>();
+
+        if (!Files.exists(RUTA_REGISTRADOS))
+            return administradores;
+
+        try (BufferedReader lectorArchivo = Files.newBufferedReader(RUTA_REGISTRADOS, StandardCharsets.UTF_8)) {
+            String linea;
+
+            while ((linea = lectorArchivo.readLine()) != null) {
+                linea = linea.trim();
+                if (linea.isEmpty() || linea.startsWith("cedula"))
+                    continue;
+
+                String[] datos = linea.split("\\|", -1);
+                if (datos.length < 7 || !datos[1].trim().equalsIgnoreCase("A"))
+                    continue;
+
+                String nombre = (datos[2].trim() + " " + datos[3].trim()).toUpperCase();
+                double saldo;
+                try {
+                    saldo = Double.parseDouble(datos[6].trim());
+                } catch (NumberFormatException e) {
+                    saldo = 0.0;
+                }
+
+                administradores.add(new Usuario(
+                        datos[0].trim(), 'A', nombre, datos[4].trim(), datos[5].trim(), saldo));
+            }
+        }
+
+        return administradores;
+    }
+
+    public static int eliminarAdministradores(List<String> cedulas) throws IOException {
+        if (cedulas == null || cedulas.isEmpty() || !Files.exists(RUTA_REGISTRADOS))
+            return 0;
+
+        Set<String> cedulasSeleccionadas = new HashSet<>();
+        for (String cedula : cedulas) {
+            if (cedula != null)
+                cedulasSeleccionadas.add(cedula.trim());
+        }
+
+        List<String> lineas = Files.readAllLines(RUTA_REGISTRADOS, StandardCharsets.UTF_8);
+        List<String> lineasRestantes = new LinkedList<>();
+        int eliminados = 0;
+
+        for (String linea : lineas) {
+            String[] datos = linea.split("\\|", -1);
+            if (datos.length >= 2
+                    && datos[1].trim().equalsIgnoreCase("A")
+                    && cedulasSeleccionadas.contains(datos[0].trim())) {
+                eliminados++;
+            } else {
+                lineasRestantes.add(linea);
+            }
+        }
+
+        if (eliminados > 0)
+            Files.write(RUTA_REGISTRADOS, lineasRestantes, StandardCharsets.UTF_8);
+
+        return eliminados;
+    }
 }    
 
     

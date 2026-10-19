@@ -15,7 +15,6 @@ import src.model.UsuarioDAO;
 import src._helpers.ComponentUtils;
 import src._helpers.ComponentUtils.Tarjeta;
 import src.controller.HomeAdminController;
-import src.controller.UsuarioController;
 
 public class HomeAdmin extends JFrame {
     private Usuario adminLogeado;
@@ -100,20 +99,7 @@ public class HomeAdmin extends JFrame {
         JPanel dere = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 10));
         dere.setOpaque(false);
 
-        // 1. PRIMERO validamos si es Superusuario para que "Crear Admin" aparezca a la izquierda
-        if (adminLogeado.getRol() == 'S') { 
-            HomeUsuario.BotonRedondeado botonCrearAdmin = new HomeUsuario.BotonRedondeado("Crear Admin", COLOR_VERDE);
-            botonCrearAdmin.addActionListener(e -> {
-                // AQUÍ INVOCAMOS AL MODAL
-                UsuarioController controladorUsuarios = new UsuarioController();
-                ModalRegistroAdmin modal = new ModalRegistroAdmin(this, controladorUsuarios);
-                modal.setVisible(true); // Esto pausa el HomeAdmin hasta que el modal se cierre
-            });
-            dere.add(botonCrearAdmin);
-            dere.add(ComponentUtils.textoPresionable("|", COLOR_TEXTO, FUENTE_TEXTO, null)); 
-        }
-
-        // LUEGO agregamos el nombre y el botón de Cerrar Sesión
+        // Nombre y botón de Cerrar Sesión
         dere.add(ComponentUtils.textoPresionable(adminLogeado.getNombre(), COLOR_TEXTO, FUENTE_TEXTO, null));
         dere.add(ComponentUtils.textoPresionable("|", COLOR_TEXTO, FUENTE_TEXTO, null)); 
         HomeUsuario.BotonRedondeado botonCerrar = new HomeUsuario.BotonRedondeado("Cerrar Sesión",COLOR_ROJO);
@@ -229,9 +215,9 @@ public class HomeAdmin extends JFrame {
         etiqueta.setForeground(COLOR_TEXTO); 
 
         JList<String> lista = new JList<>(datos);
-        // CAMBIO AQUÍ: Font.BOLD para la negrita
+        // Font.BOLD makes the list entries bold.
         lista.setFont(new Font(FUENTE_TEXTO.getFamily(), Font.BOLD, 14));
-        // CAMBIO AQUÍ: COLOR_TEXTO para que sea blanco humo
+        // Use the primary text color for list entries.
         lista.setForeground(COLOR_TEXTO); 
         lista.setBackground(COLOR_PANEL);
         lista.setFixedCellHeight(35); 
@@ -248,7 +234,7 @@ public class HomeAdmin extends JFrame {
                     label.setForeground(COLOR_BOTONES); 
                 } else {
                     label.setBackground(COLOR_PANEL);
-                    // CAMBIO AQUÍ: COLOR_TEXTO para mantener el blanco cuando no está seleccionado
+                    // Keep the primary text color when the entry is not selected.
                     label.setForeground(COLOR_TEXTO);
                 }
                 return label;
